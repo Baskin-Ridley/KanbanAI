@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+
+import { TaskHeaders, TaskTickets } from "../../components/Kanban/index.jsx";
 
 const Kanban = () => {
-  return <div>Test</div>;
+  return (
+    <>
+      <TaskHeaders />
+      <TaskTickets />
+    </>
+  );
 };
 
 export default Kanban;
