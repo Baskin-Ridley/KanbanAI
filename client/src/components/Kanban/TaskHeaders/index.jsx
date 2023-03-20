@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DndContext, useDraggable, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
