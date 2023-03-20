@@ -43,3 +43,4 @@ class Kanban_Ticket(db.Model):
     kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
 
 
+

@@ -6,7 +6,7 @@ function GitCommitCard({ data }) {
     return (
         <>
             {Object.keys(data).map((e, i) => (
-                <li> {data[e].author.login} </li>
+                <li key={i}>author: {data[e].author.login} <br /> commit: {data[e].commit.message}<br /> at: {data[e].commit.author.date.slice(11, 16)} day: {data[e].commit.author.date.slice(0, 10)} </li>
             ))}
         </>
     )
