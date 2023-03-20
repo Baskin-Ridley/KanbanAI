@@ -43,7 +43,7 @@ const TaskHeaders = () => {
 
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <div className="flex space-x-4">
+      <div className="flex flex-col space-x-4">
         <SortableContext
           items={testHeaders}
           strategy={verticalListSortingStrategy}

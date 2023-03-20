@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  rectSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import SortableItem from "../SortableItem/Index.jsx";
 
 const TaskTickets = () => {
   const [testTickets, setTestTickets] = useState([
@@ -18,15 +25,37 @@ const TaskTickets = () => {
       description: "This is a test ticket",
     },
   ]);
+
+  function handleDragEnd(event) {
+    console.log("Drag ended");
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setTestTickets((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+    //this is where we can update the database
+  }
+
   return (
-    <div>
-      {testTickets.map((ticket) => (
-        <div key={ticket.id}>
-          <h3>{ticket.title}</h3>
-          <p>{ticket.description}</p>
-        </div>
-      ))}
-    </div>
+    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <div className="flex flex-row space-x-4">
+        <SortableContext items={testTickets} strategy={rectSortingStrategy}>
+          {testTickets.map((ticket) => (
+            <SortableItem key={ticket.id} id={ticket.id}>
+              <div className="flex flex-col items-center justify-center w-64 h-32 rounded-md bg-white">
+                <h3 className="text-black">{ticket.title}</h3>
+                <p className="text-black">{ticket.description}</p>
+              </div>
+            </SortableItem>
+          ))}
+        </SortableContext>
+      </div>
+    </DndContext>
   );
 };
 
