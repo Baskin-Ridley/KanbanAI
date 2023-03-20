@@ -7,6 +7,7 @@ from controllers import register_user, find_user_by_username
 
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
+FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 3001)) 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 db.init_app(app)
