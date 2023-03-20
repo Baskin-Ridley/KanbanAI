@@ -16,7 +16,6 @@ function GitHubComments() {
                 console.log('There was an error', error);
             }
         }
-
         loadCommits()
     }, [])
 
