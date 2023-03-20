@@ -7,8 +7,11 @@ from controllers import register_user, find_user_by_username
 
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
+FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 3001)) 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 
 @app.route('/register', methods=['POST'])
@@ -16,12 +19,15 @@ def register():
     data = request.get_json()
     username = data['username']
     password = data['password']
+    name = data['name']
+    role = data['role']
+    email = data['email']
     user = find_user_by_username(username)
 
     if user:
         return jsonify({"error": "Username already exists"}), 400
 
-    register_user(username, password)
+    register_user(username, password, name, role, email)
     return jsonify({"success": "User registered successfully"}), 201
 
 @app.route('/login', methods=['POST'])
