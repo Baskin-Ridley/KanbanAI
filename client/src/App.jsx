@@ -1,6 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { UserProvider } from './context/UserContext';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
 
 import {
   Home,
@@ -10,7 +10,7 @@ import {
   NotFoundPage,
 } from "./pages";
 
-import PageWrapper from './components/PageWrapper'; // Import PageWrapper
+import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
 
 import "./index.css";
 
@@ -24,6 +24,7 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/kanban" element={<Kanban />} />
         </Route>
       </Routes>
     </UserProvider>
