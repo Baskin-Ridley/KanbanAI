@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { DndContext, useDraggable, closestCenter } from "@dnd-kit/core";
-
 import {
   SortableContext,
   verticalListSortingStrategy,
+  arrayMove,
 } from "@dnd-kit/sortable";
+import SortableItem from "../SortableItem/Index.jsx";
 
-import SortableItem from "../SortableItem/Index";
-
-const TaskHeader = () => {
+const TaskHeaders = () => {
   const [testHeaders, setTestHeaders] = useState([
     {
       id: 1,
@@ -36,11 +35,7 @@ const TaskHeader = () => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
 
-        const reorderedItems = [...items];
-        const [removed] = reorderedItems.splice(oldIndex, 1);
-        reorderedItems.splice(newIndex, 0, removed);
-
-        return reorderedItems;
+        return arrayMove(items, oldIndex, newIndex);
       });
     }
     //this is where we can update the database
@@ -68,4 +63,4 @@ const TaskHeader = () => {
   );
 };
 
-export default TaskHeader;
+export default TaskHeaders;
