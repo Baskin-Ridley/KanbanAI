@@ -6,6 +6,7 @@ import {
   Home,
   Dashboard,
   Login,
+  Registration,
   NotFoundPage,
 } from "./pages";
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<PageWrapper />}>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

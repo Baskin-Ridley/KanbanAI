@@ -1,8 +1,8 @@
 from models import User
 from database import db
 
-def register_user(username, password):
-    user = User(username=username, password=password)
+def register_user(username, password, name, role, email):
+    user = User(username=username, password=password, name=name, role=role, email=email)
     db.session.add(user)
     db.session.commit()
 
