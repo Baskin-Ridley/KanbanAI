@@ -19,12 +19,15 @@ def register():
     data = request.get_json()
     username = data['username']
     password = data['password']
+    name = data['name']
+    role = data['role']
+    email = data['email']
     user = find_user_by_username(username)
 
     if user:
         return jsonify({"error": "Username already exists"}), 400
 
-    register_user(username, password)
+    register_user(username, password, name, role, email)
     return jsonify({"success": "User registered successfully"}), 201
 
 @app.route('/login', methods=['POST'])
