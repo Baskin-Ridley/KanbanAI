@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { DndContext, useDraggable } from "@dnd-kit/core";
+import { DndContext, useDraggable, closestCenter } from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
+import SortableItem from "../SortableItem/Index";
 
 const TaskHeader = () => {
   const [testHeaders, setTestHeaders] = useState([
@@ -20,17 +27,44 @@ const TaskHeader = () => {
     },
   ]);
 
+  function handleDragEnd(event) {
+    console.log("Drag ended");
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      setTestHeaders((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+
+        const reorderedItems = [...items];
+        const [removed] = reorderedItems.splice(oldIndex, 1);
+        reorderedItems.splice(newIndex, 0, removed);
+
+        return reorderedItems;
+      });
+    }
+    //this is where we can update the database
+  }
+
   return (
-    <div className="flex space-x-4">
-      {testHeaders.map((header) => (
-        <div
-          key={header.id}
-          className={`p-4 rounded-md ${header.color} text-white font-medium`}
+    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <div className="flex space-x-4">
+        <SortableContext
+          items={testHeaders}
+          strategy={verticalListSortingStrategy}
         >
-          {header.title}
-        </div>
-      ))}
-    </div>
+          {testHeaders.map((header) => (
+            <SortableItem key={header.id} id={header.id}>
+              <div
+                className={`flex items-center justify-center w-32 h-12 rounded-md ${header.color}`}
+              >
+                <h3 className="text-white">{header.title}</h3>
+              </div>
+            </SortableItem>
+          ))}
+        </SortableContext>
+      </div>
+    </DndContext>
   );
 };
 
