@@ -17,10 +17,6 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 db.init_app(app)
 
-@app.route('/check-authentication')
-def check_authentication_route():
-    return check_authentication()
-
 @app.route('/register', methods=['POST'])
 def register_user_route():
     return register_user()
@@ -28,10 +24,6 @@ def register_user_route():
 @app.route('/login', methods=['POST'])
 def login_route():
     return login()
-
-@app.route('/logout', methods=['POST'])
-def logout_route():
-    return logout()
 
 @app.route('/users', methods=['POST'])
 def create_user_route():
