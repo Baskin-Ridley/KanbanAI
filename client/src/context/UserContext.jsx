@@ -1,62 +1,60 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState('');
-  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      const response = await fetch('http://localhost:5000/check-authentication', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setUser(data.user);
-      }
-    };
-    checkAuthentication();
-  }, []);
-
-  const handleLogin = async (credentials) => {
-    const response = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      credentials: 'include',
+  const login = async (userData) => {
+    const url = "http://localhost:5000/login";
+    const options = {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(credentials)
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      setUser(data.user);
-      navigate('/dashboard');
+      body: JSON.stringify(userData),
+    };
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        const user = await response.json();
+        setUser(user);
+      } else {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error("Error logging user in", error);
+      throw new Error(error.message);
     }
   };
 
-  const handleLogout = async () => {
-    const response = await fetch('http://localhost:5000/logout', {
-      method: 'POST',
-      credentials: 'include',
+  const register = async (userData) => {
+    const url = "http://localhost:5000/register";
+    const options = {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      setUser('');
-      navigate('/login');
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      //setUser(data.user);
+      setUser(null);
+    } catch (error) {
+      console.error("Error registering user", error);
+      throw new Error(error.message);
     }
+  };
+
+  const logout = () => {
+    setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, handleLogin, handleLogout }}>
+    <UserContext.Provider value={{ user, login, logout, register }}>
       {children}
     </UserContext.Provider>
   );

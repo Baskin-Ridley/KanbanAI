@@ -4,3 +4,4 @@ export { default as Message } from "./Message";
 export { default as Navigation } from "./Navigation";
 export { default as PageWrapper } from "./PageWrapper";
 export { default as GitCommitCard } from "./GitCard"
+export { default as StackCard } from "./StackCard"
