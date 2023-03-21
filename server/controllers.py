@@ -32,7 +32,14 @@ def login():
     user = User.query.filter_by(username=username).first()
     if not user or not user.check_password(password):
         return jsonify({'error': 'Invalid username or password'}), 401
-    return jsonify({'message': 'Logged in successfully'}), 200
+    # return jsonify({'message': 'Logged in successfully'}), 200
+    user_data = {
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'name': user.name,
+    }
+    return jsonify(user_data), 200
 
 def create_user():
     data = request.get_json()

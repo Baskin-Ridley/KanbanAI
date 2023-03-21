@@ -6,6 +6,7 @@ import Message from '../../components/message';
 const LoginPage = () => {
   const { login } = useContext(UserContext);
   const navigate = useNavigate();
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(username, password);
+      await login({ username, password });
       navigate('/dashboard');
     } catch (err) {
       setError('Invalid username or password');

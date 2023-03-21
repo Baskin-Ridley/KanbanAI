@@ -5,8 +5,28 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (userData) => {
-    setUser(userData);
+  const login = async (userData) => {
+    const url = "http://localhost:5000/login";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        const user = await response.json();
+        setUser(user);
+      } else {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error("Error logging user in", error);
+      throw new Error(error.message);
+    }
   };
 
   const register = async (userData) => {
