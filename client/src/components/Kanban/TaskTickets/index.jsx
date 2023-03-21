@@ -1,29 +1,21 @@
 import React, { useState } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
 import {
   SortableContext,
   rectSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import SortableItem from "../SortableItem/Index.jsx";
-
+import SortableItem from "../SortableItem/index.jsx";
+import Row from "../Row/index.jsx";
+import Card from "../Card/index.jsx";
 const TaskTickets = () => {
-  const [testTickets, setTestTickets] = useState([
-    {
-      id: 1,
-      title: "Test Ticket 1",
-      description: "This is a test ticket",
-    },
-    {
-      id: 2,
-      title: "Test Ticket 2",
-      description: "This is a test ticket",
-    },
-    {
-      id: 3,
-      title: "Test Ticket 3",
-      description: "This is a test ticket",
-    },
+  const [tasks, setTasks] = useState([
+    { id: 1, title: "Task 1", column: "To Do" },
+    { id: 2, title: "Task 2", column: "To Do" },
+    { id: 3, title: "Task 3", column: "In Progress" },
+    { id: 4, title: "Task 4", column: "In Progress" },
+    { id: 5, title: "Task 5", column: "Done" },
+    { id: 6, title: "Task 6", column: "Done" },
   ]);
 
   function handleDragEnd(event) {
@@ -42,18 +34,27 @@ const TaskTickets = () => {
   }
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <div className="flex flex-row space-x-4">
-        <SortableContext items={testTickets} strategy={rectSortingStrategy}>
-          {testTickets.map((ticket) => (
-            <SortableItem key={ticket.id} id={ticket.id}>
-              <div className="flex flex-col items-center justify-center w-64 h-32 rounded-md bg-white">
-                <h3 className="text-black">{ticket.title}</h3>
-                <p className="text-black">{ticket.description}</p>
-              </div>
-            </SortableItem>
-          ))}
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="kanban-board">
+        <SortableContext items={tasks} strategy={rectSortingStrategy}>
+          <Row
+            title="To Do"
+            tasks={tasks.filter((task) => task.column === "To Do")}
+          />
+          <Row
+            title="In Progress"
+            tasks={tasks.filter((task) => task.column === "In Progress")}
+          />
+          <Row
+            title="Done"
+            tasks={tasks.filter((task) => task.column === "Done")}
+          />
         </SortableContext>
+        <DragOverlay>
+          {({ active }) =>
+            active && <Card task={active.data} isDragging={true} />
+          }
+        </DragOverlay>
       </div>
     </DndContext>
   );
