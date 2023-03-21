@@ -7,6 +7,7 @@ import {
 } from "@dnd-kit/sortable";
 import SortableItem from "../SortableItem/index.jsx";
 import Row from "../Row/index.jsx";
+import Card from "../Card/index.jsx";
 const TaskTickets = () => {
   const [tasks, setTasks] = useState([
     { id: 1, title: "Task 1", column: "To Do" },
