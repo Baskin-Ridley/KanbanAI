@@ -45,24 +45,30 @@ const Navigation = () => {
         </>
       ) : (
         <>
-          {/* <div className="nav-element w3-btn w3-padding"> */}
-            {/* <Link to="/" className="w3-bar-item w3-button"> */}
-            <Link to="/">
-              Home
-            </Link>
-          {/* </div>
-          <div className="nav-element w3-btn w3-padding"> */}
-            <Link to="/register">
-            {/* <Link to="/register" className="w3-bar-item w3-button"> */}
-              Register
-            </Link>
-          {/* </div>
-          <div className="nav-element w3-btn w3-padding"> */}
-            {/* <Link to="/login" className="w3-bar-item w3-button"> */}
-            <Link to="/login">
-              Login
-            </Link>
-          {/* </div> */}
+          <ul>
+            {/* <div className="nav-element w3-btn w3-padding"> */}
+              {/* <Link to="/" className="w3-bar-item w3-button"> */}
+              <li><Link to="/">
+                Home
+              </Link></li>
+              
+            {/* </div>
+            <div className="nav-element w3-btn w3-padding"> */}
+              <li><Link to="/register">
+              {/* <Link to="/register" className="w3-bar-item w3-button"> */}
+                Register
+              </Link></li>
+              
+            {/* </div>
+            <div className="nav-element w3-btn w3-padding"> */}
+              {/* <Link to="/login" className="w3-bar-item w3-button"> */}
+              <li><Link to="/login">
+                Login
+              </Link></li>
+              
+            {/* </div> */}
+          </ul>
+          
         </>
       )}
     </nav >
