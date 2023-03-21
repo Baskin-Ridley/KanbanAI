@@ -1,63 +1,49 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../context/UserContext';
-import Message from '../../components/Message';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContext';
+import './index.css';
 
 const Login = () => {
+  const { user, login } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (user.isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [user.isAuthenticated, navigate]);
 
-    try {
-      const response = await fetch('http://localhost:3001/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-        credentials: 'include',
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setUser(data.user);
-        navigate('/dashboard');
-      } else {
-        setError(data.error);
-      }
-    } catch (error) {
-      setError('Error logging in');
-      console.error('Error logging in:', error);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const success = await login(username, password);
+    if (success) {
+      navigate('/dashboard');
     }
   };
 
   return (
-    <main className="w3-container w3-center">
-      <h2>Login</h2>
-      {/* {error && <p className="w3-text-red">{error}</p>} */}
-      <Message message={error} type="error" />
-      <form onSubmit={handleSubmit}>
+    <div className='login-container'>
+      <form className='login-form' onSubmit={handleLogin}>
+        <h2 className='login-header'>Login</h2>
         <input
-          type="text"
-          className="w3-input w3-margin-bottom"
-          placeholder="Username"
+          type='text'
+          placeholder='Username'
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
         <input
-          type="password"
-          className="w3-input w3-margin-bottom"
-          placeholder="Password"
+          type='password'
+          placeholder='Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
-        <button type="submit" className="w3-button w3-black">
-          Login
-        </button>
+        <button type='submit'>Login</button>
       </form>
-    </main>
+    </div>
   );
 };
 
