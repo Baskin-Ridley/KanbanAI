@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { UserProvider } from "./context/UserContext";
-import { Home, Dashboard, Login, Registration, NotFoundPage, Kanban, Git } from "./pages";
+import { Home, Dashboard, Login, Registration, NotFoundPage, Kanban, Git, Stack } from "./pages";
 
 
 import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
@@ -20,6 +20,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/kanban" element={<Kanban />} />
         <Route path="/git" element={<Git />} />
+        <Route path="/stack" element={<Stack />} />
         {/* </Route> */}
       </Routes>
     </UserProvider >
