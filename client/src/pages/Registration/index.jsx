@@ -1,56 +1,93 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useForm } from "react-hook-form";
+import { UserContext } from "../../context/UserContext";
+import Message from "../../components/Message";
 
 const Registration = () => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register } = useContext(UserContext);
   const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [avatar, setAvatar] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/register",
-        data
-      );
-      console.log(response);
+      await register({
+        username,
+        name,
+        password,
+        email,
+        role,
+        avatar,
+      });
       navigate("/login");
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      setErrorMessage(error.message);
     }
   };
 
   return (
     <div>
-      <h1>Registration</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Username:</label>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
           <input
             type="text"
-            name="username"
-            ref={register({ required: "Username is required" })}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          {errors.username && <p>{errors.username.message}</p>}
-        </div>
-        <div>
-          <label>Password:</label>
+        </label>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label>
+          Password:
           <input
             type="password"
-            name="password"
-            ref={register({ required: "Password is required" })}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <div>
-          <button type="submit">Register</button>
-        </div>
+        </label>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          Role:
+          <input
+            type="text"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </label>
+        <label>
+          Avatar:
+          <input
+            type="text"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+          />
+        </label>
+        <button type="submit">Register</button>
+        <Link to="/login">Login</Link>
       </form>
-      {errorMessage && <p>{errorMessage}</p>}
-      <p>
-        Already have an account? <Link to="/login">Log in here.</Link>
-      </p>
+      <Message message={errorMessage} type="error" />
     </div>
   );
 };
