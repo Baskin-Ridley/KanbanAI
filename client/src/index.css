@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Add this import statement in the html head element. */
 /* <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> */
 
 @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* body {
   font-family: 'Edu NSW ACT Foundation', cursive;
@@ -79,9 +79,10 @@ nav {
 }
  */
 
- body {
+body {
   margin-top: 3em;
-  background-image: linear-gradient(white, #357DED);
+  /* background-image: linear-gradient(white, #357DED); */
+  background-color: #357DED;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -110,4 +111,5 @@ nav ul li{
 display: inline;
 padding : 0 10px 0 10px;
 text-align: center;
-}
+} 
+
