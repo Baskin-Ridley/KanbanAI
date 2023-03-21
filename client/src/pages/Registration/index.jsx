@@ -37,46 +37,48 @@ const Login = () => {
     };
 
     return (
-        <main className="w3-container w3-center">
+        <main>
+        {/* <main className="w3-container w3-center"> */}
             <h2>Register</h2>
             {/* {error && <p className="w3-text-red">{error}</p>} */}
             <Message message={error} type="error" />
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
-                    className="w3-input w3-margin-bottom"
+                    // className="w3-input w3-margin-bottom"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
                 <input
                     type="password"
-                    className="w3-input w3-margin-bottom"
+                    // className="w3-input w3-margin-bottom"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <input
                     type="text"
-                    className="w3-input w3-margin-bottom"
+                    // className="w3-input w3-margin-bottom"
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
                 <input
                     type="email"
-                    className="w3-input w3-margin-bottom"
+                    // className="w3-input w3-margin-bottom"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <select name="role" id="role" 
-                    className="w3-input w3-margin-bottom" 
+                    // className="w3-input w3-margin-bottom" 
                     onChange={(e) => setRole(e.target.value)}>
                     <option value="leader">Leader</option>
                     <option value="member">Member</option>
                 </select>
-                <button type="submit" className="w3-button w3-black">
+                {/* <button type="submit" className="w3-button w3-black"> */}
+                <button type="submit">
                     Register
                 </button>
             </form>
