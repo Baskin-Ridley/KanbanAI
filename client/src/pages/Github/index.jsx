@@ -57,7 +57,7 @@ function GitHubComments() {
                     </div>
                 </label>
             </form>
-            <button className='access-gitcard-btn' onClick={() => { clickHandler(states) }}>Click me to get the commitCards</button>
+            <button className='access-btn' onClick={() => { clickHandler(states) }}>Click me to get the commitCards</button>
             {states ? <ul>{commits && <GitCommitCard data={commits} />}</ul> : null}
         </>
     )
