@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 const Navigation = () => {
   const { user, setUser } = useContext(UserContext);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleLogout = async () => {
     try {
@@ -15,7 +15,7 @@ const Navigation = () => {
 
       if (response.ok) {
         setUser(null);
-        navigate('/');
+        history.push('/');
       }
     } catch (error) {
       console.error('Error logging out:', error);
