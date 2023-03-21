@@ -1,0 +1,19 @@
+.gitCardContainer {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    max-height: 500px;
+    max-width: 750px;
+    overflow-y: scroll;
+    border: solid azure 4px;
+   
+    
+  }
+  
+  .gitCard {
+    background-color: #f0f0f0;
+    margin-bottom: 5px;
+    padding: 10px;
+    color:black;
+    border: solid black;
+  }

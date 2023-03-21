@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { GitCommitCard } from '../../components';
+import "./style.css"
 
 function GitHubComments() {
 
