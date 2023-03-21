@@ -1,62 +1,24 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState('');
-  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      const response = await fetch('http://localhost:5000/check-authentication', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await response.json();
-      if (response.status === 200) {
-        setUser(data.user);
-      }
-    };
-    checkAuthentication();
-  }, []);
-
-  const handleLogin = async (credentials) => {
-    const response = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      setUser(data.user);
-      navigate('/dashboard');
-    }
+  const login = (userData) => {
+    setUser(userData);
   };
 
-  const handleLogout = async () => {
-    const response = await fetch('http://localhost:5000/logout', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
-    if (response.status === 200) {
-      setUser('');
-      navigate('/login');
-    }
+  const register = (userData) => {
+    // code here
+  };
+
+  const logout = () => {
+    setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, handleLogin, handleLogout }}>
+    <UserContext.Provider value={{ user, login, logout, register }}>
       {children}
     </UserContext.Provider>
   );

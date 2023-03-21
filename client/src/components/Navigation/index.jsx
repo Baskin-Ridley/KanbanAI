@@ -1,34 +1,40 @@
-import React, { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 const Navigation = () => {
-  const { user, handleLogout } = useContext(UserContext);
-  const navigate = useNavigate();
+  const { user, logout } = useContext(UserContext);
 
-  const handleLogoutClick = async () => {
-    try {
-      await handleLogout();
-      navigate('/');
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+  const handleLogoutClick = () => {
+    logout();
   };
 
   return (
     <nav>
-      {!user ? (
-        <>
-          <Link to="/">Home</Link>
-          <Link to="/register">Register</Link>
-          <Link to="/login">Login</Link>
-        </>
-      ) : (
-        <>
-          <Link to="/dashboard">Dashboard</Link>
-          <button onClick={handleLogoutClick}>Logout</button>
-        </>
-      )}
+      <ul>
+        {user ? (
+          <>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <button onClick={handleLogoutClick}>Logout</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          </>
+        )}
+      </ul>
     </nav>
   );
 };

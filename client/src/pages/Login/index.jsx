@@ -1,51 +1,43 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
-import "./login.css";
+import Message from '../../components/message';
 
-const Login = () => {
-  const { setUser, handleLogin } = useContext(UserContext);
+const LoginPage = () => {
+  const { login } = useContext(UserContext);
   const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const user = await handleLogin(username, password);
-    if (user) {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await login(username, password);
       navigate('/dashboard');
+    } catch (err) {
+      setError('Invalid username or password');
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+    <div className="form-container">
+      <form onSubmit={handleLogin}>
+        <h2>Login</h2>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} />
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button type="submit">Login</button>
+        <Link to="/register">Don't have an account? Register here.</Link>
+        <Message message={error} type="error" />
       </form>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;
