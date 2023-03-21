@@ -34,6 +34,22 @@ const Headers = () => {
 
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
 
+  const [newHeaderName, setNewHeaderName] = useState('');
+
+
+  const handleAddHeader = () => {
+    if (newHeaderName.trim() === "") {
+      alert("Please enter a header name");
+      return;
+    }
+    const newHeaderId = `header-${Date.now()}`;
+    const newHeader = { id: newHeaderId, name: newHeaderName, items: [] };
+  
+    setHeaders((prevState) => [...prevState, newHeader]);
+    setNewHeaderName(""); // Clear the input field after adding the header
+  };
+
+
   const handleNewItemNameChange = (headerId, newValue) => {
     setNewItemNames((prevState) =>
       prevState.map((name, index) =>
@@ -160,15 +176,40 @@ const Headers = () => {
                         Add Item
                       </button>
                     </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+                    )}
+                </Droppable>
+                <input
+                    type="text"
+                    className="new-item-input item"
+                    value={newItemNames[index]}
+                    onChange={(e) => handleNewItemNameChange(id, e.target.value)}
+                />
+                <button className="add-item-button item" onClick={() => handleAddSubItem(id)}>
+                    Add Item
+                </button>
+                </div>
+                
+            )}
+            </Draggable>
+          ))}
+            <div className="box">
+                <input
+                type="text"
+                className="new-header-input item"
+                value={newHeaderName}
+                onChange={(e) => setNewHeaderName(e.target.value)}
+                />
+                <button className="add-header-button item" onClick={handleAddHeader}>
+                Add Header
+                </button>
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  </DragDropContext>
+</div>
+
   );
 };
 
