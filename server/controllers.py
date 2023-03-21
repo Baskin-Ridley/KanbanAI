@@ -1,5 +1,5 @@
 from models import User
-from flask import jsonify, request, current_app
+from flask import jsonify, request
 from models import User, Kanban_Board, Kanban_Ticket
 from database import db
 from datetime import datetime

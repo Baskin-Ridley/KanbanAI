@@ -26,7 +26,7 @@ const Registration = () => {
         role,
         avatar,
       });
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       setErrorMessage(error.message);
     }

@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
 const Navigation = () => {
   const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const handleLogoutClick = () => {
+  const handleLogout = () => {
+    e.preventDefault();
     logout();
+    navigate('/');
   };
 
   return (
@@ -18,7 +21,7 @@ const Navigation = () => {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
-              <button onClick={handleLogoutClick}>Logout</button>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           </>
         ) : (

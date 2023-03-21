@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify, session
 from database import db
 from models import User
-from controllers import check_authentication, register_user, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, login, logout, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket
+from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket
 
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')

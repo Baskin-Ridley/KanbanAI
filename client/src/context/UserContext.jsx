@@ -9,8 +9,24 @@ export const UserProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const register = (userData) => {
-    // code here
+  const register = async (userData) => {
+    const url = "http://localhost:5000/register";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      //setUser(data.user);
+      setUser(null);
+    } catch (error) {
+      console.error("Error registering user", error);
+      throw new Error(error.message);
+    }
   };
 
   const logout = () => {
