@@ -1,7 +1,7 @@
 from datetime import datetime
 from database import db
-import jwt
 from flask import current_app
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -31,13 +31,15 @@ class User(db.Model):
             'username': self.username,
             'exp': datetime.utcnow() + current_app.config.get('JWT_EXPIRATION_DELTA')
         }
-        self.token = jwt.encode(payload, current_app.config.get('JWT_SECRET_KEY'), algorithm='HS256')
+        self.token = jwt.encode(payload, current_app.config.get(
+            'JWT_SECRET_KEY'), algorithm='HS256')
         db.session.commit()
 
     @staticmethod
     def verify_token(token):
         try:
-            data = jwt.decode(token, current_app.config.get('JWT_SECRET_KEY'), algorithms=["HS256"])
+            data = jwt.decode(token, current_app.config.get(
+                'JWT_SECRET_KEY'), algorithms=["HS256"])
             username = data['username']
             user = User.query.filter_by(username=username).first()
             return user
@@ -64,4 +66,5 @@ class Kanban_Ticket(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     ticket_status = db.Column(db.String(80), nullable=False)
-    kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
+    kanban_board_id = db.Column(db.Integer, db.ForeignKey(
+        'kanban_board.id'), nullable=False)

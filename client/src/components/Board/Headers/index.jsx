@@ -30,12 +30,7 @@ const initialHeaders = [
   {
     id: "header-3",
     name: "Empty Header",
-    items: [
-      {
-        id: "3-item-0",
-        content: "⠀",
-      },
-    ],
+    items: [],
   },
   {
     id: "header-4",
@@ -92,20 +87,12 @@ const Headers = () => {
           const newHeaders = [...prev];
           newHeaders[sourceHeaderIndex].items = sourceItems;
           newHeaders[destHeaderIndex].items = destItems;
-<<<<<<< HEAD
-
-          // where we send info to the servers
           console.log(newHeaders);
-
-=======
-          console.log(newHeaders)
->>>>>>> 955a9f86e7ae181d7fb39af697de0127deb899bd
           return newHeaders;
         });
       }
     }
   };
-<<<<<<< HEAD
 
   return (
     <div>
@@ -128,38 +115,32 @@ const Headers = () => {
                     >
                       <p>{name}</p>
                       <Droppable droppableId={`column-${index}`} type="item">
-                        {(provided) => (
+                        {(provided, snapshot) => (
                           <div
-                            className="item-container"
+                            className={`item-container ${
+                              snapshot.isDraggingOver ? "dragging-over" : ""
+                            }`}
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
-                            {items.map(({ id, content }, index) =>
-                              content === "⠀" ? (
-                                <Draggable
-                                  key={id}
-                                  draggableId={id}
-                                  index={index}
-                                ></Draggable>
-                              ) : (
-                                <Draggable
-                                  key={id}
-                                  draggableId={id}
-                                  index={index}
-                                >
-                                  {(provided) => (
-                                    <div
-                                      className="item"
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      {content}
-                                    </div>
-                                  )}
-                                </Draggable>
-                              )
-                            )}
+                            {items.map(({ id, content }, index) => (
+                              <Draggable
+                                key={id}
+                                draggableId={id}
+                                index={index}
+                              >
+                                {(provided) => (
+                                  <div
+                                    className="item"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                  >
+                                    {content}
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
                             {provided.placeholder}
                           </div>
                         )}
@@ -174,67 +155,6 @@ const Headers = () => {
         </Droppable>
       </DragDropContext>
     </div>
-=======
-  
-
-  
-  
-
-  return (
-<div>
-  <DragDropContext onDragEnd={handleOnDragEnd}>
-    <Droppable droppableId="headers" direction="horizontal" type="header">
-      {(provided) => (
-        <div className="container" {...provided.droppableProps} ref={provided.innerRef}>
-          {headers.map(({ id, name, items }, index) => (
-            <Draggable key={id} draggableId={id} index={index}>
-              {(provided) => (
-                <div
-                  className="box"
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  <p>{name}</p>
-                  <Droppable droppableId={`column-${index}`} type="item">
-                    {(provided, snapshot) => (
-                      <div
-                        className={`item-container ${
-                          snapshot.isDraggingOver ? "dragging-over" : ""
-                        }`}
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        {items.map(({ id, content }, index) => (
-                          <Draggable key={id} draggableId={id} index={index}>
-                            {(provided) => (
-                              <div
-                                className="item"
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                              >
-                                {content}
-                              </div>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
-              )}
-            </Draggable>
-          ))}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
-  </DragDropContext>
-</div>
-
->>>>>>> 955a9f86e7ae181d7fb39af697de0127deb899bd
   );
 };
 
