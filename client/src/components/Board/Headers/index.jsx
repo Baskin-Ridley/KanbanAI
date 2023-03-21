@@ -4,7 +4,7 @@ import "./style.css";
 
 const initialHeaders = [
   {
-    id: "header-0",
+    id: "header-1",
     name: "Header 1",
     items: [
       { id: "0-item-0", content: "Item 1" },
@@ -12,7 +12,7 @@ const initialHeaders = [
     ],
   },
   {
-    id: "header-1",
+    id: "header-2",
     name: "Header 2",
     items: [
       { id: "1-item-0", content: "Item 3" },
@@ -20,46 +20,51 @@ const initialHeaders = [
     ],
   },
   {
-    id: "header-2",
+    id: "header-3",
     name: "Header 3",
     items: [
       { id: "2-item-0", content: "Item 5" },
       { id: "2-item-1", content: "Item 6" },
     ],
   },
-  {
-    id: "header-3",
-    name: "Empty Header",
-    items: [],
-  },
-  {
-    id: "header-4",
-    name: "test header",
-    items: [
-      { id: "4-item-0", content: "Item 7" },
-      { id: "4-item-1", content: "Item 8" },
-    ],
-  },
 ];
-
-{
-  /* <div className="container">
-<div className="box">Backlog</div>
-<div className="box">To Do</div>
-<div className="box">In Progress</div>
-<div className="box">MVP</div>
-<div className="box">Done</div>
-</div> */
-}
 
 const Headers = () => {
   const [headers, setHeaders] = useState(initialHeaders);
 
-  console.log(headers);
+  const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
+
+  const handleNewItemNameChange = (headerId, newValue) => {
+    setNewItemNames((prevState) =>
+      prevState.map((name, index) =>
+        headers[index].id === headerId ? newValue : name
+      )
+    );
+  };
+
+  const handleAddSubItem = (headerId) => {
+    const headerIndex = headers.findIndex((header) => header.id === headerId);
+    const itemName = newItemNames[headerIndex];
+    if (itemName) {
+      const newSubItemId = `item-${Date.now()}`;
+      const newSubItem = { id: newSubItemId, content: itemName };
+
+      setHeaders((prevState) =>
+        prevState.map((header) =>
+          header.id === headerId
+            ? { ...header, items: [...header.items, newSubItem] }
+            : header
+        )
+      );
+      setNewItemNames((prevState) =>
+        prevState.map((name, index) => (index === headerIndex ? "" : name))
+      );
+    }
+  };
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
-    console.log(destination);
+
     if (!destination) return;
 
     if (type === "header") {
@@ -67,29 +72,29 @@ const Headers = () => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
-    } else {
-      const sourceHeaderIndex = source.droppableId.split("-")[1];
-      const destHeaderIndex = destination.droppableId.split("-")[1];
+    } else if (type === "item") {
+      const sourceHeaderIndex = headers.findIndex(
+        (header) => `column-${header.id}` === source.droppableId
+      );
+      const destinationHeaderIndex = headers.findIndex(
+        (header) => `column-${header.id}` === destination.droppableId
+      );
 
-      const sourceItems = Array.from(headers[sourceHeaderIndex].items);
-      const [reorderedItem] = sourceItems.splice(source.index, 1);
-      if (source.droppableId === destination.droppableId) {
-        sourceItems.splice(destination.index, 0, reorderedItem);
-        setHeaders((prev) => {
-          const newHeaders = [...prev];
-          newHeaders[sourceHeaderIndex].items = sourceItems;
-          return newHeaders;
-        });
+      if (sourceHeaderIndex === destinationHeaderIndex) {
+        const header = headers[sourceHeaderIndex];
+        const newItems = Array.from(header.items);
+        const [reorderedItem] = newItems.splice(source.index, 1);
+        newItems.splice(destination.index, 0, reorderedItem);
+        header.items = newItems;
+        console.log(newItems);
+        setHeaders([...headers]);
       } else {
-        const destItems = Array.from(headers[destHeaderIndex].items);
-        destItems.splice(destination.index, 0, reorderedItem);
-        setHeaders((prev) => {
-          const newHeaders = [...prev];
-          newHeaders[sourceHeaderIndex].items = sourceItems;
-          newHeaders[destHeaderIndex].items = destItems;
-          console.log(newHeaders);
-          return newHeaders;
-        });
+        const sourceHeader = headers[sourceHeaderIndex];
+        const destinationHeader = headers[destinationHeaderIndex];
+        const [movedItem] = sourceHeader.items.splice(source.index, 1);
+        destinationHeader.items.splice(destination.index, 0, movedItem);
+        setHeaders([...headers]);
+        console.log(destinationHeader.items);
       }
     }
   };
@@ -114,12 +119,10 @@ const Headers = () => {
                       {...provided.dragHandleProps}
                     >
                       <p>{name}</p>
-                      <Droppable droppableId={`column-${index}`} type="item">
-                        {(provided, snapshot) => (
+                      <Droppable droppableId={`column-${id}`} type="item">
+                        {(provided) => (
                           <div
-                            className={`item-container ${
-                              snapshot.isDraggingOver ? "dragging-over" : ""
-                            }`}
+                            className="item-container"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -145,6 +148,17 @@ const Headers = () => {
                           </div>
                         )}
                       </Droppable>
+                      <input
+                        type="text"
+                        className="new-item-input"
+                        value={newItemNames[index]}
+                        onChange={(e) =>
+                          handleNewItemNameChange(id, e.target.value)
+                        }
+                      />
+                      <button onClick={() => handleAddSubItem(id)}>
+                        Add Item
+                      </button>
                     </div>
                   )}
                 </Draggable>

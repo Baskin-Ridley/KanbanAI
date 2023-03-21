@@ -2,7 +2,6 @@ from app import app
 from database import db
 from models import User, Kanban_Board, Kanban_Ticket
 from datetime import datetime, timedelta
-from werkzeug.security import generate_password_hash
 
 with app.app_context():
 
@@ -26,12 +25,11 @@ with app.app_context():
         username="user2",
         name="User Two",
         password="password2",
-        role="member",
+        role="user",
         email="user2@example.com",
         avatar="avatar2.png",
     )
     db.session.add(user2)
-
 
     # Commit the users
     db.session.commit()

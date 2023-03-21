@@ -87,7 +87,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-  color: white;
+  color: rgb(68, 60, 60);
   display: flex;
   justify-content: center;
 }
