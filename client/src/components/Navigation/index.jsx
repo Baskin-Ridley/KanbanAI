@@ -6,7 +6,7 @@ const Navigation = () => {
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
     e.preventDefault();
     logout();
     navigate('/');
