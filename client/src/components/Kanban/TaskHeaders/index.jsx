@@ -5,7 +5,7 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import SortableItem from "../SortableItem/Index.jsx";
+import SortableItem from "../SortableItem/index.jsx";
 
 const TaskHeaders = () => {
   const [testHeaders, setTestHeaders] = useState([

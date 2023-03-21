@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
 import {
   SortableContext,
   rectSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import SortableItem from "../SortableItem/Index.jsx";
-
+import SortableItem from "../SortableItem/index.jsx";
+import Row from "../Row/index.jsx";
 const TaskTickets = () => {
-  const [testTickets, setTestTickets] = useState([
+  const [tasks, setTasks] = useState([
     { id: 1, title: "Task 1", column: "To Do" },
     { id: 2, title: "Task 2", column: "To Do" },
     { id: 3, title: "Task 3", column: "In Progress" },
@@ -35,18 +35,18 @@ const TaskTickets = () => {
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div className="kanban-board">
-        <SortableContext items={testTickets} strategy={rectSortingStrategy}>
+        <SortableContext items={tasks} strategy={rectSortingStrategy}>
           <Row
             title="To Do"
-            testTickets={tasks.filter((task) => task.column === "To Do")}
+            tasks={tasks.filter((task) => task.column === "To Do")}
           />
           <Row
             title="In Progress"
-            testTickets={tasks.filter((task) => task.column === "In Progress")}
+            tasks={tasks.filter((task) => task.column === "In Progress")}
           />
           <Row
             title="Done"
-            testTickets={tasks.filter((task) => task.column === "Done")}
+            tasks={tasks.filter((task) => task.column === "Done")}
           />
         </SortableContext>
         <DragOverlay>
