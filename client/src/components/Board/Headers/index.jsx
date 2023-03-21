@@ -30,7 +30,12 @@ const initialHeaders = [
   {
     id: "header-3",
     name: "Empty Header",
-    items: [],
+    items: [
+      {
+        id: "3-item-0",
+        content: "⠀",
+      },
+    ],
   },
   {
     id: "header-4",
@@ -55,8 +60,11 @@ const initialHeaders = [
 const Headers = () => {
   const [headers, setHeaders] = useState(initialHeaders);
 
+  console.log(headers);
+
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
+    console.log(destination);
     if (!destination) return;
 
     if (type === "header") {
@@ -70,7 +78,6 @@ const Headers = () => {
 
       const sourceItems = Array.from(headers[sourceHeaderIndex].items);
       const [reorderedItem] = sourceItems.splice(source.index, 1);
-
       if (source.droppableId === destination.droppableId) {
         sourceItems.splice(destination.index, 0, reorderedItem);
         setHeaders((prev) => {
@@ -122,24 +129,32 @@ const Headers = () => {
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
-                            {items.map(({ id, content }, index) => (
-                              <Draggable
-                                key={id}
-                                draggableId={id}
-                                index={index}
-                              >
-                                {(provided) => (
-                                  <div
-                                    className="item"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    {content}
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
+                            {items.map(({ id, content }, index) =>
+                              content === "⠀" ? (
+                                <Draggable
+                                  key={id}
+                                  draggableId={id}
+                                  index={index}
+                                ></Draggable>
+                              ) : (
+                                <Draggable
+                                  key={id}
+                                  draggableId={id}
+                                  index={index}
+                                >
+                                  {(provided) => (
+                                    <div
+                                      className="item"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      {content}
+                                    </div>
+                                  )}
+                                </Draggable>
+                              )
+                            )}
                             {provided.placeholder}
                           </div>
                         )}
