@@ -15,8 +15,8 @@ with app.app_context():
     user1 = User(
         username="user1",
         name="User One",
-        password=generate_password_hash("password1"),
-        role="admin",
+        password="password1",
+        role="leader",
         email="user1@example.com",
         avatar="avatar1.png",
     )
@@ -25,12 +25,13 @@ with app.app_context():
     user2 = User(
         username="user2",
         name="User Two",
-        password=generate_password_hash("password2"),
-        role="user",
+        password="password2",
+        role="member",
         email="user2@example.com",
         avatar="avatar2.png",
     )
     db.session.add(user2)
+
 
     # Commit the users
     db.session.commit()
