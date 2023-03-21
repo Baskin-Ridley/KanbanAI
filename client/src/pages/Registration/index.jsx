@@ -1,87 +1,95 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from '../../context/UserContext';
-import Message from '../../components/Message';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import Message from "../../components/Message";
 
-const Login = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    const [role, setRole] = useState('');
-    const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
-    const { setUser } = useContext(UserContext);
-    const navigate = useNavigate();
+const Registration = () => {
+  const { register } = useContext(UserContext);
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-        try {
-            const response = await fetch('http://localhost:3001/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password, role, name, email }),
-                credentials: 'include',
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setUser(data.user);
-                navigate('/login');
-            } else {
-                setError(data.error);
-            }
-        } catch (error) {
-            setError('Error registering user');
-            console.error('Error registering user:', error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await register({
+        username,
+        name,
+        password,
+        email,
+        role,
+        avatar,
+      });
+      navigate("/login");
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
 
-    return (
-        <main className="w3-container w3-center">
-            <h2>Register</h2>
-            {/* {error && <p className="w3-text-red">{error}</p>} */}
-            <Message message={error} type="error" />
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    className="w3-input w3-margin-bottom"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    className="w3-input w3-margin-bottom"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
-                    type="text"
-                    className="w3-input w3-margin-bottom"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    type="email"
-                    className="w3-input w3-margin-bottom"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <select name="role" id="role" 
-                    className="w3-input w3-margin-bottom" 
-                    onChange={(e) => setRole(e.target.value)}>
-                    <option value="leader">Leader</option>
-                    <option value="member">Member</option>
-                </select>
-                <button type="submit" className="w3-button w3-black">
-                    Register
-                </button>
-            </form>
-        </main>
-    );
+  return (
+    <div>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </label>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </label>
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label>
+          Role:
+          <input
+            type="text"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          />
+        </label>
+        <label>
+          Avatar:
+          <input
+            type="text"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+          />
+        </label>
+        <button type="submit">Register</button>
+        <Link to="/login">Login</Link>
+      </form>
+      <Message message={errorMessage} type="error" />
+    </div>
+  );
 };
 
-export default Login;
+export default Registration;

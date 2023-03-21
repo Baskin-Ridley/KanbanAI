@@ -1,34 +1,61 @@
-import { createContext, useState, useEffect } from 'react';
-//const fetch = global.fetch || require('node-fetch'); 
-import React from 'react';
+import React, { createContext, useState } from "react";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      // if (!global.fetch) {
-      //   const nodeFetchModule = await import('node-fetch');
-      //   global.fetch = nodeFetchModule.default;
-      // }
-      try {
-        const response = await fetch('http://localhost:3000/api/auth/check-auth', {
-          credentials: 'include',
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data.user);
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-      }
+  const login = async (userData) => {
+    const url = "http://localhost:5000/login";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
     };
+    try {
+      const response = await fetch(url, options);
+      if (response.ok) {
+        const user = await response.json();
+        setUser(user);
+      } else {
+        const error = await response.json();
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error("Error logging user in", error);
+      throw new Error(error.message);
+    }
+  };
 
-    // checkAuth();
-  }, []);
+  const register = async (userData) => {
+    const url = "http://localhost:5000/register";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      //setUser(data.user);
+      setUser(null);
+    } catch (error) {
+      console.error("Error registering user", error);
+      throw new Error(error.message);
+    }
+  };
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  const logout = () => {
+    setUser(null);
+  };
+
+  return (
+    <UserContext.Provider value={{ user, login, logout, register }}>
+      {children}
+    </UserContext.Provider>
+  );
 };

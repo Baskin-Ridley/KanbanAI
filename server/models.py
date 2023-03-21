@@ -1,6 +1,5 @@
-from datetime import datetime
 from database import db
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -15,13 +14,13 @@ class User(db.Model):
     def __init__(self, username, name, password, role, email, avatar=None):
         self.username = username
         self.name = name
-        self.password = generate_password_hash(password)
+        self.password = password
         self.role = role
         self.email = email
         self.avatar = avatar
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return self.password == password
 
 
 class Kanban_Board(db.Model):
@@ -30,6 +29,7 @@ class Kanban_Board(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
+
 
 class Kanban_Ticket(db.Model):
     __tablename__ = 'kanban_ticket'
@@ -40,7 +40,5 @@ class Kanban_Ticket(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     ticket_status = db.Column(db.String(80), nullable=False)
-    kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
-
-
-
+    kanban_board_id = db.Column(db.Integer, db.ForeignKey(
+        'kanban_board.id'), nullable=False)
