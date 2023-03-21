@@ -1,5 +1,6 @@
 from database import db
 
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +22,7 @@ class User(db.Model):
     def check_password(self, password):
         return self.password == password
 
+
 class Kanban_Board(db.Model):
     __tablename__ = 'kanban_board'
     id = db.Column(db.Integer, primary_key=True)
@@ -38,4 +40,5 @@ class Kanban_Ticket(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     ticket_status = db.Column(db.String(80), nullable=False)
-    kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
+    kanban_board_id = db.Column(db.Integer, db.ForeignKey(
+        'kanban_board.id'), nullable=False)
