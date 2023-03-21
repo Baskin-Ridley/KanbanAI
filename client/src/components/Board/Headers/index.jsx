@@ -72,62 +72,71 @@ const Headers = () => {
           const newHeaders = [...prev];
           newHeaders[sourceHeaderIndex].items = sourceItems;
           newHeaders[destHeaderIndex].items = destItems;
+          console.log(newHeaders)
           return newHeaders;
         });
       }
     }
   };
   
+
   
   
 
   return (
-    <div>
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="headers" direction="horizontal" type="header">
-          {(provided) => (
-            <div className="container" {...provided.droppableProps} ref={provided.innerRef}>
-              {headers.map(({ id, name, items }, index) => (
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <div
-                      className="box"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <p>{name}</p>
-                      <Droppable droppableId={`column-${index}`} type="item">
-                        {(provided) => (
-                          <div className="item-container" ref={provided.innerRef} {...provided.droppableProps}>
-                            {items.map(({ id, content }, index) => (
-                              <Draggable key={id} draggableId={id} index={index}>
-                                {(provided) => (
-                                  <div
-                                    className="item"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    {content}
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+<div>
+  <DragDropContext onDragEnd={handleOnDragEnd}>
+    <Droppable droppableId="headers" direction="horizontal" type="header">
+      {(provided) => (
+        <div className="container" {...provided.droppableProps} ref={provided.innerRef}>
+          {headers.map(({ id, name, items }, index) => (
+            <Draggable key={id} draggableId={id} index={index}>
+              {(provided) => (
+                <div
+                  className="box"
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <p>{name}</p>
+                  <Droppable droppableId={`column-${index}`} type="item">
+                    {(provided, snapshot) => (
+                      <div
+                        className={`item-container ${
+                          snapshot.isDraggingOver ? "dragging-over" : ""
+                        }`}
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {items.map(({ id, content }, index) => (
+                          <Draggable key={id} draggableId={id} index={index}>
+                            {(provided) => (
+                              <div
+                                className="item"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                {content}
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              )}
+            </Draggable>
+          ))}
+          {provided.placeholder}
+        </div>
+      )}
+    </Droppable>
+  </DragDropContext>
+</div>
+
   );
 
 };
