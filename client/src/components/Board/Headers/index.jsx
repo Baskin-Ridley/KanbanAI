@@ -27,6 +27,19 @@ const initialHeaders = [
       { id: "2-item-1", content: "Item 6" },
     ],
   },
+  {
+    id: "header-3",
+    name: "Empty Header",
+    items: [],
+  },
+  {
+    id: "header-4",
+    name: "test header",
+    items: [
+      { id: "4-item-0", content: "Item 7" },
+      { id: "4-item-1", content: "Item 8" },
+    ],
+  },
 ];
 
 {
