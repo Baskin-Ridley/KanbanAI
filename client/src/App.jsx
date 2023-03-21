@@ -18,7 +18,7 @@ import "./index.css";
 
 function App() {
   return (
-    <UserProvider>
+    // <UserProvider>
       <Routes>
         {/* <Route path="/" element={<PageWrapper />}> */}
         <Route path="/" element={<Home />} />
@@ -31,7 +31,11 @@ function App() {
         <Route path="/stack" element={<Stack />} />
         {/* </Route> */}
       </Routes>
+<<<<<<< HEAD
     </UserProvider>
+=======
+    // </UserProvider >
+>>>>>>> 955a9f86e7ae181d7fb39af697de0127deb899bd
   );
 }
 
