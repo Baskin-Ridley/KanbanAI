@@ -8,6 +8,14 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [isLoginForm, setIsLoginForm] = useState(true);
+
+  const toggleForm = () => {
+    setIsLoginForm(!isLoginForm);
+    setUsername('');
+    setPassword('');
+    setError('');
+  };
 
   useEffect(() => {
     if (user.isAuthenticated) {
