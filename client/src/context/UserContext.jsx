@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +19,6 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
       if (response.status === 200) {
         setUser(data.user);
-        navigate('/dashboard');
       }
     };
     checkAuthentication();
@@ -51,7 +50,7 @@ export const UserProvider = ({ children }) => {
     });
     const data = await response.json();
     if (response.status === 200) {
-      setUser(null);
+      setUser('');
       navigate('/login');
     }
   };
@@ -62,51 +61,3 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-
-
-
-
-// import { createContext, useState, useEffect } from 'react';
-
-// export const UserContext = createContext();
-
-// export const UserProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-
-//   useEffect(() => {
-//     const checkAuthentication = async () => {
-//       try {
-//         // check for token in local storage
-//         const token = localStorage.getItem('token');
-//         if (token) {
-//           // decode token to get username
-//           const decodedToken = JSON.parse(atob(token.split('.')[1]));
-//           const username = decodedToken.username;
-          
-//           // make a request to check if token is valid
-//           const response = await fetch('http://localhost:5000/check-authentication', {
-//             headers: {
-//               Authorization: `Bearer ${token}`,
-//               username: username,
-//             },
-//             credentials: 'include',
-//           });
-//           if (response.ok) {
-//             const data = await response.json();
-//             console.log(data.user.username);
-//             setUser(data.user);
-//           } else {
-//             // remove invalid token from local storage
-//             localStorage.removeItem('token');
-//           }
-//         }
-//       } catch (error) {
-//         console.error('Error checking authentication:', error);
-//       }
-//     };
-
-//     checkAuthentication();
-//   }, []);
-
-//   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
-// };

@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 /* Add this import statement in the html head element. */
 /* <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> */
 
 @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* body {
   font-family: 'Edu NSW ACT Foundation', cursive;
