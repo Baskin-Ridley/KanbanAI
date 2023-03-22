@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
+//import { UserContext } from '../../context/UserContext';
 import Message from '../../components/Message';
 
 const Settings = () => {
-  const { user } = useContext(UserContext);
+  //const { user } = useContext(UserContext);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
