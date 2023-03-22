@@ -46,7 +46,7 @@ def ai_test():
     # prompt_text = f"Write one single unit test for this '{technologies}' function using '{test_framework}': '{function_to_test}'."
     prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
-        #engine="davinci-codex",
+        # engine="davinci-codex",
         engine="davinci",
         prompt=prompt_text,
         max_tokens=100,
@@ -62,20 +62,25 @@ def ai_test():
 @app.route('/ai-steps', methods=['POST'])
 def ai_steps():
     data = request.get_json()
+    print(data)
     task = data['task']
     steps = data['steps']
+    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
-        prompt=f"The kanban task is `{task}`. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks",
-        max_tokens=5000,
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.8,
+        temperature=0.7,
     )
     print(response)
-    steps_for_task = response.choices[0].text.strip()
+    steps_for_task = response.choices[0].text
+    # print(steps_for_task)
     return jsonify({'steps_for_task': steps_for_task})
+
+# User routes
 
 
 @ app.route('/register', methods=['POST'])
@@ -119,14 +124,18 @@ def delete_user_route(user_id):
 
 # Kanban Board routes
 
-@ app.route('/kanban-boards', methods=['POST'])
-def create_kanban_board_route():
-    return create_kanban_board()
+# @ app.route('/kanban-boards', methods=['POST'])
+# def create_kanban_board_route():
+#     return create_kanban_board()
+
+# @ app.route('/kanban-boards', methods=['GET'])
+# def get_kanban_boards_route():
+#     return get_kanban_boards()
 
 
-@ app.route('/kanban-boards', methods=['GET'])
-def get_kanban_boards_route():
-    return get_kanban_boards()
+@app.route('/users/<int:user_id>/kanban_boards', methods=['GET'])
+def get_kanban_boards_route(user_id):
+    return get_kanban_boards(user_id)
 
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
@@ -143,9 +152,11 @@ def update_kanban_board_route(kanban_board_id):
 def delete_kanban_board_route(kanban_board_id):
     return delete_kanban_board(kanban_board_id)
 
+
 @app.route('/kanban-boards/<int:kanban_board_id>/tickets', methods=['GET'])
 def get_kanban_board_tickets_route(kanban_board_id):
     return get_kanban_tickets_by_board(kanban_board_id)
+
 
 # Kanban Ticket routes
 
@@ -153,21 +164,17 @@ def get_kanban_board_tickets_route(kanban_board_id):
 def create_kanban_ticket_route():
     return create_kanban_ticket()
 
+
 @ app.route('/kanban-tickets', methods=['GET'])
 def get_kanban_tickets_route():
     return get_kanban_tickets()
 
+
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-
-
-# @app.route('/kanban-tickets', methods=['POST'])
-# def create_kanban_ticket_route():
-#     return create_kanban_ticket()
-
-
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
+
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
