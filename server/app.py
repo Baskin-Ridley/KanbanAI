@@ -1,24 +1,37 @@
 from dotenv import load_dotenv
 import os
+from flask_mail import Mail,Message
 from flask_cors import CORS
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session,render_template
 from database import db
 from models import User
 import openai
 from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board
 
 
+
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
 FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
+PASSWORD = os.environ.get('PASSWORD')
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+mail = Mail(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465 or 587
+app.config['MAIL_USERNAME'] = 'shorizon1234@gmail.com'
+app.config['MAIL_PASSWORD'] = PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
+
 app.secret_key = os.environ.get('SECRET_KEY')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 db.init_app(app)
+
 
 
 # Remove .env key after project completes: https://platform.openai.com/account/api-keys
@@ -159,6 +172,20 @@ def update_kanban_ticket_route(kanban_ticket_id):
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
     return delete_kanban_ticket(kanban_ticket_id)
+
+
+
+@app.route("/email", methods=['GET'])
+def index():
+   msg = Message('Hello',sender ='shorizon1234@gmail.com',recipients = ['shodeb123@gmail.com'])
+   msg.body = 'Hello Flask message sent from Flask-Mail'
+
+   try: 
+    mail.send(msg)
+    return 'Sent'
+   except Exception as e:
+    return jsonify(e)
+
 
 
 if __name__ == '__main__':
