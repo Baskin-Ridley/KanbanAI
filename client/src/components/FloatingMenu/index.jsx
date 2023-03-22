@@ -1,10 +1,13 @@
 import React from 'react'
+import { useView } from '../../context/UserContext'
 
 const FloatingMenu = () => {
 
+    const { stackView, setStackView, gitView, setGitView } = useView()
+
     const stackHandler = () => {
 
-        console.log("clicked!")
+        setStackView(!stackView)
     }
 
 
