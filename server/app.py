@@ -33,7 +33,7 @@ def ai_test():
     # prompt_text = f"Write one single unit test for this '{technologies}' function using '{test_framework}': '{function_to_test}'."
     prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
-        #engine="davinci-codex",
+        # engine="davinci-codex",
         engine="davinci",
         prompt=prompt_text,
         max_tokens=100,
@@ -109,9 +109,9 @@ def delete_user_route(user_id):
 
 # Kanban Board routes
 
-@ app.route('/kanban-boards', methods=['POST'])
-def create_kanban_board_route():
-    return create_kanban_board()
+# @ app.route('/kanban-boards', methods=['POST'])
+# def create_kanban_board_route():
+#     return create_kanban_board()
 
 
 @ app.route('/kanban-boards', methods=['GET'])
@@ -133,6 +133,7 @@ def update_kanban_board_route(kanban_board_id):
 def delete_kanban_board_route(kanban_board_id):
     return delete_kanban_board(kanban_board_id)
 
+
 @app.route('/kanban-boards/<int:kanban_board_id>/tickets', methods=['GET'])
 def get_kanban_board_tickets_route(kanban_board_id):
     return get_kanban_tickets_by_board(kanban_board_id)
@@ -144,15 +145,16 @@ def get_kanban_board_tickets_route(kanban_board_id):
 def create_kanban_ticket_route():
     return create_kanban_ticket()
 
+
 @ app.route('/kanban-tickets', methods=['GET'])
 def get_kanban_tickets_route():
     return get_kanban_tickets()
+
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
 @app.route('/kanban-tickets', methods=['POST'])
 def create_kanban_ticket_route():
     return create_kanban_ticket()
-
 
 
 # @app.route('/kanban-tickets', methods=['POST'])
@@ -163,6 +165,7 @@ def create_kanban_ticket_route():
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
+
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
