@@ -19,6 +19,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 db.init_app(app)
 
+# Remove .env key after project completes: https://platform.openai.com/account/api-keys
 @app.route('/ai-test', methods=['POST'])
 def ai_test():
     technologies = request.get_json()['technologies']
