@@ -8,6 +8,7 @@ function StackCard() {
     const [tag, setTag] = useState("")
     const [states, setStates] = useState(false)
     const [titleView, setTitleView] = useState(true)
+    const [latest, setLatest] = useState("question")
 
 
     const clickHandler = (states) => {
@@ -18,10 +19,11 @@ function StackCard() {
     }
     const titleHandler = (e) => {
         setTitle(e.target.value.replace(" ", "%20"))
-        console.log(title)
+        setLatest("question")
     }
     const tagHandler = (e) => {
         setTag(e.target.value.replace(" ", "%20"))
+        setLatest("tags")
     }
 
 
@@ -29,11 +31,17 @@ function StackCard() {
 
         const fetchDataTitle = async () => {
             try {
-                if (title != "") {
+                if (latest === "question") {
                     const response = await fetch(`https://api.stackexchange.com/2.3/search?order=desc&sort=activity&intitle=${title}&site=stackoverflow`)
                     const data = await response.json()
                     setStack(data.items)
-                    console.log(data)
+                    console.log("using questions")
+                }
+                if (latest === "tags") {
+                    const response = fetch(`https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=${tag}&site=stackoverflow`)
+                    const data = await response.json()
+                    setStack(data)
+                    console.log("using tags")
                 }
 
 
