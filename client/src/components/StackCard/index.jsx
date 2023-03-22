@@ -23,7 +23,9 @@ function StackCard() {
     }
     const tagHandler = (e) => {
         setTag(e.target.value.replace(" ", "%20"))
+        console.log("using tags")
         setLatest("tags")
+        console.log(latest)
     }
 
 
@@ -38,9 +40,9 @@ function StackCard() {
                     console.log("using questions")
                 }
                 if (latest === "tags") {
-                    const response = fetch(`https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=${tag}&site=stackoverflow`)
-                    const data = await response.json()
-                    setStack(data)
+                    const responsetags = await fetch(`https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=${tag}&site=stackoverflow`)
+                    const datatags = await responsetags.json()
+                    setStack(datatags.items)
                     console.log("using tags")
                 }
 
@@ -49,27 +51,10 @@ function StackCard() {
                 console.log(error)
             }
         }
-
         fetchDataTitle()
     }, [states])
 
-    useEffect(() => {
 
-        const fetchDataTagged = async () => {
-            try {
-                if (tag != "") {
-                    const response = fetch(`https://api.stackexchange.com/2.3/questions?order=desc&sort=activity&tagged=${tag}&site=stackoverflow`)
-                    const data = await response.json()
-                    setStack(data)
-                    console.log(data)
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        fetchDataTagged()
-    }, [states])
 
 
 
@@ -78,18 +63,20 @@ function StackCard() {
         if (titleView) {
             return (
                 <label>
-                    <div className='input-section'>
+                    <div className='input-section-stack'>
                         question to ask:
-                        <input className='input-line' type="text" name="question" onChange={titleHandler} />
+                        <br />
+                        <input className='input-line-stack' type="text" name="question" onChange={titleHandler} />
                     </div>
                 </label>
             )
         } else {
             return (
                 <label>
-                    <div className='input-section'>
+                    <div className='input-section-stack'>
                         look for tag(s):
-                        <input className='input-line' type="text" name="tag" onChange={tagHandler} />
+                        <br />
+                        <input className='input-line-stack' type="text" name="tag" onChange={tagHandler} />
                     </div>
                 </label>)
         }
@@ -98,7 +85,7 @@ function StackCard() {
 
     const stackCard = (data) => {
 
-        return (
+        return (<>
             <div className="stackContainer">
                 {data.map((e, i) => (
                     e.is_answered == true ?
@@ -109,15 +96,20 @@ function StackCard() {
                         :
                         null
                 ))}
+
             </div>
+            <button className='remove-stack-view' onClick={() => clickHandler(states)} >back</button>
+        </>
         )
     }
 
     return (
         <>
             {rendering(titleView)}
-            <button className='access-btn' onClick={() => { clickHandler(states) }}>Click me to get the questions</button>
-            <button className='access-btn' onClick={() => { viewHandler(titleView) }}>{titleView == true ? "look for tags" : "look with title"}</button>
+
+            <button className='access-btn' id="view-button" onClick={() => { viewHandler(titleView) }}>{titleView == true ? "look for tags" : "look with title"}</button> <br />
+            <button className='access-btn' id="question-button" onClick={() => { clickHandler(states) }}>Click me to get the questions</button>
+
             {states ? <ul>{stack && stackCard(stack)}</ul> : null}
 
         </>
