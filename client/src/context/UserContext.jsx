@@ -1,9 +1,11 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [stackView, setStackView] = useState(false);
+  const [gitView, setGitView] = useState(false);
 
   const login = async (userData) => {
     const url = "http://localhost:5000/login";
@@ -54,8 +56,11 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register }}>
+    <UserContext.Provider value={{ user, login, logout, register, stackView, setStackView, gitView, setGitView }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+
+export const useView = () => useContext(UserContext);

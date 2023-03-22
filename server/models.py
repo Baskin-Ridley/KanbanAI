@@ -1,4 +1,5 @@
 from database import db
+from sqlalchemy.orm import relationship
 
 
 class User(db.Model):
@@ -22,13 +23,39 @@ class User(db.Model):
     def check_password(self, password):
         return self.password == password
 
+class Kanban_Header(db.Model):
+    __tablename__ = 'header'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
+    kanban_board = relationship("Kanban_Board", back_populates="headers")
+    tickets = relationship("Kanban_Ticket", back_populates="header")
+
+    def serialize(self):
+        return {
+            "header_id": self.id,
+            "header_name": self.name,
+            "kanban_board_id": self.kanban_board_id,
+            "tickets_under_this_header": [ticket.id for ticket in self.tickets]
+        }
 
 class Kanban_Board(db.Model):
     __tablename__ = 'kanban_board'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
+    headers = relationship("Kanban_Header", back_populates="kanban_board")
+    tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
+
+    def serialize(self):
+        return {
+            "board_id": self.id,
+            "board_creator_id": self.user_id,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+            "boards_headers": [header.serialize() for header in self.headers]
+        }
 
 
 class Kanban_Ticket(db.Model):
@@ -36,9 +63,29 @@ class Kanban_Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), name='kanban_ticket_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     ticket_status = db.Column(db.String(80), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey(
-        'kanban_board.id'), nullable=False)
+        'kanban_board.id'), name='kanban_ticket_board_id', nullable=False)
+    header_id = db.Column(db.Integer, db.ForeignKey('header.id'), nullable=True)
+    header = relationship("Kanban_Header", back_populates="tickets")
+    kanban_board = relationship("Kanban_Board", back_populates="tickets")
+    assigned = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
+    def serialize(self):
+        return {
+            "ticket_id": self.id,
+            "ticket_title": self.title,
+            "ticket_content": self.content,
+            "ticket_creator_id": self.user_id,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+            "ticket_status": self.ticket_status,
+            "kanban_board_id": self.kanban_board_id,
+            "header_id": self.header_id,
+            "user_assigned": self.assigned
+        }
+
+

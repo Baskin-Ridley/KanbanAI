@@ -21,6 +21,12 @@ const Navigation = () => {
               <Link to="/dashboard">Dashboard</Link>
             </li>
             <li>
+              <Link to="/settings">Settings</Link>
+            </li>
+            <li>
+              <Link to="/all-boards">All Kanban Boards</Link>
+            </li>
+            <li>
               <button onClick={handleLogout}>Logout</button>
             </li>
           </>
