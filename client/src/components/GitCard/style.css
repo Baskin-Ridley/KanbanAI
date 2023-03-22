@@ -1,0 +1,54 @@
+.gitCardContainer {
+    position: fixed;
+    bottom: 5vh;
+    right: 2vw;
+    max-height: 45vh;
+    max-width: 30vw;
+    overflow-y: scroll;
+    border: solid azure 4px;
+   
+  }
+  .remove-git-view {
+    position: fixed;
+    bottom: 2vh;
+    right: 16vw;
+  }
+
+  .gitCard {
+    background-color:grey;
+    margin-bottom: 0px;
+    padding: 10px;
+    color:black;
+    border: solid black;
+  }
+
+  
+  .name-input{ 
+    position: fixed;
+    bottom: 34vh;
+    right: 10vw;
+  }
+  .repo-input{ 
+    position: fixed;
+    bottom: 28vh;
+    right: 10vw;
+  }
+
+
+  #commit-btn{
+    position: fixed;
+    bottom: 19vh;
+    right:7%;
+  }
+
+  .access-btn{
+    background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      }
+ 
