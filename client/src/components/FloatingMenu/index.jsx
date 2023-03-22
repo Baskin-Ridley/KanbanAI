@@ -9,7 +9,11 @@ const FloatingMenu = () => {
 
         setStackView(!stackView)
     }
+    const gitHandler = () => {
 
+        setGitView(!gitView)
+        console.log(gitView)
+    }
 
     return (
         <>
@@ -24,7 +28,7 @@ const FloatingMenu = () => {
                 </label>
 
                 <a href="#" className="menu-item" onClick={() => stackHandler()}> <i className="fa fa-bar-chart"></i> </a>
-                <a href="#" className="menu-item"> <i className="fa fa-plus"></i> </a>
+                <a href="#" className="menu-item" onClick={() => gitHandler()}> <i className="fa fa-plus"></i> </a>
                 <a href="#" className="menu-item"> <i className="fa fa-heart"></i> </a>
 
             </nav>

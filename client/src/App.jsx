@@ -7,8 +7,6 @@ import {
   Login,
   Registration,
   NotFoundPage,
-  Git,
-  Stack,
   Board,
   BoardTest
 } from "./pages";
@@ -27,9 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/" element={<BoardTest />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/git" element={<Git />} />
             <Route path="/board" element={<Board />} />
-            <Route path="/stack" element={<Stack />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
