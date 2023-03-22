@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { StackCard } from '../../components'
+import "./style.css"
 
 function StackOverFlow() {
     const [stack, setStack] = useState()
