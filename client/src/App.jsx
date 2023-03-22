@@ -7,8 +7,6 @@ import {
   Login,
   Registration,
   NotFoundPage,
-  Git,
-  Stack,
   Board,
   BoardTest,
   Settings,
