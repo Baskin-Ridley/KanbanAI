@@ -23,3 +23,23 @@ Then, enter the client directory and type `npm run dev` to also start the client
 ```
 python database_init.py
 ```
+5. To install pytest I had to use this command
+```
+pip install --upgrade --force-reinstall pytest
+```
+To run a test, use this command in server folder:
+```
+python -m pytest test_database_init.py
+```
+6. To get the coverage 
+```
+pip install --upgrade --force-reinstall coverage
+```
+To run the coverage
+```
+coverage run -m pytest test_database_init.py
+```
+and to see the coverage report
+```
+coverage report -m
+```
