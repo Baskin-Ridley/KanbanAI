@@ -4,7 +4,9 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify, session
 from database import db
 from models import User
+import openai
 from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board
+
 
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -14,8 +16,25 @@ CORS(app, supports_credentials=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = os.environ.get('SECRET_KEY')
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 db.init_app(app)
+
+@app.route('/ai-test', methods=['POST'])
+def ai_test():
+    technologies = request.get_json()['technologies']
+    test_framework = request.get_json()['test_framework']
+    function_to_test = request.get_json()['function_to_test']
+    response = openai.Completion.create(
+        engine="davinci", 
+        prompt=f"The technologies used in this code are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include the necessary imports: '{function_to_test}'.",
+        max_tokens=5000,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+    tests_for_function = response.choices[0].text.strip()
+    return jsonify({'tests_for_function': tests_for_function})
 
 @app.route('/register', methods=['POST'])
 def register_user_route():
