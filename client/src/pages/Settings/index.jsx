@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
+import { UserContext } from '../../context/UserContext';
 import Message from '../../components/Message';
 
 const Settings = () => {
