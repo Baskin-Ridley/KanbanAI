@@ -150,16 +150,6 @@ def get_kanban_tickets_route():
     return get_kanban_tickets()
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-@app.route('/kanban-tickets', methods=['POST'])
-def create_kanban_ticket_route():
-    return create_kanban_ticket()
-
-
-
-# @app.route('/kanban-tickets', methods=['POST'])
-# def create_kanban_ticket_route():
-#     return create_kanban_ticket()
-
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
