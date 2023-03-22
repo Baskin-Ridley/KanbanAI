@@ -62,7 +62,7 @@ function StackOverFlow() {
             }
         }
 
-        // fetchDataTagged()
+        fetchDataTagged()
     }, [states])
 
 

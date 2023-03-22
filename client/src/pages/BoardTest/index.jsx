@@ -1,8 +1,14 @@
 import React from 'react'
 import "./style.css"
 
-function BoardTest
-    () {
+function BoardTest() {
+
+    const stackHandler = () => {
+
+
+    }
+
+
     return (
         <>
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
@@ -15,7 +21,7 @@ function BoardTest
                     <span className="hamburger hamburger-3"></span>
                 </label>
 
-                <a href="#" className="menu-item"> <i className="fa fa-bar-chart"></i> </a>
+                <a href="#" className="menu-item" onClick={() => stackHandler()}> <i className="fa fa-bar-chart"></i> </a>
                 <a href="#" className="menu-item"> <i className="fa fa-plus"></i> </a>
                 <a href="#" className="menu-item"> <i className="fa fa-heart"></i> </a>
 
@@ -39,6 +45,7 @@ function BoardTest
                     </filter>
                 </defs>
             </svg>
+
         </>
     );
 }
