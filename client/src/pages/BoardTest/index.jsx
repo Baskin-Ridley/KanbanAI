@@ -1,6 +1,6 @@
 import React from 'react'
 import "./style.css"
-import { FloatingMenu, StackCard } from '../../components'
+import { FloatingMenu, StackCard, GitCommitCard } from '../../components'
 import { useView } from '../../context/UserContext'
 
 
@@ -14,6 +14,7 @@ function BoardTest() {
         <>
             <FloatingMenu />
             {stackView && <StackCard />}
+            {gitView && <GitCommitCard />}
         </>
 
     )
