@@ -10,6 +10,7 @@ import {
   Git,
   Stack,
   Board,
+  BoardTest
 } from "./pages";
 
 import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
@@ -29,6 +30,7 @@ function App() {
           <Route path="/git" element={<Git />} />
           <Route path="/board" element={<Board />} />
           <Route path="/stack" element={<Stack />} />
+          <Route path="/bt" element={<BoardTest />} />
         </Route>
       </Routes>
     </UserProvider>
