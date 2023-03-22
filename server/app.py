@@ -31,7 +31,7 @@ def ai_test():
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"The technologies used in this code are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include the necessary imports: '{function_to_test}'.",
-        max_tokens=100,
+        max_tokens=5000,
         n=1,
         stop=None,
         temperature=0.5,
@@ -131,11 +131,9 @@ def delete_kanban_board_route(kanban_board_id):
 # Kanban Ticket routes
 
 
-
 @ app.route('/kanban-tickets', methods=['POST'])
 def create_kanban_ticket_route():
     return create_kanban_ticket()
-
 
 
 @ app.route('/kanban-tickets', methods=['GET'])
@@ -144,7 +142,6 @@ def get_kanban_tickets_route():
 
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-
 @app.route('/kanban-tickets', methods=['POST'])
 def create_kanban_ticket_route():
     return create_kanban_ticket()
