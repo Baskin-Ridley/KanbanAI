@@ -37,7 +37,26 @@ const initialHeaders = [
   },
 ];
 
-const Headers = () => {
+const Headers = ({board_id}) => {
+  const fetchKanbanBoardData = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const data = await response.json();
+      const header = data.boards_headers[0]
+      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
+      console.log(data)
+      console.log(header.header_id)
+      console.log(header.header_name)
+      console.log(header.tickets_under_this_header)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchKanbanBoardData();
+  }, []);
+
   const [headers, setHeaders] = useState(initialHeaders);
 
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));

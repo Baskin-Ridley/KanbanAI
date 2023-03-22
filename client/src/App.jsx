@@ -27,14 +27,14 @@ function App() {
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
-          <Route path="/board" element={<Board />} />
+          {/* <Route path="/board" element={<Board />} /> */}
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/git" element={<Git />} />
-          <Route path="/board" element={<Board />} />
+          <Route path="/board/:id" element={<Board />} />
           <Route path="/stack" element={<Stack />} />
           <Route path="/bt" element={<BoardTest />} />
           <Route path="/settings" element={<Settings />} />
