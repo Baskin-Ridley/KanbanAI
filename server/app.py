@@ -148,9 +148,9 @@ def get_kanban_tickets_route():
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
 
-@app.route('/kanban-tickets', methods=['POST'])
-def create_kanban_ticket_route():
-    return create_kanban_ticket()
+# @app.route('/kanban-tickets', methods=['POST'])
+# def create_kanban_ticket_route():
+#     return create_kanban_ticket()
 
 
 @app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])

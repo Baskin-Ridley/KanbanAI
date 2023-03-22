@@ -24,6 +24,7 @@ function App() {
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
+          <Route path="/board" element={<Board />} />
           <Route path="/" element={<Home />} />
           <Route path="/" element={<BoardTest />}>
             <Route path="/dashboard" element={<Dashboard />} />
