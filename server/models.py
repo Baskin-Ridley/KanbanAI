@@ -1,4 +1,5 @@
 from database import db
+from sqlalchemy.orm import relationship
 
 
 class User(db.Model):
@@ -26,9 +27,12 @@ class User(db.Model):
 class Kanban_Board(db.Model):
     __tablename__ = 'kanban_board'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
+    headers = db.Column(db.String(200), unique=False, nullable=True)
+    # tickets = db.Column(db.Integer, db.ForeignKey('kanban_ticket.id'), name='kanban_board_ticket_id', nullable=True)
+    tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
 
     def serialize(self):
         return {
@@ -36,6 +40,8 @@ class Kanban_Board(db.Model):
             "user_id": self.user_id,
             "start_time": self.start_time,
             "end_time": self.end_time,
+            "headers": self.headers,
+            "tickets": [ticket.id for ticket in self.tickets]
         }
 
 
@@ -44,12 +50,13 @@ class Kanban_Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), name='kanban_ticket_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     ticket_status = db.Column(db.String(80), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey(
-        'kanban_board.id'), nullable=False)
+        'kanban_board.id'), name='kanban_ticket_board_id', nullable=False)
+    kanban_board = relationship("Kanban_Board", back_populates="tickets")
 
     def serialize(self):
         return {
