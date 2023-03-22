@@ -1,7 +1,7 @@
-.gitCardContainer {
+.stackContainer {
     position: fixed;
-    bottom: 50px;
-    right: 50px;
+    top: 2vh;
+    right: 2vw;
     max-height: 45vh;
     max-width: 30vw;
     overflow-y: scroll;
@@ -10,23 +10,12 @@
     
   }
   
-  .gitCard {
+  .stackCard {
     background-color: #f0f0f0;
     margin-bottom: 1px;
     padding: 10px;
     color:black;
     border: solid black;
-  }
-
-  .access-btn{
-background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
   }
 
   .input-section{
