@@ -55,14 +55,12 @@ function StackOverFlow() {
                     setStack(data)
                     console.log(data)
                 }
-
-
             } catch (error) {
                 console.log(error)
             }
         }
 
-        // fetchDataTagged()
+        fetchDataTagged()
     }, [states])
 
 

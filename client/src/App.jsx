@@ -13,7 +13,7 @@ import {
   BoardTest
 } from "./pages";
 
-import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
+import PageWrapper from "./components/PageWrapper";
 
 import "./index.css";
 
@@ -22,15 +22,16 @@ function App() {
     <UserProvider>
       <Routes>
         <Route path="/" element={<PageWrapper />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Registration />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path="/git" element={<Git />} />
-          <Route path="/board" element={<Board />} />
-          <Route path="/stack" element={<Stack />} />
-          <Route path="/bt" element={<BoardTest />} />
+          <Route index path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/" element={<BoardTest />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/git" element={<Git />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/stack" element={<Stack />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
         </Route>
       </Routes>
     </UserProvider>
