@@ -30,10 +30,13 @@ def ai_test():
     technologies = request.get_json()['technologies']
     test_framework = request.get_json()['test_framework']
     function_to_test = request.get_json()['function_to_test']
+    # prompt_text = f"Write one single unit test for this '{technologies}' function using '{test_framework}': '{function_to_test}'."
+    prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
-        engine="davinci", 
-        prompt=f"The code technologies are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include imports: '{function_to_test}'.",
-        max_tokens=2049,
+        #engine="davinci-codex",
+        engine="davinci",
+        prompt=prompt_text,
+        max_tokens=100,
         n=1,
         stop=None,
         temperature=0.5,
@@ -103,7 +106,6 @@ def delete_user_route(user_id):
 
 # Kanban Board routes
 
-
 @ app.route('/kanban-boards', methods=['POST'])
 def create_kanban_board_route():
     return create_kanban_board()
@@ -134,35 +136,23 @@ def get_kanban_board_tickets_route(kanban_board_id):
 
 # Kanban Ticket routes
 
-
-
 @ app.route('/kanban-tickets', methods=['POST'])
 def create_kanban_ticket_route():
     return create_kanban_ticket()
-
-
 
 @ app.route('/kanban-tickets', methods=['GET'])
 def get_kanban_tickets_route():
     return get_kanban_tickets()
 
-
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-
-@app.route('/kanban-tickets', methods=['POST'])
-def create_kanban_ticket_route():
-    return create_kanban_ticket()
-
 
 @app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
 def get_kanban_ticket_route(kanban_ticket_id):
     return get_kanban_ticket(kanban_ticket_id)
 
-
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
-
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
