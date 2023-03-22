@@ -33,7 +33,7 @@ body {
     margin-left: -40px;
     position: absolute;
     top: 20px;
-    color: white;
+    color: black;
     text-align: center;
     line-height: 80px;
     transform: translate3d(0, 0, 0);
@@ -41,7 +41,7 @@ body {
     opacity: .95;
   }
   .menu-open-button {
-    opacity: 0.6;
+    opacity: 1;
     background: orange;
   }
   
@@ -52,7 +52,7 @@ body {
   .hamburger {
     width: 25px;
     height: 3px;
-    background: white;
+    background: black;
     display: block;
     position: absolute;
     top: 50%;

@@ -188,6 +188,10 @@ def get_kanban_tickets():
     tickets = Kanban_Ticket.query.all()
     return jsonify([ticket.serialize() for ticket in tickets]), 200
 
+def get_kanban_tickets_by_board(kanban_board_id):
+    tickets = Kanban_Ticket.query.filter_by(kanban_board_id=kanban_board_id)
+    return jsonify([ticket.serialize() for ticket in tickets]), 200
+
 def get_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.filter_by(id=kanban_ticket_id).first()
     if ticket is not None:
