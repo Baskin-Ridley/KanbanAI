@@ -1,0 +1,23 @@
+.stackContainer {
+    position: fixed;
+    top: 2vh;
+    right: 2vw;
+    max-height: 45vh;
+    max-width: 30vw;
+    overflow-y: scroll;
+    border: solid azure 4px;
+   
+    
+  }
+  
+  .stackCard {
+    background-color: #f0f0f0;
+    margin-bottom: 1px;
+    padding: 10px;
+    color:black;
+    border: solid black;
+  }
+
+  .input-section{
+   color: black;
+  }

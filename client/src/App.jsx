@@ -13,7 +13,7 @@ import {
   BoardTest
 } from "./pages";
 
-import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
+import PageWrapper from "./components/PageWrapper";
 
 import "./index.css";
 
@@ -27,10 +27,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/" element={<BoardTest />}>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFoundPage />} />
             <Route path="/git" element={<Git />} />
             <Route path="/board" element={<Board />} />
             <Route path="/stack" element={<Stack />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Route>
       </Routes>
