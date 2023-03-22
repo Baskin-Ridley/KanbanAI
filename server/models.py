@@ -30,6 +30,14 @@ class Kanban_Board(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
 
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+        }
+
 
 class Kanban_Ticket(db.Model):
     __tablename__ = 'kanban_ticket'
@@ -42,3 +50,15 @@ class Kanban_Ticket(db.Model):
     ticket_status = db.Column(db.String(80), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey(
         'kanban_board.id'), nullable=False)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "content": self.content,
+            "user_id": self.user_id,
+            "start_time": self.start_time,
+            "end_time": self.end_time,
+            "ticket_status": self.ticket_status,
+            "kanban_board_id": self.kanban_board_id
+        }
