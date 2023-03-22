@@ -45,7 +45,6 @@ def ai_test():
     print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
 
-
 @app.route('/ai-steps', methods=['POST'])
 def ai_steps():
     data = request.get_json()
@@ -64,6 +63,7 @@ def ai_steps():
     steps_for_task = response.choices[0].text.strip()
     return jsonify({'steps_for_task': steps_for_task})
 
+# User routes
 
 @ app.route('/register', methods=['POST'])
 def register_user_route():
@@ -110,16 +110,17 @@ def delete_user_route(user_id):
 def create_kanban_board_route():
     return create_kanban_board()
 
+# @ app.route('/kanban-boards', methods=['GET'])
+# def get_kanban_boards_route():
+#     return get_kanban_boards()
 
-@ app.route('/kanban-boards', methods=['GET'])
-def get_kanban_boards_route():
-    return get_kanban_boards()
-
+@app.route('/users/<int:user_id>/kanban_boards', methods=['GET'])
+def get_kanban_boards_route(user_id):
+    return get_kanban_boards(user_id)
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
 def get_kanban_board_route(kanban_board_id):
     return get_kanban_board(kanban_board_id)
-
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['PUT'])
 def update_kanban_board_route(kanban_board_id):
