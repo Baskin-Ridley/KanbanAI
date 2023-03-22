@@ -10,7 +10,10 @@ import {
   Git,
   Stack,
   Board,
-  BoardTest
+  BoardTest,
+  Settings,
+  AllBoards,
+  Ticket
 } from "./pages";
 
 import PageWrapper from "./components/PageWrapper";
@@ -25,13 +28,17 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/" element={<BoardTest />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/git" element={<Git />} />
-            <Route path="/board" element={<Board />} />
-            <Route path="/stack" element={<Stack />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Registration />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/git" element={<Git />} />
+          <Route path="/board" element={<Board />} />
+          <Route path="/stack" element={<Stack />} />
+          <Route path="/bt" element={<BoardTest />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/all-boards" element={<AllBoards />} />
+          <Route path="/ticket" element={<Ticket />} />
         </Route>
       </Routes>
     </UserProvider>

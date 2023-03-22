@@ -31,14 +31,15 @@ def ai_test():
     test_framework = request.get_json()['test_framework']
     function_to_test = request.get_json()['function_to_test']
     response = openai.Completion.create(
-        engine="davinci",
-        prompt=f"The technologies used in this code are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include the necessary imports: '{function_to_test}'.",
-        max_tokens=5000,
+        engine="davinci", 
+        prompt=f"The code technologies are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include imports: '{function_to_test}'.",
+        max_tokens=2049,
         n=1,
         stop=None,
         temperature=0.5,
     )
     tests_for_function = response.choices[0].text.strip()
+    print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
 
 

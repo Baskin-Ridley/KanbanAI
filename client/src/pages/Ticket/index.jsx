@@ -1,37 +1,31 @@
-import React, { useState, useContext } from 'react';
-import { UserContext } from '../../context/UserContext';
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const Ticket = () => {
-  const { user } = useContext(UserContext);
-  const [technologies, setTechnologies] = useState('');
-  const [testFramework, setTestFramework] = useState('');
-  const [functionToTest, setFunctionToTest] = useState('');
+  const [technologies, setTechnologies] = useState('Python');
+  const [testFramework, setTestFramework] = useState('pytest');
+  const [functionToTest, setFunctionToTest] = useState('function add(a, b) {\n  return a + b;\n}');
   const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const response = await axios.post('http://localhost:5000/ai-test', {
-      technologies,
-      test_framework: testFramework,
-      function_to_test: functionToTest,
-    });
-    setTestsForFunction(response.data.tests_for_function);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        technologies,
+        test_framework: testFramework,
+        function_to_test: functionToTest,
+      }),
+    };
+    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const data = await response.json();
+    setTestsForFunction(data.tests_for_function);
   };
-
-  if (!user) {
-    return (
-      <main>
-        <p>Please login to access this page</p>
-        <Link to="http://localhost:5000/login">Login Here</Link>
-        <p>Don't have an account, <Link to="http://localhost:5000/register">register here</Link></p>
-      </main>
-    );
-  }
+  
 
   return (
-    <main>
+    <div>
       <h2>Create New Ticket</h2>
       <form onSubmit={handleFormSubmit}>
         <div>
@@ -43,8 +37,8 @@ const Ticket = () => {
           <textarea id="content" value="Sample Content" readOnly />
         </div>
         <div>
-          <label htmlFor="user-status">User Status</label>
-          <input type="text" id="user-status" value={user.status} readOnly />
+          <label htmlFor="user">User</label>
+          <input type="text" id="user" value="Anonymous" readOnly />
         </div>
         <div>
           <label htmlFor="technologies">Technologies</label>
@@ -64,7 +58,7 @@ const Ticket = () => {
         </div>
         <button type="submit">Generate Tests</button>
       </form>
-    </main>
+    </div>
   );
 };
 
