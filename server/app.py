@@ -30,7 +30,7 @@ def ai_test():
     response = openai.Completion.create(
         engine="davinci",
         prompt=f"The technologies used in this code are '{technologies}'. The testing framework is '{test_framework}'. Write the tests for this function and include the necessary imports: '{function_to_test}'.",
-        max_tokens=5000,
+        max_tokens=100,
         n=1,
         stop=None,
         temperature=0.5,
@@ -42,19 +42,22 @@ def ai_test():
 @app.route('/ai-steps', methods=['POST'])
 def ai_steps():
     data = request.get_json()
+    print(data)
     task = data['task']
     steps = data['steps']
+    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
-        prompt=f"The kanban task is `{task}`. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks",
-        max_tokens=5000,
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.8,
+        temperature=0.7,
     )
     print(response)
-    steps_for_task = response.choices[0].text.strip()
+    steps_for_task = response.choices[0].text
+    # print(steps_for_task)
     return jsonify({'steps_for_task': steps_for_task})
 
 

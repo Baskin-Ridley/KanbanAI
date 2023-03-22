@@ -10,7 +10,7 @@ import {
   Git,
   Stack,
   Board,
-  BoardTest
+  BoardTest,
 } from "./pages";
 
 import PageWrapper from "./components/PageWrapper"; // Import PageWrapper
