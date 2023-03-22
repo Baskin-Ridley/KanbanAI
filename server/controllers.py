@@ -134,8 +134,8 @@ def create_kanban_board():
     db.session.commit()
     return jsonify(kanban_board.serialize()), 201
 
-def get_kanban_boards():
-    kanban_boards = Kanban_Board.query.all()
+def get_kanban_boards(user_id):
+    kanban_boards = Kanban_Board.query.filter_by(user_id=user_id).all()
     return jsonify([kanban_board.serialize() for kanban_board in kanban_boards]), 200
 
 def get_kanban_board(kanban_board_id):
