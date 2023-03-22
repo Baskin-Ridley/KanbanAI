@@ -67,6 +67,8 @@ def ai_steps():
     # print(steps_for_task)
     return jsonify({'steps_for_task': steps_for_task})
 
+# User routes
+
 
 @ app.route('/register', methods=['POST'])
 def register_user_route():
@@ -113,10 +115,14 @@ def delete_user_route(user_id):
 # def create_kanban_board_route():
 #     return create_kanban_board()
 
+# @ app.route('/kanban-boards', methods=['GET'])
+# def get_kanban_boards_route():
+#     return get_kanban_boards()
 
-@ app.route('/kanban-boards', methods=['GET'])
-def get_kanban_boards_route():
-    return get_kanban_boards()
+
+@app.route('/users/<int:user_id>/kanban_boards', methods=['GET'])
+def get_kanban_boards_route(user_id):
+    return get_kanban_boards(user_id)
 
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
@@ -152,16 +158,6 @@ def get_kanban_tickets_route():
 
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-@app.route('/kanban-tickets', methods=['POST'])
-def create_kanban_ticket_route():
-    return create_kanban_ticket()
-
-
-# @app.route('/kanban-tickets', methods=['POST'])
-# def create_kanban_ticket_route():
-#     return create_kanban_ticket()
-
-
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
