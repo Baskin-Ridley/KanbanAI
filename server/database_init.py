@@ -1,6 +1,6 @@
 from app import app
 from database import db
-from models import User, Kanban_Board, Kanban_Ticket
+from models import User, Kanban_Board, Kanban_Ticket, Kanban_Header
 from datetime import datetime, timedelta
 
 with app.app_context():
@@ -48,6 +48,14 @@ with app.app_context():
     board3 = Kanban_Board(user_id=user2.id, start_time=datetime.utcnow())
     db.session.add(board3)
 
+    db.session.commit()
+
+    header1 = Kanban_Header(
+        name="Header 1",
+        kanban_board_id=board1.id
+    )
+    db.session.add(header1)
+
     # Commit the boards
     db.session.commit()
 
@@ -59,6 +67,8 @@ with app.app_context():
         start_time=datetime.utcnow(),
         ticket_status="open",
         kanban_board_id=board1.id,
+        header_id=header1.id,
+        assigned=user1.id
     )
     db.session.add(ticket1)
 
@@ -92,6 +102,8 @@ with app.app_context():
         kanban_board_id=board3.id,
     )
     db.session.add(ticket4)
+
+
 
     # Commit the tickets
     db.session.commit()

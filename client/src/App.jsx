@@ -8,7 +8,10 @@ import {
   Registration,
   NotFoundPage,
   Board,
-  BoardTest
+  BoardTest,
+  Settings,
+  AllBoards,
+  Ticket
 } from "./pages";
 
 import PageWrapper from "./components/PageWrapper";
@@ -23,10 +26,14 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/" element={<BoardTest />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<BoardTest />} >
             <Route path="/board" element={<Board />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/all-boards" element={<AllBoards />} />
+            <Route path="/ticket" element={<Ticket />} />
           </Route>
         </Route>
       </Routes>
