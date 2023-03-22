@@ -142,10 +142,6 @@ def get_kanban_board_tickets_route(kanban_board_id):
 
 # Kanban Ticket routes
 
-# @ app.route('/kanban-tickets', methods=['POST'])
-# def create_kanban_ticket_route():
-#     return create_kanban_ticket()
-
 @ app.route('/kanban-tickets', methods=['GET'])
 def get_kanban_tickets_route():
     return get_kanban_tickets()
