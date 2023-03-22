@@ -37,19 +37,21 @@ const initialHeaders = [
   },
 ];
 
-const Headers = ({board_id}) => {
+const Headers = ({ board_id }) => {
   const fetchKanbanBoardData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const response = await fetch(
+        `https://built-differently-backend.onrender.com/kanban-boards/${board_id}`
+      );
       const data = await response.json();
-      const header = data.boards_headers[0]
+      const header = data.boards_headers[0];
       // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      console.log(data)
-      console.log(header.header_id)
-      console.log(header.header_name)
-      console.log(header.tickets_under_this_header)
+      console.log(data);
+      console.log(header.header_id);
+      console.log(header.header_name);
+      console.log(header.tickets_under_this_header);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 

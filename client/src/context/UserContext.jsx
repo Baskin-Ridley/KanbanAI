@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [gitView, setGitView] = useState(false);
 
   const login = async (userData) => {
-    const url = "http://localhost:5000/login";
+    const url = "https://built-differently-backend.onrender.com/login";
     const options = {
       method: "POST",
       headers: {
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    const url = "http://localhost:5000/register";
+    const url = "https://built-differently-backend.onrender.com/register";
     const options = {
       method: "POST",
       headers: {
@@ -56,11 +56,21 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register, stackView, setStackView, gitView, setGitView }}>
+    <UserContext.Provider
+      value={{
+        user,
+        login,
+        logout,
+        register,
+        stackView,
+        setStackView,
+        gitView,
+        setGitView,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
-
 
 export const useView = () => useContext(UserContext);
