@@ -11,6 +11,10 @@ python-dotenv = "*"
 flask-cors = "*"
 jwt = "*"
 gunicorn = "*"
+pytest = "*"
+pytest-cov = "*"
+coverage = "*"
+openai = "*"
 
 [dev-packages]
 

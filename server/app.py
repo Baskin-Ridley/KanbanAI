@@ -49,19 +49,22 @@ def ai_test():
 @app.route('/ai-steps', methods=['POST'])
 def ai_steps():
     data = request.get_json()
+    print(data)
     task = data['task']
     steps = data['steps']
+    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
-        prompt=f"The kanban task is `{task}`. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks",
-        max_tokens=5000,
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.8,
+        temperature=0.7,
     )
     print(response)
-    steps_for_task = response.choices[0].text.strip()
+    steps_for_task = response.choices[0].text
+    # print(steps_for_task)
     return jsonify({'steps_for_task': steps_for_task})
 
 
@@ -134,6 +137,7 @@ def delete_kanban_board_route(kanban_board_id):
 def get_kanban_board_tickets_route(kanban_board_id):
     return get_kanban_tickets_by_board(kanban_board_id)
 
+
 # Kanban Ticket routes
 
 @ app.route('/kanban-tickets', methods=['POST'])
@@ -145,6 +149,10 @@ def get_kanban_tickets_route():
     return get_kanban_tickets()
 
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
+@app.route('/kanban-tickets', methods=['POST'])
+def create_kanban_ticket_route():
+    return create_kanban_ticket()
+
 
 
 # @app.route('/kanban-tickets', methods=['POST'])
