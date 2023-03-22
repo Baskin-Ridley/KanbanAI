@@ -31,9 +31,9 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/git" element={<Git />} />
+          {/* <Route path="/git" element={<Git />} /> */}
           <Route path="/board/:id" element={<Board />} />
-          <Route path="/stack" element={<Stack />} />
+          {/* <Route path="/stack" element={<Stack />} /> */}
           <Route path="/bt" element={<BoardTest />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/all-boards" element={<AllBoards />} />
