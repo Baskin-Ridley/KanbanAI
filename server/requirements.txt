@@ -7,3 +7,4 @@ flask-cors
 pytest
 pytest-cov
 coverage
+openai
