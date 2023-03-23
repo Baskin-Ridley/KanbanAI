@@ -16,6 +16,7 @@ const PageWrapper = () => {
         <Message />
         <Outlet />
         <Footer />
+        {user && <BoardTest />}
       </UserProvider>
     </Router>
   );
