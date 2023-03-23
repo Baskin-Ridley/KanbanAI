@@ -2,40 +2,42 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./style.css";
 
-const initialHeaders = [
-  {
-    id: "header-1",
-    name: "Header 1",
-    items: [
-      { id: "0-item-0", content: "Item 1" },
-      {
-        id: "0-item-1",
-        content: "Item 2",
-        comment: "This is a comment",
-        assigned: [
-          { id: "1", name: "John Doe" },
-          { id: "2", name: "Jane Doe" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "header-2",
-    name: "Header 2",
-    items: [
-      { id: "1-item-0", content: "Item 3" },
-      { id: "1-item-1", content: "Item 4" },
-    ],
-  },
-  {
-    id: "header-3",
-    name: "Header 3",
-    items: [
-      { id: "2-item-0", content: "Item 5" },
-      { id: "2-item-1", content: "Item 6" },
-    ],
-  },
-];
+
+const initialHeaders = []
+// const initialHeaders = [
+//   {
+//     id: "header-1",
+//     name: "Header 1",
+//     items: [
+//       { id: "0-item-0", content: "Item 1" },
+//       {
+//         id: "0-item-1",
+//         content: "Item 2",
+//         comment: "This is a comment",
+//         assigned: [
+//           { id: "1", name: "John Doe" },
+//           { id: "2", name: "Jane Doe" },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: "header-2",
+//     name: "Header 2",
+//     items: [
+//       { id: "1-item-0", content: "Item 3" },
+//       { id: "1-item-1", content: "Item 4" },
+//     ],
+//   },
+//   {
+//     id: "header-3",
+//     name: "Header 3",
+//     items: [
+//       { id: "2-item-0", content: "Item 5" },
+//       { id: "2-item-1", content: "Item 6" },
+//     ],
+//   },
+// ];
 
 const Headers = ({board_id}) => {
   const fetchKanbanBoardData = async () => {
@@ -44,18 +46,56 @@ const Headers = ({board_id}) => {
       const data = await response.json();
       const header = data.boards_headers[0]
       // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      console.log(data)
-      console.log(header.header_id)
-      console.log(header.header_name)
-      console.log(header.tickets_under_this_header)
+      // console.log(data)
+      // console.log(header.header_id)
+      // console.log(header.header_name)
+      // console.log(header.tickets_under_this_header)
+      return data;
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
+  const fetchKanbanBoardTickets = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}/tickets`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching tickets:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchKanbanBoardData();
+    const fetchData = async () => {
+      const boardData = await fetchKanbanBoardData();
+      const ticketsData = await fetchKanbanBoardTickets();
+  
+      const headersData = Array.isArray(boardData.boards_headers)
+        ? boardData.boards_headers
+        : [boardData.boards_headers];
+  
+      const updatedHeaders = headersData.map((header) => {
+        const headerTickets = ticketsData.filter(
+          (ticket) => ticket.header_id === header.header_id
+        );
+        // console.log(headerTickets[0])
+        return {
+          id: `header-${header.header_id}`,
+          name: header.header_name,
+          items: headerTickets.map((ticket) => ({
+            id: `item-${ticket.ticket_id}`,
+            content: ticket.ticket_content,
+          })),
+        };
+      });
+  
+      setHeaders(updatedHeaders);
+    };
+  
+    fetchData();
   }, []);
+  
 
   const [headers, setHeaders] = useState(initialHeaders);
 
