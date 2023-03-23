@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function TicketList(props) {
   const [tickets, setTickets] = useState([]);
-
+  console.log(props.ticketContent);
   useEffect(() => {
     fetch("http://localhost:5000/kanban-tickets")
       .then((response) => response.json())

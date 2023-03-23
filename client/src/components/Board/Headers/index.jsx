@@ -41,8 +41,11 @@ const initialHeaders = [];
 // ];
 
 const Headers = ({ board_id }) => {
-  function handleClick(content) {
-    console.log(content.content);
+  const [selectedTicket, setSelectedTicket] = useState(null);
+
+  function handleTicketClick(ticketContent) {
+    setSelectedTicket(ticketContent.content);
+    console.log(selectedTicket);
   }
 
   const fetchKanbanBoardData = async () => {
@@ -190,6 +193,13 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
+      <div>
+        {selectedTicket && (
+          <div>
+            <TicketPopUp ticketContent={selectedTicket} />
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
@@ -227,7 +237,9 @@ const Headers = ({ board_id }) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    onClick={() => handleClick({ content })}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
