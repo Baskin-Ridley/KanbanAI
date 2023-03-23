@@ -4,7 +4,6 @@ import Header from '../Header';
 import Navigation from '../Navigation';
 import Message from '../Message';
 import Footer from '../Footer';
-import { BoardTest } from '../../pages';
 import { UserProvider } from '../../context/UserContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -17,7 +16,6 @@ const PageWrapper = () => {
         <Message />
         <Outlet />
         <Footer />
-        {user && <BoardTest />}
       </UserProvider>
     </Router>
   );
