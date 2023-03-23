@@ -14,6 +14,7 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
 PASSWORD = os.environ.get('PASSWORD')
 app = Flask(__name__)
+CORS(app)
 mail = Mail(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
