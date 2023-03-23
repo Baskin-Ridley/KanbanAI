@@ -172,7 +172,7 @@ def get_kanban_tickets_route():
 def get_kanban_ticket_route(kanban_ticket_id):
     return get_kanban_ticket(kanban_ticket_id)
 
-
+    
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
