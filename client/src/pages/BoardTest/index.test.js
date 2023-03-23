@@ -1,6 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import BoardTest from './index.jsx';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom';
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  })
+);
 
 jest.mock('../../context/UserContext', () => ({
   useView: jest.fn(() => ({
@@ -11,6 +19,14 @@ jest.mock('../../context/UserContext', () => ({
   })),
 }));
 
-test('renders without error', () => {
-  render(<BoardTest />);
+jest.mock('../../components/GitCard', () => {
+  return function MockGitCommitCard() {
+    return <div>Mock Git Commit Card</div>;
+  };
+});
+
+describe('BoardTest', () => {
+  test('renders without error', () => {
+    render(<BoardTest />);
+  });
 });
