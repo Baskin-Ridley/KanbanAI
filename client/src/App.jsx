@@ -31,7 +31,7 @@ function App() {
           <Route path="/" element={<BoardTest />}>
             {" "}
             {/* KEEP EVERYTHING INSIDE THIS NEST */}
-            <Route path="/board" element={<Board />} />
+            <Route path="/board/:id" element={<Board />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/settings" element={<Settings />} />
