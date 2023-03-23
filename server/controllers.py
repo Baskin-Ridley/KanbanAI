@@ -3,6 +3,22 @@ from flask import jsonify, request
 from models import User, Kanban_Board, Kanban_Ticket
 from database import db
 from datetime import datetime
+from mail import *
+from flask_mail import Mail, Message
+from flask import Flask
+
+
+
+
+email = Flask(__name__)
+mail = Mail(email)
+
+email.config['MAIL_SERVER'] = 'smtp.gmail.com'
+email.config['MAIL_PORT'] = 465 or 587
+email.config['MAIL_USERNAME'] = 'app.builtdifferent@gmail.com'
+email.config['MAIL_PASSWORD'] = "ntapobukehzgjomg"
+email.config['MAIL_USE_TLS'] = False
+email.config['MAIL_USE_SSL'] = True
 
 # User controller
 
@@ -199,7 +215,8 @@ def get_kanban_ticket(kanban_ticket_id):
     return jsonify({'message': 'Kanban Ticket not found'}), 404
 
 def update_kanban_ticket(kanban_ticket_id):
-    ticket = Kanban_Ticket.query.get(kanban_ticket_id)
+    ticket = Kanban_Ticket.query.get(kanban_ticket_id)  
+    kanban_admin = "shodeb123@gmail.com"
     if not ticket:
         return jsonify({'error': 'Kanban ticket not found'}), 404
     data = request.get_json()
@@ -215,11 +232,24 @@ def update_kanban_ticket(kanban_ticket_id):
         ticket.start_time = data['start_time']
     if 'end_time' in data:
         ticket.end_time = data['end_time']
+
+    if (ticket.ticket_status != data['ticket_status'] and  data['ticket_status'] == "closed"):
+     user_name = User.query.get(ticket.user_id)
+     sendMail(kanban_admin,ticket.title,user_name)
+    
+
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
     if 'kanban_board_id' in data:
         ticket.kanban_board_id = data['kanban_board_id']
+   
+    
     db.session.commit()
+
+    
+
+    
+
     return jsonify(ticket.serialize()), 200
 
 def delete_kanban_ticket(kanban_ticket_id):
