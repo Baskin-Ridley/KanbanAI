@@ -8,8 +8,6 @@ from flask_mail import Mail, Message
 from flask import Flask
 
 
-
-
 email = Flask(__name__)
 mail = Mail(email)
 
@@ -21,6 +19,7 @@ email.config['MAIL_USE_TLS'] = False
 email.config['MAIL_USE_SSL'] = True
 
 # User controller
+
 
 def register_user():
     data = request.get_json()
@@ -34,10 +33,12 @@ def register_user():
         return jsonify({'error': 'Missing parameters'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already exists'}), 400
-    user = User(username=username, name=name, password=password, role=role, email=email, avatar=avatar)
+    user = User(username=username, name=name, password=password,
+                role=role, email=email, avatar=avatar)
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
+
 
 def login():
     data = request.get_json()
@@ -57,6 +58,7 @@ def login():
     }
     return jsonify(user_data), 200
 
+
 def create_user():
     data = request.get_json()
     username = data.get('username')
@@ -69,10 +71,12 @@ def create_user():
         return jsonify({'error': 'Missing parameters'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already exists'}), 400
-    user = User(username=username, name=name, password=password, role=role, email=email, avatar=avatar)
+    user = User(username=username, name=name, password=password,
+                role=role, email=email, avatar=avatar)
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
+
 
 def get_users():
     users = User.query.all()
@@ -88,6 +92,7 @@ def get_users():
         users_list.append(user_dict)
     return jsonify({'users': users_list}), 200
 
+
 def get_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -101,12 +106,14 @@ def get_user(user_id):
     user_dict['avatar'] = user.avatar
     return jsonify({'user': user_dict}), 200
 
+
 def find_user_by_username(username):
     user = User.query.filter_by(username=username).first()
     if user:
         return jsonify(user.serialize()), 200
     else:
         return jsonify({"message": "User not found"}), 404
+
 
 def update_user(user_id):
     user = User.query.get(user_id)
@@ -128,6 +135,7 @@ def update_user(user_id):
     db.session.commit()
     return jsonify(user.serialize()), 200
 
+
 def delete_user(user_id):
     user = User.query.get(user_id)
     if not user:
@@ -138,6 +146,7 @@ def delete_user(user_id):
 
 # Kanban_Board controller
 
+
 def create_kanban_board():
     user_id = request.json.get('user_id')
     start_time = datetime.utcnow()
@@ -145,20 +154,24 @@ def create_kanban_board():
     user = User.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
-    kanban_board = Kanban_Board(user_id=user_id, start_time=start_time, end_time=end_time)
+    kanban_board = Kanban_Board(
+        user_id=user_id, start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
     return jsonify(kanban_board.serialize()), 201
 
+
 def get_kanban_boards(user_id):
     kanban_boards = Kanban_Board.query.filter_by(user_id=user_id).all()
     return jsonify([kanban_board.serialize() for kanban_board in kanban_boards]), 200
+
 
 def get_kanban_board(kanban_board_id):
     kanban_board = Kanban_Board.query.get(kanban_board_id)
     if not kanban_board:
         return jsonify({'error': 'Kanban board not found'}), 404
     return jsonify(kanban_board.serialize()), 200
+
 
 def update_kanban_board(kanban_board_id):
     kanban_board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
@@ -176,6 +189,7 @@ def update_kanban_board(kanban_board_id):
     db.session.commit()
     return jsonify({'success': 'Kanban board updated successfully.'})
 
+
 def delete_kanban_board(kanban_board_id):
     kanban_board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
     if kanban_board is None:
@@ -185,6 +199,7 @@ def delete_kanban_board(kanban_board_id):
     return jsonify({'success': 'Kanban board deleted successfully.'})
 
 # Kanban Ticket controller
+
 
 def create_kanban_ticket():
     data = request.json
@@ -200,13 +215,16 @@ def create_kanban_ticket():
     db.session.commit()
     return jsonify({'message': 'Kanban Ticket created successfully', 'ticket': ticket.serialize()}), 201
 
+
 def get_kanban_tickets():
     tickets = Kanban_Ticket.query.all()
     return jsonify([ticket.serialize() for ticket in tickets]), 200
 
+
 def get_kanban_tickets_by_board(kanban_board_id):
     tickets = Kanban_Ticket.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([ticket.serialize() for ticket in tickets]), 200
+
 
 def get_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.filter_by(id=kanban_ticket_id).first()
@@ -214,9 +232,11 @@ def get_kanban_ticket(kanban_ticket_id):
         return jsonify(ticket.serialize()), 200
     return jsonify({'message': 'Kanban Ticket not found'}), 404
 
+
 def update_kanban_ticket(kanban_ticket_id):
-    ticket = Kanban_Ticket.query.get(kanban_ticket_id)  
+    ticket = Kanban_Ticket.query.get(kanban_ticket_id)
     kanban_admin = "shodeb123@gmail.com"
+    kanban_scram_master = "shodeb123@gmail.com"
     if not ticket:
         return jsonify({'error': 'Kanban ticket not found'}), 404
     data = request.get_json()
@@ -233,24 +253,22 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    if (ticket.ticket_status != data['ticket_status'] and  data['ticket_status'] == "closed"):
-     user_name = User.query.get(ticket.user_id)
-     sendMail(kanban_admin,ticket.title,user_name)
-    
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_admin, ticket.title, "closed", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
     if 'kanban_board_id' in data:
         ticket.kanban_board_id = data['kanban_board_id']
-   
-    
+
     db.session.commit()
 
-    
-
-    
-
     return jsonify(ticket.serialize()), 200
+
 
 def delete_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.get(kanban_ticket_id)

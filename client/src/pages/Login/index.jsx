@@ -41,12 +41,11 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit">Login</Button>
-        <div className="mt-4">
+        <div className="mb-4">
           <span className="text-sm text-gray-600 mr-2">
             Don't have an account?
           </span>
           <CustomLink
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 underline"
             to="/register"
           >
             <Button type="submit">Register</Button>
