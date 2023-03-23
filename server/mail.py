@@ -24,10 +24,12 @@ db.init_app(app)
 
 
 
-def sendMail(admin,title,member):
+def sendMail(admin,title,string,member):
    msg = Message('Hello',sender ='shorizon1234@gmail.com',recipients = [admin])
-   msg.body = f'Hello the task "{title}" has been successfully closed by "{member}"'    
-
+   if(string == "closed"):
+    msg.body = f'Hi Supervisor, \nthe task "{title}" has been successfully closed by "{member}"'    
+   if(string == "blocked"):
+    msg.body = f'Hi Scram Master, \nthe member: "{member}" has raised a blocker flag in "{title}"'    
    try: 
     mail.send(msg)
     return 'Sent'
