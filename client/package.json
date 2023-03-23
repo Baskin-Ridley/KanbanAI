@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "jest --watchAll",
-    "test-coverage": "jest --coverage",
+    "test": "jest --runInBand --watchAll",
+    "test-coverage": "jest --runInBand --coverage",
     "build:tailwind": "tailwindcss build src/index.css -o src/index.output.css"
   },
   "dependencies": {
