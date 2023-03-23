@@ -37,7 +37,7 @@ function App() {
           <Route path="/ai-steps" element={<AISteps />} />
         </Route>
       </Routes>
-    </UserProvider >
+    </UserProvider>
   );
 }
 
