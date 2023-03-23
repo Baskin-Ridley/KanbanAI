@@ -29,28 +29,15 @@ function App() {
           <Route index path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/board" element={<Board />} />
+          <Route path="/board/:id" element={<Board />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/all-boards" element={<AllBoards />} />
           <Route path="/ticket" element={<Ticket />} />
           <Route path="/ai-steps" element={<AISteps />} />
         </Route>
-          <Route path="/board/:id" element={<Board />} />
-          <Route path="/" element={<BoardTest />}>
-            {" "}
-            {/* KEEP EVERYTHING INSIDE THIS NEST */}
-            <Route path="/board" element={<Board />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/all-boards" element={<AllBoards />} />
-            <Route path="/ticket" element={<Ticket />} />
-            <Route path="/ai-steps" element={<AISteps />} />
-          </Route>
-        </Route>
       </Routes>
-    </UserProvider >
+    </UserProvider>
   );
 }
 
