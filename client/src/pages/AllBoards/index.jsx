@@ -42,13 +42,13 @@ function AllBoards() {
       <h1>All Kanban Boards</h1>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
-          <li key={kanbanBoard.id}>
-            {kanbanBoard.title}
-            <Link to={`/board/1`}>View</Link>
-            <button type="button" onClick={() => handleDelete(kanbanBoard.id)}>
+          <li key={kanbanBoard.board_id}>
+            {kanbanBoard.board_id}
+            <Link to={`/board/${kanbanBoard.board_id}`} key={`view-${kanbanBoard.board_id}`}>View</Link>
+            <button type="button" onClick={() => handleDelete(kanbanBoard.board_id)}>
               Delete
             </button>
-            <Link to={`/kanban/${kanbanBoard.id}/edit`}>Edit</Link>
+            <Link to={`/kanban/${kanbanBoard.board_id}/edit`} key={`edit-${kanbanBoard.board_id}`}>Edit</Link>
           </li>
         ))}
       </ul>

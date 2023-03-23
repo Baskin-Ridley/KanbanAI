@@ -39,35 +39,35 @@ const Ticket = () => {
     };
 
     return (
-        <div>
+        <div className="form-container">
             <h2>Create New Ticket</h2>
             <form onSubmit={handleFormSubmit}>
                 <div>
-                    <label htmlFor="title">Title</label>
+                    <label htmlFor="title">Title</label><br />
                     <input type="text" id="title" value="Sample Title" readOnly />
                 </div>
                 <div>
-                    <label htmlFor="content">Content</label>
+                    <label htmlFor="content">Content</label><br />
                     <textarea id="content" value="Sample Content" readOnly />
                 </div>
                 <div>
-                    <label htmlFor="user">User</label>
+                    <label htmlFor="user">User</label><br />
                     <input type="text" id="user" value="Anonymous" readOnly />
                 </div>
                 <div>
-                    <label htmlFor="technologies">Technologies</label>
+                    <label htmlFor="technologies">Technologies</label><br />
                     <input type="text" id="technologies" value={technologies} onChange={(e) => setTechnologies(e.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="test-framework">Test Framework</label>
+                    <label htmlFor="test-framework">Test Framework</label><br />
                     <input type="text" id="test-framework" value={testFramework} onChange={(e) => setTestFramework(e.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="function-to-test">Function to Test</label>
+                    <label htmlFor="function-to-test">Function to Test</label><br />
                     <textarea id="function-to-test" value={functionToTest} onChange={(e) => setFunctionToTest(e.target.value)} />
                 </div>
                 <div>
-                    <label htmlFor="tests-for-function">Tests for Function</label>
+                    <label htmlFor="tests-for-function">Tests for Function</label><br />
                     <textarea id="tests-for-function" value={testsForFunction} onChange={(e) => setTestsForFunction(e.target.value)} />
                 </div>
                 <button type="submit">Generate Tests</button>
