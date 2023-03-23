@@ -42,9 +42,11 @@ const initialHeaders = [];
 
 const Headers = ({ board_id }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
+    setIsOpen(true);
     console.log(selectedTicket);
   }
 
@@ -195,8 +197,12 @@ const Headers = ({ board_id }) => {
     <div>
       <div>
         {selectedTicket && (
-          <div>
-            <TicketPopUp ticketContent={selectedTicket} />
+          <div className="">
+            <TicketPopUp
+              ticketContent={selectedTicket}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+            />
           </div>
         )}
       </div>
