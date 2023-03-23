@@ -8,3 +8,4 @@ pytest
 pytest-cov
 coverage
 openai
+flask_mail

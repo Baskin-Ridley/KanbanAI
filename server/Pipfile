@@ -15,6 +15,9 @@ pytest = "*"
 pytest-cov = "*"
 coverage = "*"
 openai = "*"
+flask-mail = "*"
+py-mon = "*"
+colorama = "*"
 
 [dev-packages]
 

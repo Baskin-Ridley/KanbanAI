@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios";
-const AISteps = () => {
-  function handleClick() {
-    console.log("clicked");
-    const data = {
-      task: "create a message board",
-      steps: "Steps for the task",
-    };
 
-    fetch("127.0.0.1:5000/ai-steps/", {
+const AISteps = () => {
+  const [task, setTask] = useState("");
+  const [responseData, setResponseData] = useState("");
+
+  function handleClick() {
+    const data = { task: task };
+
+    fetch("http://localhost:5000/ai-steps/", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -16,13 +15,27 @@ const AISteps = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => setResponseData(data))
       .catch((error) => console.error(error));
   }
 
   return (
     <div>
+      <h1>AI Steps</h1>
+      <input
+        type="text"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
+
       <button onClick={handleClick}>Click me</button>
+
+      {responseData && (
+        <div>
+          <h2>Response data:</h2>
+          <p>{responseData}</p>
+        </div>
+      )}
     </div>
   );
 };

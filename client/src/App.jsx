@@ -14,6 +14,8 @@ import {
   Ticket,
 } from "./pages";
 
+import AISteps from "./components/AI";
+
 import PageWrapper from "./components/PageWrapper";
 
 import "./index.css";
@@ -25,7 +27,7 @@ function App() {
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
-          {/* <Route path="/board" element={<Board />} /> */}
+          <Route path="/board" element={<Board />} />
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Registration />} />
@@ -36,6 +38,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/all-boards" element={<AllBoards />} />
           <Route path="/ticket" element={<Ticket />} />
+          <Route path="/ai-steps" element={<AISteps />} />
         </Route>
       </Routes>
     </UserProvider>
