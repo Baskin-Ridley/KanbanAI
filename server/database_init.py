@@ -54,7 +54,22 @@ with app.app_context():
         name="Header 1",
         kanban_board_id=board1.id
     )
+
     db.session.add(header1)
+
+    header2 = Kanban_Header(
+        name="Header 2",
+        kanban_board_id=board1.id
+    )
+
+    db.session.add(header2)
+
+    header3 = Kanban_Header(
+        name="Header 3",
+        kanban_board_id=board1.id
+    )
+
+    db.session.add(header3)
 
     # Commit the boards
     db.session.commit()
@@ -102,6 +117,54 @@ with app.app_context():
         kanban_board_id=board3.id,
     )
     db.session.add(ticket4)
+
+    ticket5 = Kanban_Ticket(
+        title="Ticket 5",
+        content="Content for ticket 5",
+        user_id=user1.id,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=board1.id,
+        header_id=header2.id,
+        assigned=user1.id
+    )
+    db.session.add(ticket5)
+
+    ticket6 = Kanban_Ticket(
+        title="Ticket 6",
+        content="Content for ticket 6",
+        user_id=user1.id,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=board1.id,
+        header_id=header2.id,
+        assigned=user1.id
+    )
+    db.session.add(ticket6)
+
+    ticket7 = Kanban_Ticket(
+        title="Ticket 7",
+        content="Content for ticket 7",
+        user_id=user1.id,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=board1.id,
+        header_id=header3.id,
+        assigned=user1.id
+    )
+    db.session.add(ticket7)
+
+    ticket8 = Kanban_Ticket(
+        title="Ticket 8",
+        content="Content for ticket 8",
+        user_id=user1.id,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=board1.id,
+        header_id=header3.id,
+        assigned=user1.id
+    )
+    db.session.add(ticket8)
 
 
 
