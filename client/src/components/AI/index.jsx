@@ -5,7 +5,7 @@ const AISteps = () => {
   const [responseData, setResponseData] = useState("");
 
   function handleClick() {
-    const data = { task: task };
+    const data = { task: task, steps: "currently not used" };
 
     fetch("http://localhost:5000/ai-steps", {
       method: "POST",
@@ -15,7 +15,7 @@ const AISteps = () => {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => setResponseData(data))
+      .then((data) => setResponseData(data.steps_for_task))
       .catch((error) => console.error(error));
   }
 
@@ -33,7 +33,11 @@ const AISteps = () => {
       {responseData && (
         <div>
           <h2>Response data:</h2>
-          <p>{responseData}</p>
+          <ol>
+            {responseData.split("\n").map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
         </div>
       )}
     </div>
