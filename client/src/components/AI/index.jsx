@@ -7,12 +7,12 @@ const AISteps = () => {
   function handleClick() {
     const data = { task: task };
 
-    fetch("http://localhost:5000/ai-steps/", {
+    fetch("http://localhost:5000/ai-steps", {
       method: "POST",
-      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => setResponseData(data))
