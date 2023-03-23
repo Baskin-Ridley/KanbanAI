@@ -12,15 +12,15 @@ from controllers import register_user, login, find_user_by_username, create_user
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
 FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
-PASSWORD = os.environ.get('PASSWORD')
+PASSWORD = os.environ.get('PASS')
 app = Flask(__name__)
 mail = Mail(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465 or 587
-app.config['MAIL_USERNAME'] = 'app.builtdifferent@gmail.com'
-app.config['MAIL_PASSWORD'] = "zykasaqvxuyazjui"
+app.config['MAIL_USERNAME'] = 'app.builtdifferent.info@gmail.com'
+app.config['MAIL_PASSWORD'] = PASSWORD
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)

@@ -255,6 +255,7 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
+        print("trying to send mail")
         sendMail(kanban_admin, ticket.title, "closed", user_name)
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)

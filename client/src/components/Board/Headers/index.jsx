@@ -41,7 +41,7 @@ const initialHeaders = []
 //   },
 // ];
 
-const Headers = ({board_id}) => {
+const Headers = ({ board_id }) => {
   const fetchKanbanBoardData = async () => {
     try {
       const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
@@ -72,11 +72,11 @@ const Headers = ({board_id}) => {
     const fetchData = async () => {
       const boardData = await fetchKanbanBoardData();
       const ticketsData = await fetchKanbanBoardTickets();
-  
+
       const headersData = Array.isArray(boardData.boards_headers)
         ? boardData.boards_headers
         : [boardData.boards_headers];
-  
+
       const updatedHeaders = headersData.map((header) => {
         const headerTickets = ticketsData.filter(
           (ticket) => ticket.header_id === header.header_id
@@ -91,13 +91,13 @@ const Headers = ({board_id}) => {
           })),
         };
       });
-  
+
       setHeaders(updatedHeaders);
     };
-  
+
     fetchData();
   }, []);
-  
+
 
   const [headers, setHeaders] = useState(initialHeaders);
 
@@ -126,6 +126,7 @@ const Headers = ({board_id}) => {
   };
 
   const handleAddSubItem = (headerId) => {
+    console.log("CLICKED TO ADD ITEM")
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
