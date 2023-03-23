@@ -41,6 +41,10 @@ const initialHeaders = [];
 // ];
 
 const Headers = ({ board_id }) => {
+  function handleClick(content) {
+    console.log(content.content);
+  }
+
   const fetchKanbanBoardData = async () => {
     try {
       const response = await fetch(
@@ -223,6 +227,7 @@ const Headers = ({ board_id }) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() => handleClick({ content })}
                                   >
                                     {content}
                                   </div>
