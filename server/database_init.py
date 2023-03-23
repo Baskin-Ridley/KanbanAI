@@ -166,7 +166,5 @@ with app.app_context():
     )
     db.session.add(ticket8)
 
-
-
     # Commit the tickets
     db.session.commit()

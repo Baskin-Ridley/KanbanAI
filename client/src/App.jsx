@@ -28,7 +28,10 @@ function App() {
           <Route path="/register" element={<Registration />} />
           <Route index path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/" element={<BoardTest />}>                    {/* KEEP EVERYTHING INSIDE THIS NEST */}
+          <Route path="/board/:id" element={<Board />} />
+          <Route path="/" element={<BoardTest />}>
+            {" "}
+            {/* KEEP EVERYTHING INSIDE THIS NEST */}
             <Route path="/board" element={<Board />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFoundPage />} />

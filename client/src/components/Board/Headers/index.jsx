@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import "./style.css";
 
+import TicketPopUp from "../TicketPopUp";
 
-const initialHeaders = []
+const initialHeaders = [];
 // const initialHeaders = [
 //   {
 //     id: "header-1",
@@ -39,12 +40,14 @@ const initialHeaders = []
 //   },
 // ];
 
-const Headers = ({board_id}) => {
+const Headers = ({ board_id }) => {
   const fetchKanbanBoardData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}`
+      );
       const data = await response.json();
-      const header = data.boards_headers[0]
+      const header = data.boards_headers[0];
       // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
       // console.log(data)
       // console.log(header.header_id)
@@ -52,17 +55,19 @@ const Headers = ({board_id}) => {
       // console.log(header.tickets_under_this_header)
       return data;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const fetchKanbanBoardTickets = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}/tickets`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}/tickets`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      console.error("Error fetching tickets:", error);
     }
   };
 
@@ -70,11 +75,11 @@ const Headers = ({board_id}) => {
     const fetchData = async () => {
       const boardData = await fetchKanbanBoardData();
       const ticketsData = await fetchKanbanBoardTickets();
-  
+
       const headersData = Array.isArray(boardData.boards_headers)
         ? boardData.boards_headers
         : [boardData.boards_headers];
-  
+
       const updatedHeaders = headersData.map((header) => {
         const headerTickets = ticketsData.filter(
           (ticket) => ticket.header_id === header.header_id
@@ -89,13 +94,12 @@ const Headers = ({board_id}) => {
           })),
         };
       });
-  
+
       setHeaders(updatedHeaders);
     };
-  
+
     fetchData();
   }, []);
-  
 
   const [headers, setHeaders] = useState(initialHeaders);
 
