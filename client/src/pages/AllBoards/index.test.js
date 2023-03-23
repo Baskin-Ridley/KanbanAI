@@ -4,6 +4,7 @@ import { UserContext } from '../../context/UserContext';
 import AllBoards from './index.jsx';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom';
 
 describe('AllBoards', () => {
   test('renders without error', async () => {

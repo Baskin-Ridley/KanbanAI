@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import BoardTest from './index.jsx';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom';
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
