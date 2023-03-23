@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import Button from "../../Button";
+import Input from "../../Input";
 import "./style.css";
 
+import TicketPopUp from "../TicketPopUp";
 
-const initialHeaders = []
+const initialHeaders = [];
 // const initialHeaders = [
 //   {
 //     id: "header-1",
@@ -39,12 +42,23 @@ const initialHeaders = []
 //   },
 // ];
 
-const Headers = ({board_id}) => {
+const Headers = ({ board_id }) => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleTicketClick(ticketContent) {
+    setSelectedTicket(ticketContent.content);
+    setIsOpen(true);
+    console.log(selectedTicket);
+  }
+
   const fetchKanbanBoardData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}`
+      );
       const data = await response.json();
-      const header = data.boards_headers[0]
+      const header = data.boards_headers[0];
       // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
       // console.log(data)
       // console.log(header.header_id)
@@ -52,17 +66,19 @@ const Headers = ({board_id}) => {
       // console.log(header.tickets_under_this_header)
       return data;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const fetchKanbanBoardTickets = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}/tickets`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}/tickets`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      console.error("Error fetching tickets:", error);
     }
   };
 
@@ -70,11 +86,11 @@ const Headers = ({board_id}) => {
     const fetchData = async () => {
       const boardData = await fetchKanbanBoardData();
       const ticketsData = await fetchKanbanBoardTickets();
-  
+
       const headersData = Array.isArray(boardData.boards_headers)
         ? boardData.boards_headers
         : [boardData.boards_headers];
-  
+
       const updatedHeaders = headersData.map((header) => {
         const headerTickets = ticketsData.filter(
           (ticket) => ticket.header_id === header.header_id
@@ -89,13 +105,12 @@ const Headers = ({board_id}) => {
           })),
         };
       });
-  
+
       setHeaders(updatedHeaders);
     };
-  
+
     fetchData();
   }, []);
-  
 
   const [headers, setHeaders] = useState(initialHeaders);
 
@@ -182,11 +197,22 @@ const Headers = ({board_id}) => {
 
   return (
     <div>
+      <div>
+        {selectedTicket && (
+          <div className="">
+            <TicketPopUp
+              ticketContent={selectedTicket}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+            />
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
             <div
-              className="container"
+              className="flex justify-between"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -194,16 +220,16 @@ const Headers = ({board_id}) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="box"
+                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <p>{name}</p>
+                      <h2 className="text-lg font-bold mb-2">{name}</h2>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div
-                            className="item-container"
+                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -215,10 +241,13 @@ const Headers = ({board_id}) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="item"
+                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
@@ -229,37 +258,33 @@ const Headers = ({board_id}) => {
                           </div>
                         )}
                       </Droppable>
-                      <input
+                      <Input
                         type="text"
-                        className="new-item-input item"
                         value={newItemNames[index]}
                         onChange={(e) =>
                           handleNewItemNameChange(id, e.target.value)
                         }
                       />
-                      <button
-                        className="add-item-button item"
+                      <Button
                         onClick={() => handleAddSubItem(id)}
                       >
                         Add Item
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </Draggable>
               ))}
-              <div className="box">
-                <input
+              <div className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2">
+                <Input
                   type="text"
-                  className="new-header-input item"
                   value={newHeaderName}
                   onChange={(e) => setNewHeaderName(e.target.value)}
                 />
-                <button
-                  className="add-header-button item"
+                <Button
                   onClick={handleAddHeader}
                 >
                   Add Header
-                </button>
+                </Button>
               </div>
               {provided.placeholder}
             </div>
