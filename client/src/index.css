@@ -1,83 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 
 /* Add this import statement in the html head element. */
 /* <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> */
 
-/* body {
-  font-family: 'Edu NSW ACT Foundation', cursive;
-  background-image: linear-gradient(white, midnightblue);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-  color: rgb(206, 190, 243);
-  display: flex;
-  justify-content: center;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  width: 600px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-h1,
-h2,
-h3 {
-  font-family: 'Edu NSW ACT Foundation', cursive;
-}
-
-h1,
-h2 {
-  text-align: center;
-}
-
-h1 {
-  color: midnightblue;
-  font-weight: bold;
-}
-
-h2,
-h3 {
-  color: white;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.nav-element {
-  margin: 0 1rem;
-}
-
-.message-container {
-  text-align: center;
-}
-
-.message-container p {
-  text-align: center;
-}
-
-.w3-panel.w3-green {
-  background-color: green;
-}
-
-.testing-info {
-  font-size: 0.9rem;
-}
- */
+/* .btn {
+  @apply bg-blue-500 text-white py-2 px-4 rounded;
+} */
 
 body {
   margin-top: 3em;
@@ -113,3 +46,8 @@ padding : 0 10px 0 10px;
 text-align: center;
 } 
 
+h2 {
+  font-size: 1.5rem; /* equivalent to text-2xl in tailwind */
+  font-weight: 700; /* equivalent to font-bold in tailwind */
+  margin-bottom: 1rem; /* equivalent to mb-4 in tailwind */
+}
