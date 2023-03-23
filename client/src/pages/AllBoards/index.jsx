@@ -44,7 +44,7 @@ function AllBoards() {
         {kanbanBoards.map((kanbanBoard) => (
           <li key={kanbanBoard.id}>
             {kanbanBoard.title}
-            <Link to={`/kanban/${kanbanBoard.id}`}>View</Link>
+            <Link to={`/board/1`}>View</Link>
             <button type="button" onClick={() => handleDelete(kanbanBoard.id)}>
               Delete
             </button>

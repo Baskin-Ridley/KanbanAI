@@ -12,14 +12,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 const PageWrapper = () => {
   const { user, logout } = useContext(UserContext);
   return (
-    <UserProvider>
+    <>
       <Header />
       <Navigation />
       <Message />
       <Outlet />
       <Footer />
       {user && <BoardTest />}
-    </UserProvider>
+    </>
   );
 };
 
