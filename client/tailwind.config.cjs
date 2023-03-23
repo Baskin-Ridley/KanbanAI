@@ -2,7 +2,35 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      boxShadow: {
+        outline: "0 0 0 2px rgba(66,153,225,0.5)",
+      },
+      colors: {
+        primary: "#3182ce",
+        secondary: "#b0bec5",
+      },
+      fontSize: {
+        xl: "1.25rem",
+      },
+      backgroundColor: ['important'],
+      textColor: ['important'],
+      borderColor: ['important'],
+      borderWidth: ['important'],
+      boxShadow: ['important'],
+    },
   },
-  plugins: [],
+  variants: {},
+  plugins: [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+    require('postcss-apply'),
+    require('postcss-preset-env')({
+      stage: 1,
+      features: {
+        'apply-rule': true
+      }
+    })
+  ],
 };

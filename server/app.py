@@ -25,7 +25,7 @@ app.config['MAIL_PASSWORD'] = PASSWORD
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
-
+cors = CORS(app)
 
 app.secret_key = os.environ.get('SECRET_KEY')
 openai.api_key = os.getenv("OPENAI_API_KEY")
