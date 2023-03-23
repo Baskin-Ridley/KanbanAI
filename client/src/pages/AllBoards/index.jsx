@@ -20,6 +20,8 @@ function AllBoards() {
       .catch((error) => console.error(error));
   }, [user]);
 
+  console.log(kanbanBoards)
+
   const navigate = useNavigate();
 
   function handleDelete(id) {
@@ -31,7 +33,7 @@ function AllBoards() {
         return response.json();
       })
       .then(() => {
-        setKanbanBoards(kanbanBoards.filter((kanbanBoard) => kanbanBoard.id !== id));
+        setKanbanBoards(kanbanBoards.filter((kanbanBoard) => kanbanBoard.board_id !== board_id));
         alert('Kanban board was deleted');
       })
       .catch((error) => console.error(error));
