@@ -1,24 +1,37 @@
 from dotenv import load_dotenv
 import os
+from flask_mail import Mail,Message
 from flask_cors import CORS
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session,render_template
 from database import db
 from models import User
 import openai
 from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board
 
 
+
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
 FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
+PASSWORD = os.environ.get('PASSWORD')
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+mail = Mail(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465 or 587
+app.config['MAIL_USERNAME'] = 'shorizon1234@gmail.com'
+app.config['MAIL_PASSWORD'] = PASSWORD
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
+
 app.secret_key = os.environ.get('SECRET_KEY')
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 db.init_app(app)
+
 
 
 # Remove .env key after project completes: https://platform.openai.com/account/api-keys
@@ -33,7 +46,7 @@ def ai_test():
     # prompt_text = f"Write one single unit test for this '{technologies}' function using '{test_framework}': '{function_to_test}'."
     prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
-        #engine="davinci-codex",
+        # engine="davinci-codex",
         engine="davinci",
         prompt=prompt_text,
         max_tokens=100,
@@ -49,20 +62,25 @@ def ai_test():
 @app.route('/ai-steps', methods=['POST'])
 def ai_steps():
     data = request.get_json()
+    print(data)
     task = data['task']
     steps = data['steps']
+    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
-        prompt=f"The kanban task is `{task}`. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks",
-        max_tokens=5000,
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=100,
         n=1,
         stop=None,
-        temperature=0.8,
+        temperature=0.7,
     )
     print(response)
-    steps_for_task = response.choices[0].text.strip()
+    steps_for_task = response.choices[0].text
+    # print(steps_for_task)
     return jsonify({'steps_for_task': steps_for_task})
+
+# User routes
 
 
 @ app.route('/register', methods=['POST'])
@@ -106,14 +124,18 @@ def delete_user_route(user_id):
 
 # Kanban Board routes
 
-@ app.route('/kanban-boards', methods=['POST'])
-def create_kanban_board_route():
-    return create_kanban_board()
+# @ app.route('/kanban-boards', methods=['POST'])
+# def create_kanban_board_route():
+#     return create_kanban_board()
+
+# @ app.route('/kanban-boards', methods=['GET'])
+# def get_kanban_boards_route():
+#     return get_kanban_boards()
 
 
-@ app.route('/kanban-boards', methods=['GET'])
-def get_kanban_boards_route():
-    return get_kanban_boards()
+@app.route('/users/<int:user_id>/kanban_boards', methods=['GET'])
+def get_kanban_boards_route(user_id):
+    return get_kanban_boards(user_id)
 
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
@@ -130,9 +152,11 @@ def update_kanban_board_route(kanban_board_id):
 def delete_kanban_board_route(kanban_board_id):
     return delete_kanban_board(kanban_board_id)
 
+
 @app.route('/kanban-boards/<int:kanban_board_id>/tickets', methods=['GET'])
 def get_kanban_board_tickets_route(kanban_board_id):
     return get_kanban_tickets_by_board(kanban_board_id)
+
 
 # Kanban Ticket routes
 
@@ -140,25 +164,35 @@ def get_kanban_board_tickets_route(kanban_board_id):
 def create_kanban_ticket_route():
     return create_kanban_ticket()
 
+
 @ app.route('/kanban-tickets', methods=['GET'])
 def get_kanban_tickets_route():
     return get_kanban_tickets()
 
+
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['GET'])
-
-
-# @app.route('/kanban-tickets', methods=['POST'])
-# def create_kanban_ticket_route():
-#     return create_kanban_ticket()
-
-
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
 
+
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
     return delete_kanban_ticket(kanban_ticket_id)
+
+
+
+@app.route("/email", methods=['GET'])
+def index():
+   msg = Message('Hello',sender ='shorizon1234@gmail.com',recipients = ['shodeb123@gmail.com'])
+   msg.body = 'Hello Flask message sent from Flask-Mail'
+
+   try: 
+    mail.send(msg)
+    return 'Sent'
+   except Exception as e:
+    return jsonify(e)
+
 
 
 if __name__ == '__main__':
