@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import "./style.css"
+import { decode } from 'html-entities';
+
+
 
 function StackCard() {
 
@@ -90,7 +93,7 @@ function StackCard() {
                 {data.map((e, i) => (
                     e.is_answered == true ?
                         <div className='stackCard'>
-                            <li key={i}><a href={e.link}>{e.title}</a></li>
+                            <li key={i}><a href={e.link}>{decode(e.title, { level: 'html5' })}</a></li>
                             <li > tags :{e.tags.toString()}</li>
                         </div>
                         :

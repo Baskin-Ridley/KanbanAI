@@ -3,7 +3,7 @@
     bottom: 5vh;
     right: 2vw;
     max-height: 45vh;
-    max-width: 30vw;
+    width: 30vw;
     overflow-y: scroll;
     border: solid azure 4px;
    
@@ -15,11 +15,14 @@
   }
 
   .gitCard {
-    background-color:grey;
+    background-image: url(../../assets/git.png);
+    background-repeat:no-repeat;
+    background-size: contain;
+    background-color:azure;
     margin-bottom: 0px;
     padding: 10px;
     color:black;
-    border: solid black;
+    border: solid #038983;
   }
 
   

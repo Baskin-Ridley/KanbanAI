@@ -22,26 +22,26 @@ import "./index.css";
 
 function App() {
   return (
-    <Router>
-      <UserProvider>
-        <Routes>
-          <Route path="/" element={<PageWrapper />}>
-            <Route path="/register" element={<Registration />} />
-            <Route index path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/" element={<BoardTest />}>                    {/* KEEP EVERYTHING INSIDE THIS NEST */}
-              <Route path="/board" element={<Board />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="*" element={<NotFoundPage />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/all-boards" element={<AllBoards />} />
-              <Route path="/ticket" element={<Ticket />} />
-              <Route path="/ai-steps" element={<AISteps />} />
-            </Route>
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<PageWrapper />}>
+          <Route path="/register" element={<Registration />} />
+          <Route index path="/login" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/" element={<BoardTest />}>
+            {" "}
+            {/* KEEP EVERYTHING INSIDE THIS NEST */}
+            <Route path="/board" element={<Board />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/all-boards" element={<AllBoards />} />
+            <Route path="/ticket" element={<Ticket />} />
+            <Route path="/ai-steps" element={<AISteps />} />
           </Route>
-        </Routes>
-      </UserProvider>
-    </Router>
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }
 
