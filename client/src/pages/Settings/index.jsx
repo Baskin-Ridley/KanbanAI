@@ -15,29 +15,40 @@ const Settings = () => {
   };
 
   return (
-    <div>
-      <h1>Settings</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-3xl font-bold mb-8">Settings</h1>
       {message && <Message>{message}</Message>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="password">New Password</label>
+      <form className="w-full max-w-md" onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="password">
+            New Password
+          </label>
           <input
-            type="password"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
+            type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div>
-          <label htmlFor="email">New Email</label>
+        <div className="mb-4">
+          <label className="block text-gray-700 font-bold mb-2" htmlFor="email">
+            New Email
+          </label>
           <input
-            type="email"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
+            type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </div>
-        <button type="submit">Update</button>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Update
+        </button>
       </form>
     </div>
   );
