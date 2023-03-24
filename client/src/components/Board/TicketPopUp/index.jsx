@@ -3,17 +3,22 @@ import React, { useEffect, useState } from "react";
 function TicketList(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
+  const [matchingTicket, setMatchingTicket] = useState(null);
   console.log(props.ticketContent);
   useEffect(() => {
     fetch("http://localhost:5000/kanban-tickets")
       .then((response) => response.json())
-      .then((data) => setTickets(data))
+      .then((data) => {
+        setTickets(data);
+        let foundTicket = data.find(
+          (ticket) => ticket.ticket_content === props.ticketContent
+        );
+        setMatchingTicket(foundTicket);
+        console.log(matchingTicket);
+      })
       .catch((error) => console.error(error));
-  }, []);
+  }, [props.ticketContent]);
 
-  let matchingTicket = tickets.find(
-    (ticket) => ticket.ticket_content === props.ticketContent
-  );
   // Me failing to get the user details for the ticket
   // useEffect(() => {
   //   if (matchingTicket) {
