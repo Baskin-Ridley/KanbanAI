@@ -208,6 +208,7 @@ def create_kanban_ticket():
         content=data['content'],
         user_id=data['user_id'],
         start_time=data['start_time'],
+        header_id=data['header_id'],
         ticket_status=data['ticket_status'],
         kanban_board_id=data['kanban_board_id']
     )
