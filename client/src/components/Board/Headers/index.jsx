@@ -277,7 +277,6 @@ const Headers = ({ board_id }) => {
                         value={newItemNames[index]}
                         onChange={(e) =>
                           handleNewItemNameChange(id, e.target.value)
-
                         }
                       />
                       <Button onClick={handleNewItemClick}>Add Item</Button>

@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board,register_Super_User
+from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board
 
 
 load_dotenv()
@@ -198,6 +198,23 @@ def update_kanban_ticket_route(kanban_ticket_id):
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['DELETE'])
 def delete_kanban_ticket_route(kanban_ticket_id):
     return delete_kanban_ticket(kanban_ticket_id)
+
+# Kanban Header routes
+@ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['POST'])
+def create_kanban_header_route(kanban_board_id):
+    return create_kanban_header(kanban_board_id)
+
+@ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['GET'])
+def get_kanban_headers_by_board_route(kanban_board_id):
+    return get_kanban_headers_by_board(kanban_board_id)
+
+@ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers/<int:header_id>', methods=['DELETE'])
+def delete_kanban_header_by_board_route(kanban_board_id, header_id):
+    return delete_kanban_header_by_board(kanban_board_id, header_id)
+
+# @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['GET'])
+# def get_kanban_headers_by_board_route(kanban_board_id):
+#     return get_kanban_headers_by_board(kanban_board_id)
 
 
 @app.route("/email", methods=['GET'])
