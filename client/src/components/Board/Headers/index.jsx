@@ -5,6 +5,7 @@ import Input from "../../Input";
 import TicketPopUp from "../TicketPopUp";
 import "./style.css";
 
+
 const initialHeaders = [];
 // const initialHeaders = [
 //   {
@@ -56,12 +57,8 @@ const Headers = ({ board_id }) => {
         `http://localhost:5000/kanban-boards/${board_id}`
       );
       const data = await response.json();
-      const header = data.boards_headers[0];
-      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      // console.log(data)
-      // console.log(header.header_id)
-      // console.log(header.header_name)
-      // console.log(header.tickets_under_this_header)
+      const header = data.boards_headers[0]
+
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -133,8 +130,41 @@ const Headers = ({ board_id }) => {
       prevState.map((name, index) =>
         headers[index].id === headerId ? newValue : name
       )
-    );
+      );
+      // console.log(newItemNames)
   };
+
+  useEffect(() => {
+    setNewItemNames(headers.map(() => ""));
+  }, [headers]);
+
+  // useEffect(() => {
+  //   console.log(newItemNames);
+  // }, [newItemNames]);
+
+  // const handleAddSubItem = (headerId) => {
+  //   //headerIndex - WORKING
+  //   const headerIndex = headers.findIndex((header) => header.id === headerId);
+  //   //ItemName returns undefined?
+  //   const itemName = newItemNames[headerIndex];
+  //   console.log(itemName, 'itemName')
+  //   console.log(headerId, 'headerId')
+  //   if (itemName) {
+  //     const newSubItemId = `item-${Date.now()}`;
+  //     const newSubItem = { id: newSubItemId, content: itemName };
+
+  //     setHeaders((prevState) =>
+  //       prevState.map((header) =>
+  //         header.id === headerId
+  //           ? { ...header, items: [...header.items, newSubItem] }
+  //           : header
+  //       )
+  //     );
+  //     setNewItemNames((prevState) =>
+  //       prevState.map((name, index) => (index === headerIndex ? "" : name))
+  //     );
+  //   }
+  // };
 
   const handleAddSubItem = (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
@@ -142,7 +172,6 @@ const Headers = ({ board_id }) => {
     if (itemName) {
       const newSubItemId = `item-${Date.now()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -151,10 +180,14 @@ const Headers = ({ board_id }) => {
         )
       );
       setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
+        prevState.map((name, index) =>
+          index === headerIndex ? "" : name
+        )
       );
     }
+    console.log(newItemNames)
   };
+  
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
