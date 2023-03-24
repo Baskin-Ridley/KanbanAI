@@ -1,7 +1,7 @@
 import React from 'react'
 import { useView } from '../../context/UserContext'
 
-const FloatingMenu = () => {
+export const FloatingMenu = () => {
 
     const { stackView, setStackView, gitView, setGitView } = useView()
 
@@ -62,5 +62,3 @@ const FloatingMenu = () => {
     );
 
 }
-
-export default FloatingMenu
