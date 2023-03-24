@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 
-function GitCommitCard() {
+export const GitCard = () => {
   const [commits, setCommits] = useState(undefined);
   const [states, setStates] = useState(false);
   const [user, setUser] = useState('');
@@ -106,5 +106,3 @@ function GitCommitCard() {
     </div>
   );
 }
-
-export default GitCommitCard;
