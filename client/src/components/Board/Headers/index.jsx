@@ -11,6 +11,8 @@ const Headers = ({ board_id }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const[responseData, setResponseData] = useState('');
+
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
@@ -24,8 +26,7 @@ const Headers = ({ board_id }) => {
       const data = await response.json();
 
       const header = data.boards_headers[0]
-      console.log(data)
-
+        setResponseData(data)
 
       return data;
     } catch (error) {
@@ -118,7 +119,7 @@ const Headers = ({ board_id }) => {
     if (itemName) {
       const newSubItemId = `item-${itemName.trim()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-      console.log(headerIndex)
+      console.log(headers[headerIndex])
       console.log(newSubItem, 'item added')
       setHeaders((prevState) =>
         prevState.map((header) =>
@@ -133,7 +134,6 @@ const Headers = ({ board_id }) => {
 
     }
     console.log(newItemNames, 'inputs check')
-    console.log(headers, 'headers')
     try {
       const response = await fetch(`http://localhost:5000/kanban-tickets`, {
         method: 'POST',
@@ -145,9 +145,9 @@ const Headers = ({ board_id }) => {
           content: itemName,
           user_id: 1,
           start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-          header_id: 3,
+          header_id: responseData.boards_headers[headerIndex].header_id,
           ticket_status: "open",
-          kanban_board_id: 1
+          kanban_board_id: board_id
         })
       });
 
