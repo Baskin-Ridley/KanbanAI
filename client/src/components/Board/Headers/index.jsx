@@ -3,6 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "../../Button";
 import Input from "../../Input";
 import TicketPopUp from "../TicketPopUp";
+import CreateTicketPopUp from "../CreateTicketPopUp";
 import "./style.css";
 
 const initialHeaders = [];
@@ -10,12 +11,17 @@ const initialHeaders = [];
 const Headers = ({ board_id }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
     console.log(selectedTicket);
   }
+
+  function handleNewItemClick() {
+    setIsOpenCreate(true);
+  }
+
   const fetchKanbanBoardData = async () => {
     try {
       const response = await fetch(
@@ -23,9 +29,8 @@ const Headers = ({ board_id }) => {
       );
       const data = await response.json();
 
-      const header = data.boards_headers[0]
-      console.log(data)
-
+      const header = data.boards_headers[0];
+      console.log(data);
 
       return data;
     } catch (error) {
@@ -87,8 +92,15 @@ const Headers = ({ board_id }) => {
       return;
     }
     const newHeaderId = `header-${newHeaderName}`;
-    const newHeader = { id: newHeaderId, header_id: newHeaderId, name: newHeaderName, header_name: newHeaderName, tickets_under_this_header: [], items: [] };
-    console.log(newHeader)
+    const newHeader = {
+      id: newHeaderId,
+      header_id: newHeaderId,
+      name: newHeaderName,
+      header_name: newHeaderName,
+      tickets_under_this_header: [],
+      items: [],
+    };
+    console.log(newHeader);
 
     setHeaders((prevState) => [...prevState, newHeader]);
     setNewHeaderName("");
@@ -109,7 +121,7 @@ const Headers = ({ board_id }) => {
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
-    console.log(headers)
+    console.log(headers);
   }, [headers]);
 
   const handleAddSubItem = async (headerId) => {
@@ -118,8 +130,8 @@ const Headers = ({ board_id }) => {
     if (itemName) {
       const newSubItemId = `item-${itemName.trim()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-      console.log(headerIndex)
-      console.log(newSubItem, 'item added')
+      console.log(headerIndex);
+      console.log(newSubItem, "item added");
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -130,15 +142,14 @@ const Headers = ({ board_id }) => {
       setNewItemNames((prevState) =>
         prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
-
     }
-    console.log(newItemNames, 'inputs check')
-    console.log(headers, 'headers')
+    console.log(newItemNames, "inputs check");
+    console.log(headers, "headers");
     try {
       const response = await fetch(`http://localhost:5000/kanban-tickets`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           title: itemName,
@@ -147,13 +158,12 @@ const Headers = ({ board_id }) => {
           start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
           header_id: 3,
           ticket_status: "open",
-          kanban_board_id: 1
-        })
+          kanban_board_id: 1,
+        }),
       });
 
       const data = await response.json();
       return data;
-
     } catch (error) {
       console.error("Error adding new item:", error);
     }
@@ -198,6 +208,11 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
+      <button onClick={handleNewItemClick}>open create</button>
+      <CreateTicketPopUp
+        setIsOpenCreate={setIsOpenCreate}
+        isOpenCreate={isOpenCreate}
+      />
       <div>
         {selectedTicket && (
           <div className="">
