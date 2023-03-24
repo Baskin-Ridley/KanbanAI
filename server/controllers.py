@@ -57,7 +57,7 @@ def register_Super_User():
 
 
 
-def register_user():
+def register_user(super_user_name):
     data = request.get_json()
     username = data.get('username')
     name = data.get('name')
@@ -65,12 +65,13 @@ def register_user():
     role = data.get('role')
     email = data.get('email')
     avatar = data.get('avatar')
+    
     if not username or not name or not password or not role or not email:
         return jsonify({'error': 'Missing parameters'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already exists'}), 400
     user = User(username=username, name=name, password=password,
-                role=role, email=email, avatar=avatar)
+                role=role, email=email, avatar=avatar, supervisors=[super_user_name])
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
@@ -87,32 +88,45 @@ def login():
         user = Super_User.query.filter_by(username=username).first()
     if not user or not user.check_password(password):
         return jsonify({'error': 'Invalid username or password'}), 401
-    # return jsonify({'message': 'Logged in successfully'}), 200
-    user_data = {
-        'id': user.id,
-        'username': user.username,
-        'email': user.email
-    }
+  
+    #check wether it is a super_user or not
+    if (user.isSuper): 
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'name': user.name,
+            'isSuper': True
+        }
+
+    else:
+        user_data = {
+            'id': user.id,
+            'username': user.username,
+            'email': user.email,
+            'name': user.name,
+            'isSuper': False
+        }
     return jsonify(user_data), 200
 
 
-def create_user():
-    data = request.get_json()
-    username = data.get('username')
-    name = data.get('name')
-    password = data.get('password')
-    role = data.get('role')
-    email = data.get('email')
-    avatar = data.get('avatar')
-    if not username or not name or not password or not role or not email:
-        return jsonify({'error': 'Missing parameters'}), 400
-    if User.query.filter_by(username=username).first():
-        return jsonify({'error': 'Username already exists'}), 400
-    user = User(username=username, name=name, password=password,
-                role=role, email=email, avatar=avatar)
-    db.session.add(user)
-    db.session.commit()
-    return jsonify({'message': 'User created successfully'}), 201
+# def create_user():
+#     data = request.get_json()
+#     username = data.get('username')
+#     name = data.get('name')
+#     password = data.get('password')
+#     role = data.get('role')
+#     email = data.get('email')
+#     avatar = data.get('avatar')
+#     if not username or not name or not password or not role or not email:
+#         return jsonify({'error': 'Missing parameters'}), 400
+#     if User.query.filter_by(username=username).first():
+#         return jsonify({'error': 'Username already exists'}), 400
+#     user = User(username=username, name=name, password=password,
+#                 role=role, email=email, avatar=avatar)
+#     db.session.add(user)
+#     db.session.commit()
+#     return jsonify({'message': 'User created successfully'}), 201
 
 
 def get_users():
