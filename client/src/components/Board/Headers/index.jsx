@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "../../Button";
 import Input from "../../Input";
+import TicketPopUp from "../TicketPopUp";
 import "./style.css";
 
 
-const initialHeaders = []
+const initialHeaders = [];
 // const initialHeaders = [
 //   {
 //     id: "header-1",
@@ -42,29 +43,37 @@ const initialHeaders = []
 // ];
 
 const Headers = ({ board_id }) => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleTicketClick(ticketContent) {
+    setSelectedTicket(ticketContent.content);
+    setIsOpen(true);
+    console.log(selectedTicket);
+  }
   const fetchKanbanBoardData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}`
+      );
       const data = await response.json();
       const header = data.boards_headers[0]
-      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      // console.log(data)
-      // console.log(header.header_id)
-      // console.log(header.header_name)
-      // console.log(header.tickets_under_this_header)
+
       return data;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const fetchKanbanBoardTickets = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}/tickets`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}/tickets`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      console.error("Error fetching tickets:", error);
     }
   };
 
@@ -98,7 +107,6 @@ const Headers = ({ board_id }) => {
     fetchData();
   }, []);
 
-
   const [headers, setHeaders] = useState(initialHeaders);
 
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
@@ -125,6 +133,38 @@ const Headers = ({ board_id }) => {
     );
   };
 
+  useEffect(() => {
+    setNewItemNames(headers.map(() => ""));
+  }, [headers]);
+
+  // useEffect(() => {
+  //   console.log(newItemNames);
+  // }, [newItemNames]);
+
+  // const handleAddSubItem = (headerId) => {
+  //   //headerIndex - WORKING
+  //   const headerIndex = headers.findIndex((header) => header.id === headerId);
+  //   //ItemName returns undefined?
+  //   const itemName = newItemNames[headerIndex];
+  //   console.log(itemName, 'itemName')
+  //   console.log(headerId, 'headerId')
+  //   if (itemName) {
+  //     const newSubItemId = `item-${Date.now()}`;
+  //     const newSubItem = { id: newSubItemId, content: itemName };
+
+  //     setHeaders((prevState) =>
+  //       prevState.map((header) =>
+  //         header.id === headerId
+  //           ? { ...header, items: [...header.items, newSubItem] }
+  //           : header
+  //       )
+  //     );
+  //     setNewItemNames((prevState) =>
+  //       prevState.map((name, index) => (index === headerIndex ? "" : name))
+  //     );
+  //   }
+  // };
+
   const handleAddSubItem = (headerId) => {
     console.log("CLICKED TO ADD ITEM")
     const headerIndex = headers.findIndex((header) => header.id === headerId);
@@ -132,7 +172,6 @@ const Headers = ({ board_id }) => {
     if (itemName) {
       const newSubItemId = `item-${Date.now()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -141,9 +180,12 @@ const Headers = ({ board_id }) => {
         )
       );
       setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
+        prevState.map((name, index) =>
+          index === headerIndex ? "" : name
+        )
       );
     }
+    console.log(newItemNames)
   };
 
   const handleOnDragEnd = (result) => {
@@ -185,6 +227,17 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
+      <div>
+        {selectedTicket && (
+          <div className="">
+            <TicketPopUp
+              ticketContent={selectedTicket}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+            />
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
@@ -222,6 +275,9 @@ const Headers = ({ board_id }) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
@@ -272,6 +328,5 @@ const Headers = ({ board_id }) => {
     </div>
   );
 };
-
 
 export default Headers;

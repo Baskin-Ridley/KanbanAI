@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Input, Button } from "..";
 const AISteps = () => {
   const [task, setTask] = useState("");
   const [responseData, setResponseData] = useState("");
@@ -20,15 +20,14 @@ const AISteps = () => {
   }
 
   return (
-    <div>
+    <div className="form-container">
       <h1>AI Steps</h1>
-      <input
+      <Input
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
       />
-
-      <button onClick={handleClick}>Click me</button>
+      <Button onClick={handleClick}>Click me</Button>
 
       {responseData && (
         <div>
