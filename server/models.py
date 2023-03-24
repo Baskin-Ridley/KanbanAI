@@ -56,7 +56,7 @@ class Kanban_Header(db.Model):
     name = db.Column(db.String(200), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
     kanban_board = relationship("Kanban_Board", back_populates="headers")
-    tickets = relationship("Kanban_Ticket", back_populates="header")
+    tickets = relationship("Kanban_Ticket", back_populates="header", cascade="all, delete-orphan")
 
     def serialize(self):
         return {

@@ -1,6 +1,6 @@
 from models import User
 from flask import jsonify, request
-from models import User, Super_User, Kanban_Board, Kanban_Ticket
+from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header
 from database import db
 from datetime import datetime
 from mail import *
@@ -328,3 +328,28 @@ def delete_kanban_ticket(kanban_ticket_id):
     db.session.delete(ticket)
     db.session.commit()
     return jsonify({'message': 'Kanban ticket deleted successfully'}), 200
+
+
+# Kanban Header
+
+def create_kanban_header(kanban_board_id):
+    data = request.json
+    header = Kanban_Header(
+        name=data['name'],
+        kanban_board_id=kanban_board_id
+    )
+    db.session.add(header)
+    db.session.commit()
+    return jsonify({'message': 'Kanban Header created successfully', 'header': header.serialize()}), 201
+
+def get_kanban_headers_by_board(kanban_board_id):
+    headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
+    return jsonify([header.serialize() for header in headers]), 200
+
+def delete_kanban_header_by_board(kanban_board_id, header_id):
+    header = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)[header_id - 1]
+    if not header:
+        return jsonify({'error': 'Kanban header not found'}), 404
+    db.session.delete(header)
+    db.session.commit()
+    return jsonify({'message': 'Kanban header deleted successfully'}), 200
