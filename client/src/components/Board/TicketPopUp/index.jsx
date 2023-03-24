@@ -53,6 +53,7 @@ function TicketPopUp(props) {
         setEditedTicket(data);
         console.log("Ticket updated:", data);
         closeModal();
+        props.fetchData();
       })
       .catch((error) => console.error(error));
   };
