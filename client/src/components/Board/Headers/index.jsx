@@ -5,7 +5,6 @@ import Input from "../../Input";
 import TicketPopUp from "../TicketPopUp";
 import "./style.css";
 
-
 const initialHeaders = [];
 // const initialHeaders = [
 //   {
@@ -57,7 +56,7 @@ const Headers = ({ board_id }) => {
         `http://localhost:5000/kanban-boards/${board_id}`
       );
       const data = await response.json();
-      const header = data.boards_headers[0]
+      const header = data.boards_headers[0];
 
       return data;
     } catch (error) {
@@ -130,8 +129,8 @@ const Headers = ({ board_id }) => {
       prevState.map((name, index) =>
         headers[index].id === headerId ? newValue : name
       )
-      );
-      // console.log(newItemNames)
+    );
+    // console.log(newItemNames)
   };
 
   useEffect(() => {
@@ -180,14 +179,11 @@ const Headers = ({ board_id }) => {
         )
       );
       setNewItemNames((prevState) =>
-        prevState.map((name, index) =>
-          index === headerIndex ? "" : name
-        )
+        prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
     }
-    console.log(newItemNames)
+    console.log(newItemNames);
   };
-  
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
