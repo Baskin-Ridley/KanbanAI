@@ -7,40 +7,6 @@ import "./style.css";
 
 
 const initialHeaders = [];
-// const initialHeaders = [
-//   {
-//     id: "header-1",
-//     name: "Header 1",
-//     items: [
-//       { id: "0-item-0", content: "Item 1" },
-//       {
-//         id: "0-item-1",
-//         content: "Item 2",
-//         comment: "This is a comment",
-//         assigned: [
-//           { id: "1", name: "John Doe" },
-//           { id: "2", name: "Jane Doe" },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     id: "header-2",
-//     name: "Header 2",
-//     items: [
-//       { id: "1-item-0", content: "Item 3" },
-//       { id: "1-item-1", content: "Item 4" },
-//     ],
-//   },
-//   {
-//     id: "header-3",
-//     name: "Header 3",
-//     items: [
-//       { id: "2-item-0", content: "Item 5" },
-//       { id: "2-item-1", content: "Item 6" },
-//     ],
-//   },
-// ];
 
 const Headers = ({ board_id }) => {
   const [selectedTicket, setSelectedTicket] = useState(null);
@@ -58,6 +24,7 @@ const Headers = ({ board_id }) => {
       );
       const data = await response.json();
       const header = data.boards_headers[0]
+      console.log(data)
 
       return data;
     } catch (error) {
@@ -118,11 +85,17 @@ const Headers = ({ board_id }) => {
       alert("Please enter a header name");
       return;
     }
-    const newHeaderId = `header-${Date.now()}`;
-    const newHeader = { id: newHeaderId, name: newHeaderName, items: [] };
+    const newHeaderId = `header-${newHeaderName}`;
+    const newHeader = { id: newHeaderId, header_id: newHeaderId, name: newHeaderName, header_name: newHeaderName, tickets_under_this_header: [], items: [] };
+    console.log(newHeader)
 
     setHeaders((prevState) => [...prevState, newHeader]);
-    setNewHeaderName(""); // Clear the input field after adding the header
+    setNewHeaderName("");
+
+    // header_id: 1
+    // header_name: "Header 1"
+    // kanban_board_id: 1
+    // tickets_under_this_header: [1]
   };
 
   const handleNewItemNameChange = (headerId, newValue) => {
@@ -131,47 +104,20 @@ const Headers = ({ board_id }) => {
         headers[index].id === headerId ? newValue : name
       )
       );
-      // console.log(newItemNames)
   };
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
+    console.log(headers)
   }, [headers]);
-
-  // useEffect(() => {
-  //   console.log(newItemNames);
-  // }, [newItemNames]);
-
-  // const handleAddSubItem = (headerId) => {
-  //   //headerIndex - WORKING
-  //   const headerIndex = headers.findIndex((header) => header.id === headerId);
-  //   //ItemName returns undefined?
-  //   const itemName = newItemNames[headerIndex];
-  //   console.log(itemName, 'itemName')
-  //   console.log(headerId, 'headerId')
-  //   if (itemName) {
-  //     const newSubItemId = `item-${Date.now()}`;
-  //     const newSubItem = { id: newSubItemId, content: itemName };
-
-  //     setHeaders((prevState) =>
-  //       prevState.map((header) =>
-  //         header.id === headerId
-  //           ? { ...header, items: [...header.items, newSubItem] }
-  //           : header
-  //       )
-  //     );
-  //     setNewItemNames((prevState) =>
-  //       prevState.map((name, index) => (index === headerIndex ? "" : name))
-  //     );
-  //   }
-  // };
 
   const handleAddSubItem = (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
-      const newSubItemId = `item-${Date.now()}`;
+      const newSubItemId = `item-${itemName}`;
       const newSubItem = { id: newSubItemId, content: itemName };
+      console.log(newSubItem, 'item added')
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -185,7 +131,8 @@ const Headers = ({ board_id }) => {
         )
       );
     }
-    console.log(newItemNames)
+    console.log(newItemNames, 'inputs check')
+    console.log(headers, 'headers')
   };
   
 
