@@ -283,12 +283,12 @@ const Headers = ({ board_id }) => {
                           handleNewItemNameChange(id, e.target.value)
                         }
                       />
-                      <Button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors duration-150"
-                        onClick={() => handleAddSubItem(id)}
-                      >
-                        Add Item
-                      </Button>
+                      <Button onClick={handleNewItemClick}>Add Item</Button>
+                      <CreateTicketPopUp
+                        setIsOpenCreate={setIsOpenCreate}
+                        isOpenCreate={isOpenCreate}
+                        id={id}
+                      />{" "}
                     </div>
                   )}
                 </Draggable>
