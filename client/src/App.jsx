@@ -15,10 +15,7 @@ import {
 } from "./pages";
 
 import AISteps from "./components/AI";
-
 import PageWrapper from "./components/PageWrapper";
-
-import "./index.css";
 
 function App() {
   return (
