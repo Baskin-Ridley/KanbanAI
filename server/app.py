@@ -6,7 +6,8 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, create_user, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board 
+##create_user
 
 
 load_dotenv()
@@ -98,19 +99,22 @@ def ai_steps():
 def register_super_user_route():
     return register_Super_User()
 
-@ app.route('/register', methods=['POST'])
-def register_user_route():
-    return register_user()
+# @ app.route('/register', methods=['POST'])
+# def register_user_route():
+#     return register_user()
 
+@ app.route('/register/<string:super_user_name>', methods=['POST'])
+def register_user_route(super_user_name):
+    return register_user(super_user_name)
 
 @ app.route('/login', methods=['POST'])
 def login_route():
     return login()
 
 
-@ app.route('/users', methods=['POST'])
-def create_user_route():
-    return create_user()
+# @ app.route('/users', methods=['POST'])
+# def create_user_route():
+#     return create_user()
 
 
 @ app.route('/users', methods=['GET'])
