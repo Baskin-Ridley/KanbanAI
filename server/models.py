@@ -30,6 +30,7 @@ class Super_User(db.Model):
     __tablename__ = 'super_User'
     id = db.Column(db.Integer, unique=True,primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     members = db.Column(ARRAY(db.String()),nullable=True)   
     email = db.Column(db.String(120), nullable=False)
