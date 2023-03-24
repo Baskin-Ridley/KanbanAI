@@ -5,7 +5,6 @@ import Input from "../../Input";
 import TicketPopUp from "../TicketPopUp";
 import "./style.css";
 
-
 const initialHeaders = [];
 
 const Headers = ({ board_id }) => {
@@ -23,8 +22,10 @@ const Headers = ({ board_id }) => {
         `http://localhost:5000/kanban-boards/${board_id}`
       );
       const data = await response.json();
+
       const header = data.boards_headers[0]
       console.log(data)
+
 
       return data;
     } catch (error) {
@@ -126,15 +127,13 @@ const Headers = ({ board_id }) => {
         )
       );
       setNewItemNames((prevState) =>
-        prevState.map((name, index) =>
-          index === headerIndex ? "" : name
-        )
+        prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
     }
     console.log(newItemNames, 'inputs check')
     console.log(headers, 'headers')
+
   };
-  
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
