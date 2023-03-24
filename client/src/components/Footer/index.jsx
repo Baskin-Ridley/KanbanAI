@@ -1,10 +1,9 @@
 import React from 'react';
 
 const Footer = () => (
-  // <footer className="w3-center w3-margin-top">
-  //   <p>License: MIT.</p>
-  // </footer>
-  <></>
+  <footer>
+    <p>Kanban DevTest App. Created by Kay, Gabriel, Sho and Gabrielle. License: MIT.</p>
+  </footer>
 );
 
 export default Footer;
