@@ -222,7 +222,6 @@ const Headers = ({ board_id }) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => handleTicketClick({ content })}
                     >
                       <h2 className="text-lg font-bold mb-2">{name}</h2>
                       <Droppable droppableId={`column-${id}`} type="item">
@@ -244,6 +243,9 @@ const Headers = ({ board_id }) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
