@@ -112,13 +112,13 @@ const Headers = ({ board_id }) => {
     console.log(headers)
   }, [headers]);
 
-  const handleAddSubItem = (headerId) => {
-    console.log("CLICKED TO ADD ITEM")
+  const handleAddSubItem = async (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
-      const newSubItemId = `item-${itemName}`;
+      const newSubItemId = `item-${itemName.trim()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
+      console.log(headerIndex)
       console.log(newSubItem, 'item added')
       setHeaders((prevState) =>
         prevState.map((header) =>
@@ -130,6 +130,7 @@ const Headers = ({ board_id }) => {
       setNewItemNames((prevState) =>
         prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
+
     }
     console.log(newItemNames, 'inputs check')
     console.log(headers, 'headers')
