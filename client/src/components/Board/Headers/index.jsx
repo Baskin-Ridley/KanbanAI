@@ -34,7 +34,6 @@ const Headers = ({ board_id }) => {
 
       const header = data.boards_headers[0];
       setResponseData(data);
-
       return data;
     } catch (error) {
       console.error("Error fetching data:", error);
