@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import BoardTest from './index.jsx';
+import FancyMenu from './index.jsx';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom';
@@ -25,8 +25,8 @@ jest.mock('../../components/GitCard', () => {
   };
 });
 
-describe('BoardTest', () => {
+describe('FancyMenu', () => {
   test('renders without error', () => {
-    render(<BoardTest />);
+    render(<FancyMenu />);
   });
 });
