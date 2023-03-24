@@ -208,6 +208,7 @@ def create_kanban_ticket():
         content=data['content'],
         user_id=data['user_id'],
         start_time=data['start_time'],
+        header_id=data['header_id'],
         ticket_status=data['ticket_status'],
         kanban_board_id=data['kanban_board_id']
     )
@@ -235,8 +236,8 @@ def get_kanban_ticket(kanban_ticket_id):
 
 def update_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.get(kanban_ticket_id)
-    kanban_admin = "shodeb123@gmail.com"
-    kanban_scram_master = "shodeb123@gmail.com"
+    kanban_admin = "app.builtdifferent.info@gmail.com"
+    kanban_scram_master = "app.builtdifferent.info@gmail.com"
     if not ticket:
         return jsonify({'error': 'Kanban ticket not found'}), 404
     data = request.get_json()

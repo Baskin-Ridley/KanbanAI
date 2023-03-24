@@ -1,6 +1,6 @@
 from database import db
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.dialects.postgresql import ARRAY
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -11,17 +11,43 @@ class User(db.Model):
     role = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     avatar = db.Column(db.String(255), nullable=True)
+    supervisors = db.Column(ARRAY(db.String()),nullable=True)
 
-    def __init__(self, username, name, password, role, email, avatar=None):
+    def __init__(self, username, name, password, role, email, supervisors, avatar=None):
         self.username = username
         self.name = name
         self.password = password
         self.role = role
         self.email = email
+        self.supervisors = supervisors
         self.avatar = avatar
+      
 
     def check_password(self, password):
         return self.password == password
+
+class Super_User(db.Model):
+    __tablename__ = 'super_User'
+    id = db.Column(db.Integer, unique=True,primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    members = db.Column(ARRAY(db.String()),nullable=True)   
+    email = db.Column(db.String(120), nullable=False)
+    role = db.Column(db.String(80), nullable=False)
+    isSuper = db.Column(db.Boolean(), unique=False, default=True)
+
+    def __init__(self, username, name, password, members,role, email, isSuper=True):
+        self.username = username
+        self.name = name
+        self.password = password
+        self.members = members
+        self.role = role
+        self.email = email
+        self.isSuper = isSuper
+
+    def check_password(self, password):
+        return self.password == password
+       
 
 class Kanban_Header(db.Model):
     __tablename__ = 'header'
@@ -69,7 +95,7 @@ class Kanban_Ticket(db.Model):
     ticket_status = db.Column(db.String(80), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey(
         'kanban_board.id'), name='kanban_ticket_board_id', nullable=False)
-    header_id = db.Column(db.Integer, db.ForeignKey('header.id'), nullable=True)
+    header_id = db.Column(db.Integer, db.ForeignKey('header.id'), nullable=False)
     header = relationship("Kanban_Header", back_populates="tickets")
     kanban_board = relationship("Kanban_Board", back_populates="tickets")
     assigned = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
