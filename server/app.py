@@ -41,20 +41,33 @@ def ai_test():
     technologies = request.get_json()['technologies']
     test_framework = request.get_json()['test_framework']
     function_to_test = request.get_json()['function_to_test']
-    # prompt_text = f"Write one single unit test for this '{technologies}' function using '{test_framework}': '{function_to_test}'."
-    prompt_text = "Return the message 'Hello' to this request"
+    prompt_text = f"Write code for one test only, for this '{technologies}' function, using '{test_framework}' testing technology: '{function_to_test}'./n"
+    # prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
         # engine="davinci-codex",
-        engine="davinci",
+        # engine="davinci",
+        model="text-davinci-003",
         prompt=prompt_text,
-        max_tokens=100,
+        #max_tokens=100,
+        max_tokens=256,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=1,
+        # temperature=0.5,
     )
     tests_for_function = response.choices[0].text.strip()
     print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
+
+    # response = openai.Completion.create(
+    #     model="text-davinci-003",
+    #     prompt="The task is to 'create a message app' break down this task into smaller developer tasks for a kanban board. \n",
+    #     temperature=1,
+    #     max_tokens=256,
+    #     top_p=1,
+    #     frequency_penalty=0,
+    #     presence_penalty=0
+    # )
 
 
 @app.route('/ai-steps', methods=['POST'])
@@ -63,15 +76,16 @@ def ai_steps():
     print(data)
     task = data['task']
     steps = data['steps']
-    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
+    prompt = f"The task is to {task} break down this task into smaller developer tasks for a kanban board. Number each task 1) 2) etc \n"
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="davinci",
+        model="text-davinci-003",
         prompt=prompt,
-        max_tokens=100,
-        n=1,
-        stop=None,
-        temperature=0.7,
+        temperature=1,
+        max_tokens=256,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
     )
     print(response)
     steps_for_task = response.choices[0].text
@@ -172,7 +186,7 @@ def get_kanban_tickets_route():
 def get_kanban_ticket_route(kanban_ticket_id):
     return get_kanban_ticket(kanban_ticket_id)
 
-    
+
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)

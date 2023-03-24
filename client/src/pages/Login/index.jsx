@@ -44,7 +44,7 @@ const LoginPage = () => {
         <div className="mb-4">
           <span className="text-sm text-gray-600 mr-2">
             Don't have an account?
-          </span>
+          </span> <br />
           <CustomLink
             to="/register"
           >
