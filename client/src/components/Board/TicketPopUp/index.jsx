@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Button from "../../Button";
+import Input from "../../Input";
+import Textarea from "../../Textarea";
 
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
@@ -49,7 +52,6 @@ function TicketPopUp(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        // setMatchingTicket(data);
         setEditedTicket(data);
         console.log("Ticket updated:", data);
         closeModal();
