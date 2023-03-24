@@ -12,7 +12,6 @@ class User(db.Model):
     email = db.Column(db.String(120), nullable=False)
     avatar = db.Column(db.String(255), nullable=True)
     supervisors = db.Column(ARRAY(db.String()),nullable=True)
-    users = db.relationship()
 
     def __init__(self, username, name, password, role, email, supervisors, avatar=None):
         self.username = username
