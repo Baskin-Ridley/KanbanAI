@@ -7,8 +7,8 @@ module.exports = {
         outline: "0 0 0 2px rgba(66,153,225,0.5)",
       },
       colors: {
-        primary: "#3182ce",
-        secondary: "#b0bec5",
+        primary: "#357CED",
+        secondary: "#FFD425",
       },
       fontSize: {
         xl: "1.25rem",
