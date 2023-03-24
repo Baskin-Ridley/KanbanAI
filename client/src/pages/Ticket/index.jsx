@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Button from "../../components/Button";
+import Input from "../../components/Input";
 
 const Ticket = () => {
     const [technologies, setTechnologies] = useState('Python');
@@ -42,35 +44,66 @@ const Ticket = () => {
         <div className="form-container">
             <h2>Create New Ticket</h2>
             <form onSubmit={handleFormSubmit}>
-                <div>
+                {/* <div>
                     <label htmlFor="title">Title</label><br />
                     <input type="text" id="title" value="Sample Title" readOnly />
-                </div>
-                <div>
+                </div> */}
+                <Input
+                    label="Title:"
+                    type="text"
+                    id="title"
+                    value="Sample Title"
+                />
+                {/* <div>
                     <label htmlFor="content">Content</label><br />
                     <textarea id="content" value="Sample Content" readOnly />
-                </div>
-                <div>
+                </div> */}
+                <Input
+                    label="Content:"
+                    type="text"
+                    id="content"
+                    value="Sample Content"
+                />
+                {/* <div>
                     <label htmlFor="user">User</label><br />
                     <input type="text" id="user" value="Anonymous" readOnly />
-                </div>
-                <div>
+                </div> */}
+                <Input
+                    label="User:"
+                    type="text"
+                    id="user"
+                    value="User 1"
+                />
+                {/* <div>
                     <label htmlFor="technologies">Technologies</label><br />
                     <input type="text" id="technologies" value={technologies} onChange={(e) => setTechnologies(e.target.value)} />
-                </div>
-                <div>
+                </div> */}
+                <Input
+                    label="Technologies:"
+                    type="text"
+                    id="technologies"
+                    value="python"
+                />
+                {/* <div>
                     <label htmlFor="test-framework">Test Framework</label><br />
                     <input type="text" id="test-framework" value={testFramework} onChange={(e) => setTestFramework(e.target.value)} />
-                </div>
+                </div> */}
+                <Input
+                    label="Test Framework:"
+                    type="text"
+                    id="test-framework"
+                    value="pytest"
+                />
                 <div>
                     <label htmlFor="function-to-test">Function to Test</label><br />
-                    <textarea id="function-to-test" value={functionToTest} onChange={(e) => setFunctionToTest(e.target.value)} />
+                    <textarea rows="4" cols="50" id="function-to-test" value={functionToTest} onChange={(e) => setFunctionToTest(e.target.value)} />
                 </div>
                 <div>
                     <label htmlFor="tests-for-function">Tests for Function</label><br />
-                    <textarea id="tests-for-function" value={testsForFunction} onChange={(e) => setTestsForFunction(e.target.value)} />
+                    <textarea rows="4" cols="50" id="tests-for-function" value={testsForFunction} onChange={(e) => setTestsForFunction(e.target.value)} />
                 </div>
-                <button type="submit">Generate Tests</button>
+                {/* <button type="submit">Generate Tests</button> */}
+                <Button type="submit">Generate Tests</Button>
             </form>
         </div>
     );
