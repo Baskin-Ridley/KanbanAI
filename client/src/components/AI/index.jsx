@@ -20,14 +20,13 @@ const AISteps = () => {
   }
 
   return (
-    <div>
+    <div className="form-container">
       <h1>AI Steps</h1>
       <Input
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
       />
-
       <Button onClick={handleClick}>Click me</Button>
 
       {responseData && (
