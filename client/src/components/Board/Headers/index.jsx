@@ -104,7 +104,7 @@ const Headers = ({ board_id }) => {
       prevState.map((name, index) =>
         headers[index].id === headerId ? newValue : name
       )
-      );
+    );
   };
 
   useEffect(() => {
@@ -134,30 +134,8 @@ const Headers = ({ board_id }) => {
     }
     console.log(newItemNames, 'inputs check')
     console.log(headers, 'headers')
-      try {
-        const response = await fetch(`http://localhost:5000/kanban-tickets`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: itemName, // Replace with the actual title you want to send
-            content: itemName,
-            user_id: 1,
-            start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-            header_id: 3,
-            ticket_status: "open",
-            kanban_board_id: 1
-          })
-        });
-    
-        const data = await response.json();
-        return data;
 
-      } catch (error) {
-      console.error("Error adding new item:", error);
-      }
-    };
+  };
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
