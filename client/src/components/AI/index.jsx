@@ -21,8 +21,9 @@ const AISteps = () => {
 
   return (
     <div className="form-container">
-      <h1>AI Steps</h1>
+      <h2>AI Steps</h2>
       <Input
+        label="Insert your task:"
         type="text"
         value={task}
         onChange={(e) => setTask(e.target.value)}
