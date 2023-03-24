@@ -4,6 +4,8 @@ function TicketList(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
   const [matchingTicket, setMatchingTicket] = useState(null);
+  const [editedTicket, setEditedTicket] = useState(null); // new state for edited ticket
+
   console.log(props.ticketContent);
   useEffect(() => {
     fetch("http://localhost:5000/kanban-tickets")
@@ -37,6 +39,14 @@ function TicketList(props) {
 
   const closeModal = () => {
     props.setIsOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditedTicket({
+      ...editedTicket,
+      [name]: value,
+    });
   };
 
   return (
