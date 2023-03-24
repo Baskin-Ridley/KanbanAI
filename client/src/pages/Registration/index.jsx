@@ -6,36 +6,6 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import CustomLink from "../../components/CustomLink";
 
-// const InputField = ({ label, value, onChange, type }) => {
-//   const roleOptions = ["Leader", "Member"];
-
-//   return (
-//     <div className="mb-4">
-//       <label className="block text-gray-700 font-bold mb-2">{label}</label>
-//       {label === "Role:" ? (
-//         <select
-//           className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-//           value={value}
-//           onChange={onChange}
-//         >
-//           {roleOptions.map((option) => (
-//             <option key={option} value={option}>
-//               {option}
-//             </option>
-//           ))}
-//         </select>
-//       ) : (
-//         <input
-//           className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-//           type={type}
-//           value={value}
-//           onChange={onChange}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
 const Registration = () => {
   const { register } = useContext(UserContext);
   const navigate = useNavigate();
@@ -66,7 +36,7 @@ const Registration = () => {
   };
 
   return (
-    <div className="form-container">
+    <main className="form-container">
       <form onSubmit={handleSubmit}>
         <h2>Register</h2>
         <Input
@@ -106,16 +76,9 @@ const Registration = () => {
           onChange={(e) => setAvatar(e.target.value)}
         />
         <Button type="submit">Register</Button>
-        {/* <CustomLink
-          className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          to="/login"
-        >
-          <Button type="submit">Login</Button>
-          Login
-        </CustomLink> */}
       </form>
       <Message message={errorMessage} type="error" />
-    </div>
+    </main>
   );
 };
 
