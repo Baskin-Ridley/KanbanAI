@@ -2,69 +2,46 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "../../Button";
 import Input from "../../Input";
+import TicketPopUp from "../TicketPopUp";
 import "./style.css";
 
+const initialHeaders = [];
 
-const initialHeaders = []
-// const initialHeaders = [
-//   {
-//     id: "header-1",
-//     name: "Header 1",
-//     items: [
-//       { id: "0-item-0", content: "Item 1" },
-//       {
-//         id: "0-item-1",
-//         content: "Item 2",
-//         comment: "This is a comment",
-//         assigned: [
-//           { id: "1", name: "John Doe" },
-//           { id: "2", name: "Jane Doe" },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     id: "header-2",
-//     name: "Header 2",
-//     items: [
-//       { id: "1-item-0", content: "Item 3" },
-//       { id: "1-item-1", content: "Item 4" },
-//     ],
-//   },
-//   {
-//     id: "header-3",
-//     name: "Header 3",
-//     items: [
-//       { id: "2-item-0", content: "Item 5" },
-//       { id: "2-item-1", content: "Item 6" },
-//     ],
-//   },
-// ];
+const Headers = ({ board_id }) => {
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-const Headers = ({board_id}) => {
+  function handleTicketClick(ticketContent) {
+    setSelectedTicket(ticketContent.content);
+    setIsOpen(true);
+    console.log(selectedTicket);
+  }
   const fetchKanbanBoardData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}`
+      );
       const data = await response.json();
+
       const header = data.boards_headers[0]
-      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      // console.log(data)
-      // console.log(header.header_id)
-      // console.log(header.header_name)
-      // console.log(header.tickets_under_this_header)
+      console.log(data)
+
+
       return data;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
   const fetchKanbanBoardTickets = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}/tickets`);
+      const response = await fetch(
+        `http://localhost:5000/kanban-boards/${board_id}/tickets`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching tickets:', error);
+      console.error("Error fetching tickets:", error);
     }
   };
 
@@ -72,11 +49,11 @@ const Headers = ({board_id}) => {
     const fetchData = async () => {
       const boardData = await fetchKanbanBoardData();
       const ticketsData = await fetchKanbanBoardTickets();
-  
+
       const headersData = Array.isArray(boardData.boards_headers)
         ? boardData.boards_headers
         : [boardData.boards_headers];
-  
+
       const updatedHeaders = headersData.map((header) => {
         const headerTickets = ticketsData.filter(
           (ticket) => ticket.header_id === header.header_id
@@ -91,13 +68,12 @@ const Headers = ({board_id}) => {
           })),
         };
       });
-  
+
       setHeaders(updatedHeaders);
     };
-  
+
     fetchData();
   }, []);
-  
 
   const [headers, setHeaders] = useState(initialHeaders);
 
@@ -110,11 +86,17 @@ const Headers = ({board_id}) => {
       alert("Please enter a header name");
       return;
     }
-    const newHeaderId = `header-${Date.now()}`;
-    const newHeader = { id: newHeaderId, name: newHeaderName, items: [] };
+    const newHeaderId = `header-${newHeaderName}`;
+    const newHeader = { id: newHeaderId, header_id: newHeaderId, name: newHeaderName, header_name: newHeaderName, tickets_under_this_header: [], items: [] };
+    console.log(newHeader)
 
     setHeaders((prevState) => [...prevState, newHeader]);
-    setNewHeaderName(""); // Clear the input field after adding the header
+    setNewHeaderName("");
+
+    // header_id: 1
+    // header_name: "Header 1"
+    // kanban_board_id: 1
+    // tickets_under_this_header: [1]
   };
 
   const handleNewItemNameChange = (headerId, newValue) => {
@@ -122,16 +104,21 @@ const Headers = ({board_id}) => {
       prevState.map((name, index) =>
         headers[index].id === headerId ? newValue : name
       )
-    );
+      );
   };
+
+  useEffect(() => {
+    setNewItemNames(headers.map(() => ""));
+    console.log(headers)
+  }, [headers]);
 
   const handleAddSubItem = (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
-      const newSubItemId = `item-${Date.now()}`;
+      const newSubItemId = `item-${itemName}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-
+      console.log(newSubItem, 'item added')
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -143,6 +130,9 @@ const Headers = ({board_id}) => {
         prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
     }
+    console.log(newItemNames, 'inputs check')
+    console.log(headers, 'headers')
+
   };
 
   const handleOnDragEnd = (result) => {
@@ -184,6 +174,17 @@ const Headers = ({board_id}) => {
 
   return (
     <div>
+      <div>
+        {selectedTicket && (
+          <div className="">
+            <TicketPopUp
+              ticketContent={selectedTicket}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+            />
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
@@ -221,6 +222,9 @@ const Headers = ({board_id}) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
@@ -271,6 +275,5 @@ const Headers = ({board_id}) => {
     </div>
   );
 };
-
 
 export default Headers;

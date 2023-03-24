@@ -69,7 +69,7 @@ class Kanban_Ticket(db.Model):
     ticket_status = db.Column(db.String(80), nullable=False)
     kanban_board_id = db.Column(db.Integer, db.ForeignKey(
         'kanban_board.id'), name='kanban_ticket_board_id', nullable=False)
-    header_id = db.Column(db.Integer, db.ForeignKey('header.id'), nullable=True)
+    header_id = db.Column(db.Integer, db.ForeignKey('header.id'), nullable=False)
     header = relationship("Kanban_Header", back_populates="tickets")
     kanban_board = relationship("Kanban_Board", back_populates="tickets")
     assigned = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
