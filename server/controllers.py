@@ -1,6 +1,6 @@
 from models import User
 from flask import jsonify, request
-from models import User, Kanban_Board, Kanban_Ticket
+from models import User, Super_User, Kanban_Board, Kanban_Ticket
 from database import db
 from datetime import datetime
 from mail import *
@@ -18,7 +18,43 @@ email.config['MAIL_PASSWORD'] = "ntapobukehzgjomg"
 email.config['MAIL_USE_TLS'] = False
 email.config['MAIL_USE_SSL'] = True
 
+
+# Super User Controller
+
+def register_Super_User():
+    data = request.get_json()
+    username = data.get('username')
+    name = data.get('name')
+    password = data.get('password')
+    role = data.get('role')
+    email = data.get('email')
+    members = data.get('members')
+    if not username or not name or not password or not role or not email :
+        return jsonify({'error': 'Missing parameters'}), 400
+    if Super_User.query.filter_by(username=username).first():
+        return jsonify({'error': 'Username already exists'}), 400
+    super_user = Super_User(username=username, name=name, password=password,
+                role=role, email=email, members=members)
+    db.session.add(super_user)
+    db.session.commit()
+    return jsonify({'message': 'Super-User created successfully'}), 201
+
+
+# def super_login(username,password):
+#     if not username or not password:
+#         return jsonify({'error': 'Missing parameters'}), 400
+#     super_user = Super_User.query.filter_by(username=username).first()
+#     if not super_user or not super_user.check_password(password):
+#         return jsonify({'error': 'Invalid username or password'}), 401
+#     super_user_data = {
+#         'id': super_user.id,
+#         'username': super_user.username,
+#         'email': super_user.email,
+#         'name': super_user.name,
+#     }
+#     return jsonify(super_user_data), 200
 # User controller
+
 
 
 def register_user():
@@ -47,14 +83,15 @@ def login():
     if not username or not password:
         return jsonify({'error': 'Missing parameters'}), 400
     user = User.query.filter_by(username=username).first()
+    if not user:
+        user = Super_User.query.filter_by(username=username).first()
     if not user or not user.check_password(password):
         return jsonify({'error': 'Invalid username or password'}), 401
     # return jsonify({'message': 'Logged in successfully'}), 200
     user_data = {
         'id': user.id,
         'username': user.username,
-        'email': user.email,
-        'name': user.name,
+        'email': user.email
     }
     return jsonify(user_data), 200
 
