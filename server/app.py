@@ -10,7 +10,6 @@ from controllers import register_user, login, find_user_by_username, get_users, 
 ##create_user
 
 
-
 load_dotenv()
 DATABASE_URL = os.environ.get('DATABASE_URL')
 FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
@@ -100,10 +99,13 @@ def ai_steps():
 def register_super_user_route():
     return register_Super_User()
 
-@ app.route('/register', methods=['POST'])
-def register_user_route():
-    return register_user()
+# @ app.route('/register', methods=['POST'])
+# def register_user_route():
+#     return register_user()
 
+@ app.route('/register/<string:super_user_name>', methods=['POST'])
+def register_user_route(super_user_name):
+    return register_user(super_user_name)
 
 @ app.route('/login', methods=['POST'])
 def login_route():

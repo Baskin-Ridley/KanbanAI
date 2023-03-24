@@ -57,7 +57,7 @@ def register_Super_User():
 
 
 
-def register_user():
+def register_user(super_user_name):
     data = request.get_json()
     username = data.get('username')
     name = data.get('name')
@@ -65,12 +65,13 @@ def register_user():
     role = data.get('role')
     email = data.get('email')
     avatar = data.get('avatar')
+    
     if not username or not name or not password or not role or not email:
         return jsonify({'error': 'Missing parameters'}), 400
     if User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already exists'}), 400
     user = User(username=username, name=name, password=password,
-                role=role, email=email, avatar=avatar)
+                role=role, email=email, avatar=avatar, supervisors=[super_user_name])
     db.session.add(user)
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
