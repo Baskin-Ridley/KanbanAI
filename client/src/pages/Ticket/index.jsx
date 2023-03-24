@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Button from "../../components/Button";
 import Input from "../../components/Input";
+import Textarea from "../../components/Textarea";
 
 const Ticket = () => {
     const [technologies, setTechnologies] = useState('Python');
@@ -94,14 +95,26 @@ const Ticket = () => {
                     id="test-framework"
                     value="pytest"
                 />
-                <div>
+                {/* <div>
                     <label htmlFor="function-to-test">Function to Test</label><br />
                     <textarea rows="4" cols="50" id="function-to-test" value={functionToTest} onChange={(e) => setFunctionToTest(e.target.value)} />
-                </div>
-                <div>
+                </div> */}
+                <Textarea
+                    label="Function to Test:"
+                    onChange={(e) => setFunctionToTest(e.target.value)}
+                    id="function-to-test"
+                    value={functionToTest}
+                />
+                {/* <div>
                     <label htmlFor="tests-for-function">Tests for Function</label><br />
                     <textarea rows="4" cols="50" id="tests-for-function" value={testsForFunction} onChange={(e) => setTestsForFunction(e.target.value)} />
-                </div>
+                </div> */}
+                <Textarea
+                    label="Tests for Function:"
+                    onChange={(e) => setTestsForFunction(e.target.value)}
+                    id="tests-for-function"
+                    value={testsForFunction}
+                />
                 {/* <button type="submit">Generate Tests</button> */}
                 <Button type="submit">Generate Tests</Button>
             </form>
