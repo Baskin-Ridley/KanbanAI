@@ -77,34 +77,34 @@ const Headers = ({ board_id }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const boardData = await fetchKanbanBoardData();
-      const ticketsData = await fetchKanbanBoardTickets();
-
-      const headersData = Array.isArray(boardData.boards_headers)
-        ? boardData.boards_headers
-        : [boardData.boards_headers];
-
-      const updatedHeaders = headersData.map((header) => {
-        const headerTickets = ticketsData.filter(
-          (ticket) => ticket.header_id === header.header_id
-        );
-        // console.log(headerTickets[0])
-        return {
-          id: `header-${header.header_id}`,
-          name: header.header_name,
-          items: headerTickets.map((ticket) => ({
-            id: `item-${ticket.ticket_id}`,
-            content: ticket.ticket_content,
-          })),
-        };
-      });
-
-      setHeaders(updatedHeaders);
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const boardData = await fetchKanbanBoardData();
+    const ticketsData = await fetchKanbanBoardTickets();
+
+    const headersData = Array.isArray(boardData.boards_headers)
+      ? boardData.boards_headers
+      : [boardData.boards_headers];
+
+    const updatedHeaders = headersData.map((header) => {
+      const headerTickets = ticketsData.filter(
+        (ticket) => ticket.header_id === header.header_id
+      );
+      // console.log(headerTickets[0])
+      return {
+        id: `header-${header.header_id}`,
+        name: header.header_name,
+        items: headerTickets.map((ticket) => ({
+          id: `item-${ticket.ticket_id}`,
+          content: ticket.ticket_content,
+        })),
+      };
+    });
+
+    setHeaders(updatedHeaders);
+  };
 
   const [headers, setHeaders] = useState(initialHeaders);
 
@@ -231,6 +231,7 @@ const Headers = ({ board_id }) => {
               ticketContent={selectedTicket}
               setIsOpen={setIsOpen}
               isOpen={isOpen}
+              fetchData={fetchData}
             />
           </div>
         )}
