@@ -236,8 +236,8 @@ def get_kanban_ticket(kanban_ticket_id):
 
 def update_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.get(kanban_ticket_id)
-    kanban_admin = "shodeb123@gmail.com"
-    kanban_scram_master = "shodeb123@gmail.com"
+    kanban_admin = "app.builtdifferent.info@gmail.com"
+    kanban_scram_master = "app.builtdifferent.info@gmail.com"
     if not ticket:
         return jsonify({'error': 'Kanban ticket not found'}), 404
     data = request.get_json()

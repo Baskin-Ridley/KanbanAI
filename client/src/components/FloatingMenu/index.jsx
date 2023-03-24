@@ -8,11 +8,17 @@ const FloatingMenu = () => {
     const stackHandler = () => {
 
         setStackView(!stackView)
+        if (gitView) {
+            setGitView(!gitView)
+        }
     }
     const gitHandler = () => {
 
         setGitView(!gitView)
-        console.log(gitView)
+        if (stackView) {
+            setStackView(!stackView)
+        }
+
     }
 
     return (

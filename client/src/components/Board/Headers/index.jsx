@@ -112,12 +112,13 @@ const Headers = ({ board_id }) => {
     console.log(headers)
   }, [headers]);
 
-  const handleAddSubItem = (headerId) => {
+  const handleAddSubItem = async (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
-      const newSubItemId = `item-${itemName}`;
+      const newSubItemId = `item-${itemName.trim()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
+      console.log(headerIndex)
       console.log(newSubItem, 'item added')
       setHeaders((prevState) =>
         prevState.map((header) =>
@@ -129,11 +130,34 @@ const Headers = ({ board_id }) => {
       setNewItemNames((prevState) =>
         prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
+
     }
     console.log(newItemNames, 'inputs check')
     console.log(headers, 'headers')
+      try {
+        const response = await fetch(`http://localhost:5000/kanban-tickets`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: itemName,
+            content: itemName,
+            user_id: 1,
+            start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
+            header_id: 3,
+            ticket_status: "open",
+            kanban_board_id: 1
+          })
+        });
+    
+        const data = await response.json();
+        return data;
 
-  };
+      } catch (error) {
+      console.error("Error adding new item:", error);
+      }
+    };
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
