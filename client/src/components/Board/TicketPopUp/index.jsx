@@ -45,7 +45,7 @@ function TicketPopUp(props) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setMatchingTicket(data);
+        // setMatchingTicket(data);
         setEditedTicket(data);
         console.log("Ticket updated:", data);
       })

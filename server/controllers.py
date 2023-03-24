@@ -253,12 +253,12 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
-        user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_admin, ticket.title, "closed", user_name)
-    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
-        user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+    #     user_name = User.query.get(ticket.user_id)
+    #     sendMail(kanban_admin, ticket.title, "closed", user_name)
+    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+    #     user_name = User.query.get(ticket.user_id)
+    #     sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
