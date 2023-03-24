@@ -6,40 +6,6 @@ import "./style.css";
 
 
 const initialHeaders = []
-// const initialHeaders = [
-//   {
-//     id: "header-1",
-//     name: "Header 1",
-//     items: [
-//       { id: "0-item-0", content: "Item 1" },
-//       {
-//         id: "0-item-1",
-//         content: "Item 2",
-//         comment: "This is a comment",
-//         assigned: [
-//           { id: "1", name: "John Doe" },
-//           { id: "2", name: "Jane Doe" },
-//         ],
-//       },
-//     ],
-//   },
-//   {
-//     id: "header-2",
-//     name: "Header 2",
-//     items: [
-//       { id: "1-item-0", content: "Item 3" },
-//       { id: "1-item-1", content: "Item 4" },
-//     ],
-//   },
-//   {
-//     id: "header-3",
-//     name: "Header 3",
-//     items: [
-//       { id: "2-item-0", content: "Item 5" },
-//       { id: "2-item-1", content: "Item 6" },
-//     ],
-//   },
-// ];
 
 const Headers = ({board_id}) => {
   const fetchKanbanBoardData = async () => {
@@ -47,11 +13,6 @@ const Headers = ({board_id}) => {
       const response = await fetch(`http://localhost:5000/kanban-boards/${board_id}`);
       const data = await response.json();
       const header = data.boards_headers[0]
-      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      // console.log(data)
-      // console.log(header.header_id)
-      // console.log(header.header_name)
-      // console.log(header.tickets_under_this_header)
       return data;
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -122,8 +83,41 @@ const Headers = ({board_id}) => {
       prevState.map((name, index) =>
         headers[index].id === headerId ? newValue : name
       )
-    );
+      );
+      // console.log(newItemNames)
   };
+
+  useEffect(() => {
+    setNewItemNames(headers.map(() => ""));
+  }, [headers]);
+
+  // useEffect(() => {
+  //   console.log(newItemNames);
+  // }, [newItemNames]);
+
+  // const handleAddSubItem = (headerId) => {
+  //   //headerIndex - WORKING
+  //   const headerIndex = headers.findIndex((header) => header.id === headerId);
+  //   //ItemName returns undefined?
+  //   const itemName = newItemNames[headerIndex];
+  //   console.log(itemName, 'itemName')
+  //   console.log(headerId, 'headerId')
+  //   if (itemName) {
+  //     const newSubItemId = `item-${Date.now()}`;
+  //     const newSubItem = { id: newSubItemId, content: itemName };
+
+  //     setHeaders((prevState) =>
+  //       prevState.map((header) =>
+  //         header.id === headerId
+  //           ? { ...header, items: [...header.items, newSubItem] }
+  //           : header
+  //       )
+  //     );
+  //     setNewItemNames((prevState) =>
+  //       prevState.map((name, index) => (index === headerIndex ? "" : name))
+  //     );
+  //   }
+  // };
 
   const handleAddSubItem = (headerId) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
@@ -131,7 +125,6 @@ const Headers = ({board_id}) => {
     if (itemName) {
       const newSubItemId = `item-${Date.now()}`;
       const newSubItem = { id: newSubItemId, content: itemName };
-
       setHeaders((prevState) =>
         prevState.map((header) =>
           header.id === headerId
@@ -140,10 +133,14 @@ const Headers = ({board_id}) => {
         )
       );
       setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
+        prevState.map((name, index) =>
+          index === headerIndex ? "" : name
+        )
       );
     }
+    console.log(newItemNames)
   };
+  
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
