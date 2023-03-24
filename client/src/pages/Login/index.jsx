@@ -26,6 +26,7 @@ const LoginPage = () => {
 
   return (
     <div className="form-container">
+      <Message message={error} type="error" />
       <form onSubmit={handleLogin}>
         <h2>Login</h2>
         <Input
@@ -52,7 +53,6 @@ const LoginPage = () => {
             {/* Register here. */}
           </CustomLink>
         </div>
-        <Message message={error} type="error" />
       </form>
     </div>
   );
