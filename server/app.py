@@ -76,15 +76,16 @@ def ai_steps():
     print(data)
     task = data['task']
     steps = data['steps']
-    prompt = "The kanban task is 'create a message app'. Create step-by-step tickets for the kanban board breaking the larger task into smaller tasks."
+    prompt = f"The task is to {task} break down this task into smaller developer tasks for a kanban board. Number each task 1) 2) etc \n"
     # beginning = data['beginning']
     response = openai.Completion.create(
-        engine="davinci",
+        model="text-davinci-003",
         prompt=prompt,
-        max_tokens=100,
-        n=1,
-        stop=None,
-        temperature=0.7,
+        temperature=1,
+        max_tokens=256,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
     )
     print(response)
     steps_for_task = response.choices[0].text
@@ -185,7 +186,7 @@ def get_kanban_tickets_route():
 def get_kanban_ticket_route(kanban_ticket_id):
     return get_kanban_ticket(kanban_ticket_id)
 
-    
+
 @ app.route('/kanban-tickets/<int:kanban_ticket_id>', methods=['PUT'])
 def update_kanban_ticket_route(kanban_ticket_id):
     return update_kanban_ticket(kanban_ticket_id)
