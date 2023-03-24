@@ -1,6 +1,6 @@
 from app import app
 from database import db
-from models import User, Kanban_Board, Kanban_Ticket, Kanban_Header
+from models import User, Kanban_Board, Kanban_Ticket, Kanban_Header, Super_User
 from datetime import datetime, timedelta
 
 with app.app_context():
@@ -18,6 +18,7 @@ with app.app_context():
         role="leader",
         email="user1@example.com",
         avatar="avatar1.png",
+        supervisors=['admin1']
     )
     db.session.add(user1)
 
@@ -28,8 +29,20 @@ with app.app_context():
         role="user",
         email="user2@example.com",
         avatar="avatar2.png",
+        supervisors=['admin1']
     )
     db.session.add(user2)
+    
+    admin = Super_User(
+        username="admin1",
+        name="supervisor 1",
+        password="asd",
+        role="supervisor",
+        email="admin1@example.com",
+        members=["user1","user2"],
+        isSuper=True,
+    )
+    db.session.add(admin)
 
     # Commit the users
     db.session.commit()

@@ -6,8 +6,7 @@ from database import db
 
 
 load_dotenv()
-DATABASE_URL = os.environ.get('DATABASE_URL')
-FLASK_RUN_PORT = int(os.environ.get('FLASK_RUN_PORT', 5000))
+
 PASSWORD = os.environ.get('PASS')
 app = Flask(__name__)
 mail = Mail(app)
@@ -30,6 +29,7 @@ def sendMail(receiver, title, state, user_name):
         msg.body = f'Hi Scram Master, \nthe ticket "{title}" has been flagged as blocked by user: {user_name}'
     try:
         mail.send(msg)
+        print('SENT!')
         return 'Sent'
     except Exception as e:
         return e

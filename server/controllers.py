@@ -235,8 +235,8 @@ def get_kanban_ticket(kanban_ticket_id):
 
 def update_kanban_ticket(kanban_ticket_id):
     ticket = Kanban_Ticket.query.get(kanban_ticket_id)
-    kanban_admin = "shodeb123@gmail.com"
-    kanban_scram_master = "shodeb123@gmail.com"
+    kanban_admin = "app.builtdifferent.info@gmail.com"
+    kanban_scram_master = "app.builtdifferent.info@gmail.com"
     if not ticket:
         return jsonify({'error': 'Kanban ticket not found'}), 404
     data = request.get_json()
@@ -255,7 +255,6 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
-        print("trying to send mail")
         sendMail(kanban_admin, ticket.title, "closed", user_name)
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)
