@@ -41,13 +41,18 @@ function TicketPopUp(props) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(editedTicket),
+      body: JSON.stringify({
+        title: editedTicket.ticket_title,
+        content: editedTicket.ticket_content,
+        ticket_status: editedTicket.ticket_status,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
         // setMatchingTicket(data);
         setEditedTicket(data);
         console.log("Ticket updated:", data);
+        closeModal();
       })
       .catch((error) => console.error(error));
   };
