@@ -16,7 +16,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="form-container">
+    <main className="form-container">
       <h1 className="text-3xl font-bold mb-8">Settings</h1>
       {message && <Message>{message}</Message>}
       <form className="w-full max-w-md" onSubmit={handleSubmit}>
@@ -48,7 +48,7 @@ const Settings = () => {
           Update
         </Button>
       </form>
-    </div>
+    </main>
   );
 };
 
