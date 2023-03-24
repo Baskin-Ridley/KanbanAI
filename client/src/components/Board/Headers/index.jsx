@@ -288,6 +288,10 @@ const Headers = ({ board_id }) => {
                         setIsOpenCreate={setIsOpenCreate}
                         isOpenCreate={isOpenCreate}
                         id={id}
+                        headers={headers}
+                        setHeaders={setHeaders}
+                        newItemNames={newItemNames}
+                        setNewItemNames={setNewItemNames}
                       />{" "}
                     </div>
                   )}

@@ -6,11 +6,13 @@ const CreateTicketPopUp = (props) => {
   };
 
   const createNewTask = async (headerId) => {
-    const headerIndex = headers.findIndex((header) => header.id === headerId);
-    const itemName = newItemNames[headerIndex];
+    const headerIndex = props.headers.findIndex(
+      (header) => header.id === headerId
+    );
+    const itemName = props.newItemNames[headerIndex];
     if (itemName) {
       const newSubItemId = `item-${itemName.trim()}`;
-      const newSubItem = { id: newSubItemId, content: itemName };
+      const newSubItem = { id: props.newSubItemId, content: itemName };
       console.log(headerIndex);
       console.log(newSubItem, "item added");
       setHeaders((prevState) =>
@@ -20,12 +22,11 @@ const CreateTicketPopUp = (props) => {
             : header
         )
       );
-      setNewItemNames((prevState) =>
+      props.setNewItemNames((prevState) =>
         prevState.map((name, index) => (index === headerIndex ? "" : name))
       );
     }
-    console.log(newItemNames, "inputs check");
-    console.log(headers, "headers");
+    console.log(props.newItemNames, "inputs check");
     try {
       const response = await fetch(`http://localhost:5000/kanban-tickets`, {
         method: "POST",
@@ -64,6 +65,7 @@ const CreateTicketPopUp = (props) => {
                     onClick={closeModal}
                   />
                   <h3>{props.id}</h3>
+                  <Button onClick={() => createNewTask(props.id)} />
                 </div>
               </div>
             </div>
