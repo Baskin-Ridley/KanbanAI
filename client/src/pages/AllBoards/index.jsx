@@ -40,7 +40,7 @@ function AllBoards() {
   }
 
   return (
-    <div>
+    <main>
       <h1>All Kanban Boards</h1>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
@@ -54,7 +54,7 @@ function AllBoards() {
           </li>
         ))}
       </ul>
-    </div>
+    </main>
   );
 }
 
