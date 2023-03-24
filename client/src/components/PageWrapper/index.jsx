@@ -5,12 +5,12 @@ import Header from "../Header";
 import Navigation from "../Navigation";
 import Message from "../Message";
 import Footer from "../Footer";
-import { BoardTest } from "../../pages";
+import { FancyMenu } from "../../pages";
 import { UserProvider } from "../../context/UserContext";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const PageWrapper = () => {
-  const { user, logout } = useContext(UserContext);
+  const { user, login, register, logout } = useContext(UserContext);
   return (
     <>
       <Header />
@@ -18,7 +18,7 @@ const PageWrapper = () => {
       <Message />
       <Outlet />
       <Footer />
-      {user && <BoardTest />}
+      {user && <FancyMenu />}
     </>
   );
 };
