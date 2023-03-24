@@ -8,7 +8,6 @@ import {
   Registration,
   NotFoundPage,
   Board,
-  FancyMenu,
   Settings,
   AllBoards,
   Ticket,
