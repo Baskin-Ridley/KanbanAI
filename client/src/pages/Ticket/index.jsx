@@ -42,7 +42,7 @@ const Ticket = () => {
     };
 
     return (
-        <div className="form-container">
+        <main className="form-container">
             <h2>Create New Ticket</h2>
             <form onSubmit={handleFormSubmit}>
                 {/* <div>
@@ -118,7 +118,7 @@ const Ticket = () => {
                 {/* <button type="submit">Generate Tests</button> */}
                 <Button type="submit">Generate Tests</Button>
             </form>
-        </div>
+        </main>
     );
 };
 
