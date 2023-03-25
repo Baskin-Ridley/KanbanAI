@@ -21,7 +21,7 @@ function AllBoards() {
       .catch((error) => console.error(error));
   }, [user]);
 
-  console.log(kanbanBoards)
+  // console.log(kanbanBoards)
 
   const navigate = useNavigate();
 
