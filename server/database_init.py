@@ -60,6 +60,8 @@ with app.app_context():
     )
     db.session.add(notification8)
 
+    # Commit the notifications
+    db.session.commit()
 
     # Add some users
 
