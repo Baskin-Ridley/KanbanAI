@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import "./dashboard.css"
+import { Notification } from "../../components"
 
 
 const Dashboard = () => {
@@ -17,8 +18,9 @@ const Dashboard = () => {
           <div className='col-4'>
             <div className='left-container'>
               <div className='Card'>
-                <p >peppe</p>
+                {user && <Notification />}
               </div>
+
             </div>
           </div>
           <div className='col-8'>
