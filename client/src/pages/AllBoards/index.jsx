@@ -40,8 +40,8 @@ function AllBoards() {
   }
 
   return (
-    <main>
-      <h1>All Kanban Boards</h1>
+    <main className="flex flex-col items-center justify-center">
+      <h2 className="text-3xl font-bold mb-8 m-12 text-center">All Kanban Boards</h2>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
           <li key={kanbanBoard.board_id}>
