@@ -19,6 +19,7 @@ const CreateTicketPopUp = (props) => {
   }
 
   function handleAddItem(headerId) {
+    console.log(headerId);
     const number = parseInt(headerId.split("-")[1]);
 
     fetch("http://localhost:5000/kanban-tickets", {
@@ -27,8 +28,8 @@ const CreateTicketPopUp = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "New Ticket",
-        content: "New Ticket Content",
+        title: tickets.title,
+        content: tickets.content,
         user_id: 1,
         start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
         header_id: number,
