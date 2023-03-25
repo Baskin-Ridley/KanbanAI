@@ -1,3 +1,4 @@
+/* TailwindCSS import statements */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -36,24 +37,4 @@
 .color-text-2-4 { color: #FF6700 }
 .color-bg-2-4 { background-color: #FF6700 }	
 
-body {
-  margin: 3em;
-}
-
-.root{
-  width: 100%;
-}
-
-header {
-  width: 100%;
-}
-
-nav {
-  width: 100%;
-}
-
-main {
-  width: 70%;
-}
-
-
+/*Background image url import statements*/
