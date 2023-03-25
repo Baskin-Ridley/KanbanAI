@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import CustomLink from "../CustomLink";
-import Button from "../Button";
+import Form_Button from "../Form_Button";
 
 const Navigation = () => {
   const { user, logout } = useContext(UserContext);
@@ -16,7 +16,7 @@ const Navigation = () => {
 
   return (
     <nav className="bg-gray-800">
-      <ul className="flex items-center justify-between max-w-6xl mx-auto px-4 py-2">
+      <ul className="flex items-center justify-between max-w-6xl mx-auto px-4 py-2 w-1/3">
         {user ? (
           <>
             <li>
@@ -29,11 +29,12 @@ const Navigation = () => {
               <CustomLink to="/all-boards">All Kanban Boards</CustomLink>
             </li>
             <li>
-              <Button
+              <Form_Button
                 onClick={handleLogout}
-              >
-                Logout
-              </Button>
+                buttonText={"Logout"}
+                formElementId="button-logout"
+                ariaLabel={"Logout button"}
+              />
             </li>
           </>
         ) : (

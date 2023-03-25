@@ -25,17 +25,18 @@ class User(db.Model):
     role = db.Column(db.String(80), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     avatar = db.Column(db.String(255), nullable=True)
-    supervisors = db.Column(ARRAY(db.String()),nullable=True)
+    supervisors = db.Column(ARRAY(db.String()), nullable=True)
+    isSuper = db.Column(db.Boolean, nullable=False, default=False)
 
-    def __init__(self, username, name, password, role, email, supervisors, avatar=None):
+    def __init__(self, username, name, password, role, email, supervisors, isSuper=False, avatar=None):
         self.username = username
         self.name = name
         self.password = password
         self.role = role
         self.email = email
         self.supervisors = supervisors
+        self.isSuper = isSuper
         self.avatar = avatar
-      
 
     def check_password(self, password):
         return self.password == password

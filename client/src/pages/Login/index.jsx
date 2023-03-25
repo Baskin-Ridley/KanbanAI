@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import Message from "../../components/Message";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
+import Form_Button from "../../components/Form_Button";
+import Form_Input from "../../components/Form_Input";
 import CustomLink from "../../components/CustomLink";
 
 const LoginPage = () => {
@@ -25,36 +25,38 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="form-container">
+    <main className="flex flex-col items-center justify-center">
+      <Message message={error} type="error" />
       <form onSubmit={handleLogin}>
-        <h2>Login</h2>
-        <Input
+        <h2 className="text-3xl font-bold mb-8 m-12 text-center">Login</h2>
+        <Form_Input
           label="Username:"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          formElementId="login-field-username"
+          ariaLabel="Field in which to input the username"
         />
-        <Input
+        <Form_Input
           label="Password:"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          formElementId="login-field-password"
+          ariaLabel="Field in which to input the password"
         />
-        <Button type="submit">Login</Button>
-        <div className="mb-4">
-          <span className="text-sm text-gray-600 mr-2">
+        <Form_Button buttonText="Login" formElementId="login-page-button-login" ariaLabel="Button for logging in" />
+        <div className="mb-4 text-center">
+          <br />
+          <p className="text-sm text-gray-600 mr-2">
             Don't have an account?
-          </span> <br />
-          <CustomLink
-            to="/register"
-          >
-            <Button type="submit">Register</Button>
-            {/* Register here. */}
+          </p>
+          <CustomLink to="/register">
+            <Form_Button buttonText="Register" formElementId="login-page-button-register" ariaLogin="Button for registering" />
           </CustomLink>
         </div>
-        <Message message={error} type="error" />
       </form>
-    </div>
+    </main>
   );
 };
 

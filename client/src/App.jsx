@@ -8,17 +8,13 @@ import {
   Registration,
   NotFoundPage,
   Board,
-  FancyMenu,
   Settings,
   AllBoards,
   Ticket,
 } from "./pages";
 
 import AISteps from "./components/AI";
-
 import PageWrapper from "./components/PageWrapper";
-
-import "./index.css";
 
 function App() {
   return (

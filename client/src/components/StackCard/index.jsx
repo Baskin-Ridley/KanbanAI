@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import "./style.css"
 import { decode } from 'html-entities';
+import "../../index.css"
 
-function StackCard() {
+export const StackCard = () => {
 
     const [stack, setStack] = useState()
     const [title, setTitle] = useState("")
@@ -103,5 +103,3 @@ function StackCard() {
         </div>
     )
 }
-
-export default StackCard

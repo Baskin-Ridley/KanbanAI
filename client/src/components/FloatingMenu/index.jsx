@@ -1,42 +1,38 @@
 import React from 'react'
 import { useView } from '../../context/UserContext'
+import "../../index.css"
 
-const FloatingMenu = () => {
+export const FloatingMenu = () => {
 
     const { stackView, setStackView, gitView, setGitView } = useView()
 
     const stackHandler = () => {
-
         setStackView(!stackView)
         if (gitView) {
             setGitView(!gitView)
         }
     }
     const gitHandler = () => {
-
         setGitView(!gitView)
         if (stackView) {
             setStackView(!stackView)
         }
-
     }
 
     return (
         <>
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
-            <nav className="menu">
+            <nav className="filter url('#goo') absolute bottom-12 left-1/2 transform -translate-x-1/2 pt-5 pl-48 w-96 h-64 box-border text-base text-left bg-transparent">
                 <input type="checkbox" href="#" className="menu-open" name="menu-open" id="menu-open" />
                 <label className="menu-open-button" htmlFor="menu-open">
                     <span className="hamburger hamburger-1"></span>
                     <span className="hamburger hamburger-2"></span>
                     <span className="hamburger hamburger-3"></span>
                 </label>
-
                 <a href="#" className="menu-item" onClick={() => stackHandler()}> <i className="fa fa-stack-overflow"></i> </a>
                 <a href="#" className="menu-item" onClick={() => gitHandler()}> <i className="fa fa-git"></i> </a>
                 <a href="#" className="menu-item"> <i className="fa fa-bar-chart"></i> </a>
-
             </nav>
             <svg>
                 <defs>
@@ -56,11 +52,6 @@ const FloatingMenu = () => {
                     </filter>
                 </defs>
             </svg>
-
-
         </>
     );
-
 }
-
-export default FloatingMenu

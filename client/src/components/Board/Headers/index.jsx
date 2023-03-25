@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Button from "../../Button";
-import Input from "../../Input";
+import Form_Button from "../../Form_Button";
+import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-import "./style.css";
 
 const initialHeaders = [];
 
@@ -211,7 +210,7 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
-      <button onClick={handleNewItemClick}>open create</button>
+      <Form_Button buttonText="Open Create" onClick={handleNewItemClick} formElementId="board-headers-button-open-create" ariaLabel="Button for open create" />
       <CreateTicketPopUp
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
@@ -282,6 +281,10 @@ const Headers = ({ board_id }) => {
                           </div>
                         )}
                       </Droppable>
+
+                      <Form_Input type="text" value={newItemNames[index]} onChange={(e) => handleNewItemNameChange(id, e.target.value)} ariaLabel="Field in which to type new task" />
+                      <Form_Button buttonText="Add Item" onClick={handleNewItemClick} formElementId="board-headers-button-add-item" ariaLabel="Button for adding task" />
+
                       <Input type="text"
                         // className="p-2 bg-gray-100 rounded-lg border border-gray-400 mb-2"
                         value={newItemNames[index]}
@@ -290,6 +293,7 @@ const Headers = ({ board_id }) => {
                         }
                       />
                       <Button onClick={() => handleNewItemClick(id)}>Add Item</Button>
+
                       <CreateTicketPopUp
 
                         setIsOpenCreate={setIsOpenCreate}
@@ -314,12 +318,8 @@ const Headers = ({ board_id }) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <Input
-                      type="text"
-                      value={newHeaderName}
-                      onChange={(e) => setNewHeaderName(e.target.value)}
-                    />
-                    <Button onClick={handleAddHeader}>Add Header</Button>
+                    <Form_Input type="text" value={newHeaderName} onChange={(e) => setNewHeaderName(e.target.value)} ariaLabel="Field in which to type new header" />
+                    <Form_Button buttonText="Add Header" onClick={handleAddHeader} ariaLabel="Button for adding new header" />
                   </div>
                 )}
               </Draggable>

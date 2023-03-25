@@ -43,7 +43,6 @@ export const UserProvider = ({ children }) => {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
-      //setUser(data.user);
       setUser(null);
     } catch (error) {
       console.error("Error registering user", error);
@@ -61,6 +60,5 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-
 
 export const useView = () => useContext(UserContext);
