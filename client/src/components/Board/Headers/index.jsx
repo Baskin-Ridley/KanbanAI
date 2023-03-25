@@ -5,12 +5,13 @@ import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
 const initialHeaders = [];
+import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
+  const initialHeaders = [];
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenCreate, setIsOpenCreate] = useState(false);
-
   const [responseData, setResponseData] = useState("");
 
   function handleTicketClick(ticketContent) {
@@ -25,42 +26,14 @@ const Headers = ({ board_id }) => {
     setIsOpenCreate(true);
   }
 
-  const fetchKanbanBoardData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/kanban-boards/${board_id}`
-      );
-      const data = await response.json();
-
-      const header = data.boards_headers[0];
-      setResponseData(data);
-      return data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  //Loads tickets of this kanban board
-  const fetchKanbanBoardTickets = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/kanban-boards/${board_id}/tickets`
-      );
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching tickets:", error);
-    }
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const boardData = await fetchKanbanBoardData();
+    const boardData = await FetchKBD(board_id);
     setResponseData(boardData);
-    const ticketsData = await fetchKanbanBoardTickets();
+    const ticketsData = await FetchTickets(board_id);
 
     const headersData = Array.isArray(boardData.boards_headers)
       ? boardData.boards_headers
@@ -70,7 +43,6 @@ const Headers = ({ board_id }) => {
       const headerTickets = ticketsData.filter(
         (ticket) => ticket.header_id === header.header_id
       );
-      // console.log(headerTickets[0])
       return {
         id: `header-${header.header_id}`,
         name: header.header_name,
@@ -108,17 +80,8 @@ const Headers = ({ board_id }) => {
     setNewHeaderName("");
   };
 
-  const handleNewItemNameChange = (headerId, newValue) => {
-    setNewItemNames((prevState) =>
-      prevState.map((name, index) =>
-        headers[index].id === headerId ? newValue : name
-      )
-    );
-  };
-
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
-    console.log(headers);
   }, [headers]);
 
   const handleOnDragEnd = (result) => {
@@ -145,7 +108,6 @@ const Headers = ({ board_id }) => {
         const [reorderedItem] = newItems.splice(source.index, 1);
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
-        // console.log(newItems);
         setHeaders([...headers]);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
@@ -153,8 +115,6 @@ const Headers = ({ board_id }) => {
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
-        // console.log(destinationHeader.items);
-        // console.log(headers, 'headers')
       }
     }
     // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
@@ -193,61 +153,54 @@ const Headers = ({ board_id }) => {
               ref={provided.innerRef}
             >
               {headers.map(({ id, name, items }, index) => (
-                <>
-                  {/* {console.log(id)} */}
-
-                  <Draggable key={id} draggableId={id} index={index}>
-                    {(provided) => (
-                      <div
-                        className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <h2 className="text-lg font-bold mb-2">{name}</h2>
-                        <Droppable droppableId={`column-${id}`} type="item">
-                          {(provided) => (
-                            <div
-                              className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                            >
-                              {items.map(({ id, content }, index) => (
-                                <Draggable
-                                  key={id}
-                                  draggableId={id}
-                                  index={index}
-                                >
-                                  {(provided) => (
-                                    <div
-                                      className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      onClick={() =>
-                                        handleTicketClick({ content })
-                                      }
-                                    >
-                                      {content}
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-
-                        <Form_Button
-                          buttonText="Add Item"
-                          onClick={handleNewItemClick}
-                          formElementId="board-headers-button-add-item"
-                          ariaLabel="Button for adding task"
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                </>
+                <Draggable key={id} draggableId={id} index={index}>
+                  {(provided) => (
+                    <div
+                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <h2 className="text-lg font-bold mb-2">{name}</h2>
+                      <Droppable droppableId={`column-${id}`} type="item">
+                        {(provided) => (
+                          <div
+                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            {items.map(({ id, content }, index) => (
+                              <Draggable
+                                key={id}
+                                draggableId={id}
+                                index={index}
+                              >
+                                {(provided) => (
+                                  <div
+                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
+                                  >
+                                    {content}
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                      <Form_Button
+                        onClick={() => handleNewItemClick(id)}
+                        buttonText="Add Ticket"
+                      />
+                    </div>
+                  )}
+                </Draggable>
               ))}
               <Draggable
                 key="new-header"

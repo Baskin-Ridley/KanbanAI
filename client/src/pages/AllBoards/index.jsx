@@ -21,8 +21,6 @@ function AllBoards() {
       .catch((error) => console.error(error));
   }, [user]);
 
-  console.log(kanbanBoards);
-
   const navigate = useNavigate();
 
   function handleDelete(id) {
