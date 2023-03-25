@@ -11,6 +11,7 @@ with app.app_context():
     db.create_all()
 
     # Add some users
+
     user1 = User(
         username="user1",
         name="User One",
@@ -18,7 +19,8 @@ with app.app_context():
         role="leader",
         email="user1@example.com",
         avatar="avatar1.png",
-        supervisors=['admin1']
+        supervisors=['admin1'],
+        isSuper=False
     )
     db.session.add(user1)
 
@@ -29,25 +31,28 @@ with app.app_context():
         role="user",
         email="user2@example.com",
         avatar="avatar2.png",
-        supervisors=['admin1']
+        supervisors=['admin1'],
+        isSuper=True
     )
     db.session.add(user2)
 
-    admin = Super_User(
-        username="admin1",
-        name="supervisor 1",
-        password="asd",
-        role="supervisor",
-        email="admin1@example.com",
-        members=["user1", "user2"],
-        isSuper=True,
+    user3 = User(
+        username="user3",
+        name="User Three",
+        password="password3",
+        role="user",
+        email="user3@example.com",
+        avatar="avatar3.png",
+        supervisors=['admin1'],
+        isSuper=False
     )
-    db.session.add(admin)
+    db.session.add(user3)
 
     # Commit the users
     db.session.commit()
 
     # Add some Kanban boards
+
     board1 = Kanban_Board(user_id=user1.id, start_time=datetime.utcnow())
     db.session.add(board1)
 
@@ -91,6 +96,7 @@ with app.app_context():
     db.session.commit()
 
     # Add some Kanban tickets
+
     ticket1 = Kanban_Ticket(
         title="Ticket 1",
         content="Content for ticket 1",
@@ -227,24 +233,24 @@ with app.app_context():
     db.session.add(admin)
 
     super_user1 = Super_User(
-            username="superuser1",
-            name="Super User 1",
-            password="password1",
-            members=["user3"],
-            email="superuser1@example.com",
-            role="superuser",
-            isSuper=True,
+        username="superuser1",
+        name="Super User 1",
+        password="password1",
+        members=["user3"],
+        email="superuser1@example.com",
+        role="superuser",
+        isSuper=True,
     )
     db.session.add(super_user1)
 
     super_user2 = Super_User(
-            username="superuser2",
-            name="Super User 2",
-            password="password1",
-            members=["user4"],
-            email="superuser2@example.com",
-            role="superuser",
-            isSuper=True,
+        username="superuser2",
+        name="Super User 2",
+        password="password1",
+        members=["user4"],
+        email="superuser2@example.com",
+        role="superuser",
+        isSuper=True,
     )
     db.session.add(super_user2)
 
