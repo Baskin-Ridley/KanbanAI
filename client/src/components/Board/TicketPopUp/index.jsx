@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import Form_Textarea from "../../Form_Textarea";
-
+import Form_DropDown from "../../Form_DropDown";
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
@@ -70,13 +70,36 @@ function TicketPopUp(props) {
                 {editedTicket ? (
                   <form onSubmit={handleSubmit}>
                     <h2 className="text-lg font-bold mb-2">
-                    <Form_Input type="text" value={editedTicket.ticket_title} onChange={handleInputChange} formElementId="ticket_title" ariaLabel="Field for inputting the ticket title" />
+                      <Form_Input
+                        type="text"
+                        value={editedTicket.ticket_title}
+                        onChange={handleInputChange}
+                        formElementId="ticket_title"
+                        ariaLabel="Field for inputting the ticket title"
+                      />
                     </h2>
                     <p className="text-gray-700 mb-2">
-                      <Form_Textarea value={editedTicket.ticket_content} onChange={handleInputChange} formElementId="ticket_content" ariaLabel="Textarea for inputting the ticket content" />
+                      <Form_Textarea
+                        value={editedTicket.ticket_content}
+                        onChange={handleInputChange}
+                        formElementId="ticket_content"
+                        ariaLabel="Textarea for inputting the ticket content"
+                      />
                     </p>
                     <p className="text-gray-700 mb-2">
-                    <Form_DropDown label="Status:" value={editedTicket.ticket_status} onChange={handleInputChange} formElementId="ticket_status" ariaLabel="List to select the task status from" listOptions={["To do", "In Progress", "Done", "Blocked"]} />
+                      <Form_DropDown
+                        label="Status:"
+                        value={editedTicket.ticket_status}
+                        onChange={handleInputChange}
+                        formElementId="ticket_status"
+                        ariaLabel="List to select the task status from"
+                        listOptions={[
+                          "To do",
+                          "In Progress",
+                          "Done",
+                          "Blocked",
+                        ]}
+                      />
                     </p>
                     {user && (
                       <p className="text-gray-700 mb-2">
@@ -84,15 +107,28 @@ function TicketPopUp(props) {
                         add 'label="Users Assigned:"' 
                         as a property in the Form_Input field */}
                         Users Assigned:{" "}
-                        <Form_Input type="text" value={editedTicket.user_assigned} onChange={handleInputChange} formElementId="user_assigned" ariaLabel="Input field for assigned user" />
+                        <Form_Input
+                          type="text"
+                          value={editedTicket.user_assigned}
+                          onChange={handleInputChange}
+                          formElementId="user_assigned"
+                          ariaLabel="Input field for assigned user"
+                        />
                       </p>
                     )}
-                    <Form_Button buttonText="Save" ariaLabel="Button for saving the ticket changes" />
+                    <Form_Button
+                      buttonText="Save"
+                      ariaLabel="Button for saving the ticket changes"
+                    />
                   </form>
                 ) : (
                   <p>No matching ticket found</p>
                 )}
-                <Form_Button buttonText="Close" onClick={closeModal} ariaLabel="Button for closing modal popup view" />
+                <Form_Button
+                  buttonText="Close"
+                  onClick={closeModal}
+                  ariaLabel="Button for closing modal popup view"
+                />
               </div>
             </div>
           </div>

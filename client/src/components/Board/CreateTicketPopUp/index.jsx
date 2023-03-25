@@ -2,55 +2,50 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
+  console.log("hello", props.id);
+  const [tickets, setTickets] = useState({
+    title: "",
+    content: "",
+  });
+  console.log(tickets);
   const closeModal = () => {
     props.setIsOpenCreate(false);
   };
-  // const createNewTask = async (headerId) => {
-  //   const headerIndex = props.headers.findIndex(
-  //     (header) => header.id === headerId
-  //   );
-  //   console.log(headerIndex);
-  //   const itemName = props.newItemNames[headerIndex];
-  //   if (itemName) {
-  //     const newSubItemId = `item-${itemName.trim()}`;
-  //     const newSubItem = { id: newSubItemId, content: itemName };
-  //     console.log(headerIndex);
-  //     console.log(newSubItem, "item added");
-  //     setHeaders((prevState) =>
-  //       prevState.map((header) =>
-  //         header.id === headerId
-  //           ? { ...header, items: [...header.items, newSubItem] }
-  //           : header
-  //       )
-  //     );
-  //     props.setNewItemNames((prevState) =>
-  //       prevState.map((name, index) => (index === headerIndex ? "" : name))
-  //     );
-  //   }
-  //   console.log(props.newItemNames, "inputs check");
-  //   try {
-  //     const response = await fetch(`http://localhost:5000/kanban-tickets`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         title: itemName,
-  //         content: itemName,
-  //         user_id: 1,
-  //         start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-  //         header_id: 3,
-  //         ticket_status: "open",
-  //         kanban_board_id: 1,
-  //       }),
-  //     });
 
-  //     const data = await response.json();
-  //     return data;
-  //   } catch (error) {
-  //     console.error("Error adding new item:", error);
-  //   }
-  // };
+  function handleTitleUpdate(event) {
+    setTickets({ ...tickets, title: event.target.value });
+  }
+  function handleContentUpdate(event) {
+    setTickets({ ...tickets, content: event.target.value });
+  }
+
+  function handleAddItem(headerId) {
+    // console.log(headerId);
+    // const number = parseInt(headerId.split("-")[1]);
+
+    fetch("http://localhost:5000/kanban-tickets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: tickets.title,
+        content: tickets.content,
+        user_id: 1,
+        start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
+        header_id: 3,
+        ticket_status: "open",
+        kanban_board_id: 1,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket created:", data);
+        props.fetchData();
+        closeModal();
+      })
+      .catch((error) => console.error(error));
+  }
 
   return (
     <>
@@ -59,11 +54,34 @@ const CreateTicketPopUp = (props) => {
           <div className="flex items-center justify-center min-h-screen">
             <div className="bg-white rounded-lg overflow-hidden shadow-xl">
               <div className="p-4">
-                <div className="flex justify-between">
+                <div className="flex flex-col	justify-between">
                   <h2 className="text-xl font-bold">Create New Task</h2>
-                  <Form_Button buttonText="Close" onClick={closeModal} ariaLabel="Button for closing the modal popup view"/>
-                  <h3>{props.id}</h3>
-                  <Form_Button buttonText="Save" onClick={() => props.handleAddSubItem(props.id)} ariaLabel="Button for saving the data" />
+                  <Form_Input
+                    label="Title"
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    ariaLabel="title"
+                    onChange={handleTitleUpdate}
+                  />
+                  <Form_Input
+                    label="Content"
+                    type="text"
+                    name="content"
+                    placeholder="Content"
+                    ariaLabel="content"
+                    onChange={handleContentUpdate}
+                  />
+                  <Form_Button
+                    buttonText="Save"
+                    onClick={() => handleAddItem(props.id)}
+                    ariaLabel="Button for saving the data"
+                  />
+                  <Form_Button
+                    buttonText="Close"
+                    onClick={closeModal}
+                    ariaLabel="Button for closing the modal popup view"
+                  />
                 </div>
               </div>
             </div>
