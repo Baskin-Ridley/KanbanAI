@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Button from "../../Button";
-import Input from "../../Input";
-import Textarea from "../../Textarea";
+import Form_Button from "../../Form_Button";
+import Form_Input from "../../Form_Input";
+import Form_Textarea from "../../Form_Textarea";
 
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
@@ -70,62 +70,29 @@ function TicketPopUp(props) {
                 {editedTicket ? (
                   <form onSubmit={handleSubmit}>
                     <h2 className="text-lg font-bold mb-2">
-                      <input
-                        type="text"
-                        name="ticket_title"
-                        value={editedTicket.ticket_title}
-                        onChange={handleInputChange}
-                      />
+                    <Form_Input type="text" value={editedTicket.ticket_title} onChange={handleInputChange} formElementId="ticket_title" ariaLabel="Field for inputting the ticket title" />
                     </h2>
                     <p className="text-gray-700 mb-2">
-                      <textarea
-                        name="ticket_content"
-                        value={editedTicket.ticket_content}
-                        onChange={handleInputChange}
-                      />
+                      <Form_Textarea value={editedTicket.ticket_content} onChange={handleInputChange} formElementId="ticket_content" ariaLabel="Textarea for inputting the ticket content" />
                     </p>
                     <p className="text-gray-700 mb-2">
-                      Status:
-                      <select
-                        name="ticket_status"
-                        value={editedTicket.ticket_status}
-                        onChange={handleInputChange}
-                      >
-                        <option value="To Do">To Do</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Done">Done</option>
-                        <option value="Blocked">Blocked</option>
-                      </select>
+                    <Form_DropDown label="Status:" value={editedTicket.ticket_status} onChange={handleInputChange} formElementId="ticket_status" ariaLabel="List to select the task status from" listOptions={["To do", "In Progress", "Done", "Blocked"]} />
                     </p>
                     {user && (
                       <p className="text-gray-700 mb-2">
+                        {/* If this text below is a label for the field, 
+                        add 'label="Users Assigned:"' 
+                        as a property in the Form_Input field */}
                         Users Assigned:{" "}
-                        <input
-                          type="text"
-                          name="user_assigned"
-                          value={editedTicket.user_assigned}
-                          onChange={handleInputChange}
-                        />
+                        <Form_Input type="text" value={editedTicket.user_assigned} onChange={handleInputChange} formElementId="user_assigned" ariaLabel="Input field for assigned user" />
                       </p>
                     )}
-
-                    <button
-                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                      type="submit"
-                    >
-                      Save
-                    </button>
+                    <Form_Button buttonText="Save" ariaLabel="Button for saving the ticket changes" />
                   </form>
                 ) : (
                   <p>No matching ticket found</p>
                 )}
-
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={closeModal}
-                >
-                  Close
-                </button>
+                <Form_Button buttonText="Close" onClick={closeModal} ariaLabel="Button for closing modal popup view" />
               </div>
             </div>
           </div>
