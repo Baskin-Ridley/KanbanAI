@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './style.css';
+import "../../index.css"
 
 export const GitCard = () => {
   const [commits, setCommits] = useState(undefined);
@@ -33,8 +33,8 @@ export const GitCard = () => {
 
   const gitCommitCard = data => {
     return (
-      <>
-        <div className='gitCardContainer'>
+      <div className="absolute">
+        <div className='absolute bottom-5 right-2 max-h-45vh w-30vw overflow-y-scroll border-4 border-azure'>
           {Object.keys(data).map((e, i) => (
             <div className='gitCard'>
               <li key={i}>
@@ -72,7 +72,7 @@ export const GitCard = () => {
         <button className='remove-git-view' onClick={() => clickHandler(states)}>
           back
         </button>
-      </>
+      </div>
     );
   };
 
