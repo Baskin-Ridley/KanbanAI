@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Input, Button } from "../../";
+import Form_Button from "../../Form_Button";
+import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
   const closeModal = () => {
     props.setIsOpenCreate(false);
@@ -61,12 +62,9 @@ const CreateTicketPopUp = (props) => {
               <div className="p-4">
                 <div className="flex justify-between">
                   <h2 className="text-xl font-bold">Create New Task</h2>
-                  <Button
-                    className="text-gray-400 hover:text-gray-500"
-                    onClick={closeModal}
-                  />
+                  <Form_Button buttonText="Close" onClick={closeModal} ariaLabel="Button for closing the modal popup view"/>
                   <h3>{props.id}</h3>
-                  <Button onClick={() => props.handleAddSubItem(props.id)} />
+                  <Form_Button buttonText="Save" onClick={() => props.handleAddSubItem(props.id)} ariaLabel="Button for saving the data" />
                 </div>
               </div>
             </div>
