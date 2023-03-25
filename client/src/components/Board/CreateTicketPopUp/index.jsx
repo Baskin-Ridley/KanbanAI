@@ -4,7 +4,6 @@ const CreateTicketPopUp = (props) => {
   const closeModal = () => {
     props.setIsOpenCreate(false);
   };
-
   // const createNewTask = async (headerId) => {
   //   const headerIndex = props.headers.findIndex(
   //     (header) => header.id === headerId
