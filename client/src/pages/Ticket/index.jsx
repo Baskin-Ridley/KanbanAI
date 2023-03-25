@@ -41,8 +41,8 @@ const Ticket = () => {
     };
 
     return (
-        <main className="form-container">
-            <h2>Create New Ticket</h2>
+        <main className="flex flex-col items-center justify-center">
+            <h2 className="text-3xl font-bold mb-8 m-12 text-center m-12 text-center">Create New Ticket</h2>
             <form onSubmit={handleFormSubmit}>
                 <Form_Input
                     label="Title:"
