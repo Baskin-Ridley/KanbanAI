@@ -2,9 +2,33 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
+  const [tickets, setTickets] = useState([]);
+
   const closeModal = () => {
     props.setIsOpenCreate(false);
   };
+
+  function handleAddItem() {
+    fetch("http://localhost:5000/kanban-tickets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: "New Ticket",
+        content: "New Ticket Content",
+        ticket_status: "New",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket created:", data);
+      })
+      .catch((error) => console.error(error));
+
+    props.fetchData();
+    closeModal();
+  }
 
   return (
     <>
@@ -18,7 +42,7 @@ const CreateTicketPopUp = (props) => {
                   <h3>{props.id}</h3>
                   <Form_Button
                     buttonText="Save"
-                    onClick={() => props.handleAddSubItem(props.id)}
+                    onClick={() => handleAddItem(props.id)}
                     ariaLabel="Button for saving the data"
                   />
                   <Form_Button
