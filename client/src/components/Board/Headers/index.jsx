@@ -4,7 +4,6 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-
 const initialHeaders = [];
 
 const Headers = ({ board_id }) => {
@@ -25,7 +24,6 @@ const Headers = ({ board_id }) => {
     setIsOpenCreate(true);
     setCurrentHeaderId(headerId);
   }
-
 
   const fetchKanbanBoardData = async () => {
     try {
@@ -61,7 +59,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await fetchKanbanBoardData();
-    setResponseData(boardData)
+    setResponseData(boardData);
     const ticketsData = await fetchKanbanBoardTickets();
 
     const headersData = Array.isArray(boardData.boards_headers)
@@ -124,8 +122,8 @@ const Headers = ({ board_id }) => {
   }, [headers]);
 
   const handleAddSubItem = async (headerId) => {
-    if (headerId){
-      console.log(headerId, 'headerID 126')
+    if (headerId) {
+      console.log(headerId, "headerID 126");
     }
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
@@ -210,7 +208,12 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
-      <Form_Button buttonText="Open Create" onClick={handleNewItemClick} formElementId="board-headers-button-open-create" ariaLabel="Button for open create" />
+      <Form_Button
+        buttonText="Open Create"
+        onClick={handleNewItemClick}
+        formElementId="board-headers-button-open-create"
+        ariaLabel="Button for open create"
+      />
       <CreateTicketPopUp
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
@@ -237,80 +240,94 @@ const Headers = ({ board_id }) => {
             >
               {headers.map(({ id, name, items }, index) => (
                 <>
-                
                   {/* {console.log(id)} */}
-                
-                <Draggable key={id} draggableId={id} index={index}>
-                  {(provided) => (
-                    <div
-                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <h2 className="text-lg font-bold mb-2">{name}</h2>
-                      <Droppable droppableId={`column-${id}`} type="item">
-                        {(provided) => (
-                          <div
-                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                          >
-                            {items.map(({ id, content }, index) => (
-                              <Draggable
-                                key={id}
-                                draggableId={id}
-                                index={index}
-                              >
-                                {(provided) => (
-                                  <div
-                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                    onClick={() =>
-                                      handleTicketClick({ content })
-                                    }
-                                  >
-                                    {content}
-                                  </div>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
 
-                      <Form_Input type="text" value={newItemNames[index]} onChange={(e) => handleNewItemNameChange(id, e.target.value)} ariaLabel="Field in which to type new task" />
-                      <Form_Button buttonText="Add Item" onClick={handleNewItemClick} formElementId="board-headers-button-add-item" ariaLabel="Button for adding task" />
-
-                      <Input type="text"
-                        // className="p-2 bg-gray-100 rounded-lg border border-gray-400 mb-2"
-                        value={newItemNames[index]}
-                        onChange={(e) =>
-                          handleNewItemNameChange(id, e.target.value)
-                        }
-                      />
-                      <Button onClick={() => handleNewItemClick(id)}>Add Item</Button>
-
-                      <CreateTicketPopUp
-
-                        setIsOpenCreate={setIsOpenCreate}
-                        isOpenCreate={isOpenCreate}
-                        id={currentHeaderId}
-                        headers={headers}
-                        setHeaders={setHeaders}
-                        newItemNames={newItemNames}
-                        setNewItemNames={setNewItemNames}
-                        handleAddSubItem={handleAddSubItem}
-                      />{" "}
-                    </div>
-                  )}
-                </Draggable>
+                  <Draggable key={id} draggableId={id} index={index}>
+                    {(provided) => (
+                      <div
+                        className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <h2 className="text-lg font-bold mb-2">{name}</h2>
+                        <Droppable droppableId={`column-${id}`} type="item">
+                          {(provided) => (
+                            <div
+                              className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
+                              ref={provided.innerRef}
+                              {...provided.droppableProps}
+                            >
+                              {items.map(({ id, content }, index) => (
+                                <Draggable
+                                  key={id}
+                                  draggableId={id}
+                                  index={index}
+                                >
+                                  {(provided) => (
+                                    <div
+                                      className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                      onClick={() =>
+                                        handleTicketClick({ content })
+                                      }
+                                    >
+                                      {content}
+                                    </div>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                        <Form_Input
+                          type="text"
+                          value={newItemNames[index]}
+                          onChange={(e) =>
+                            handleNewItemNameChange(id, e.target.value)
+                          }
+                          ariaLabel="Field in which to type new task"
+                        />
+                        <Form_Button
+                          buttonText="Add Item"
+                          onClick={handleNewItemClick}
+                          formElementId="board-headers-button-add-item"
+                          ariaLabel="Button for adding task"
+                        />
+                        <Form_Input
+                          type="text"
+                          // className="p-2 bg-gray-100 rounded-lg border border-gray-400 mb-2"
+                          value={newItemNames[index]}
+                          onChange={(e) =>
+                            handleNewItemNameChange(id, e.target.value)
+                          }
+                        />
+                        <Form_Button onClick={() => handleNewItemClick(id)}>
+                          Add Item
+                        </Form_Button>
+                        <CreateTicketPopUp
+                          setIsOpenCreate={setIsOpenCreate}
+                          isOpenCreate={isOpenCreate}
+                          id={currentHeaderId}
+                          headers={headers}
+                          setHeaders={setHeaders}
+                          newItemNames={newItemNames}
+                          setNewItemNames={setNewItemNames}
+                          handleAddSubItem={handleAddSubItem}
+                        />{" "}
+                      </div>
+                    )}
+                  </Draggable>
                 </>
               ))}
-              <Draggable key="new-header" draggableId="new-header" index={headers.length}>
+              <Draggable
+                key="new-header"
+                draggableId="new-header"
+                index={headers.length}
+              >
                 {(provided) => (
                   <div
                     className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
@@ -318,8 +335,17 @@ const Headers = ({ board_id }) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <Form_Input type="text" value={newHeaderName} onChange={(e) => setNewHeaderName(e.target.value)} ariaLabel="Field in which to type new header" />
-                    <Form_Button buttonText="Add Header" onClick={handleAddHeader} ariaLabel="Button for adding new header" />
+                    <Form_Input
+                      type="text"
+                      value={newHeaderName}
+                      onChange={(e) => setNewHeaderName(e.target.value)}
+                      ariaLabel="Field in which to type new header"
+                    />
+                    <Form_Button
+                      buttonText="Add Header"
+                      onClick={handleAddHeader}
+                      ariaLabel="Button for adding new header"
+                    />
                   </div>
                 )}
               </Draggable>
