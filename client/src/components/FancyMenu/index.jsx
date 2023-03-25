@@ -1,5 +1,4 @@
 import React from 'react'
-import "./style.css"
 import { FloatingMenu} from '../FloatingMenu'
 import { StackCard } from '../StackCard'
 import { GitCard } from '../GitCard'
