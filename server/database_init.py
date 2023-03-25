@@ -256,9 +256,9 @@ with app.app_context():
     )
     db.session.add(ticket9)
 
-    ticket14 = Kanban_Ticket(
-        title="Ticket 9",
-        content="Content for ticket 9",
+    ticket10 = Kanban_Ticket(
+        title="Ticket 10",
+        content="Content for ticket 10",
         user_id=user2.id,
         start_time=datetime.utcnow(),
         ticket_status="open",
@@ -266,7 +266,7 @@ with app.app_context():
         header_id=header3.id,
         assigned=user2.id
     )
-    db.session.add(ticket9)
+    db.session.add(ticket10)
 
     # Commit the tickets
     db.session.commit()
