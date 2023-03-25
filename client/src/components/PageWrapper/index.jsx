@@ -7,8 +7,9 @@ import Message from "../Message";
 import FancyMenu from "../FancyMenu";
 import Footer from "../Footer";
 
+
 const PageWrapper = () => {
-  const { user, login, register, logout } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   return (
     <>
       <Header />
