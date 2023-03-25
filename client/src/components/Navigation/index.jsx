@@ -16,7 +16,7 @@ const Navigation = () => {
 
   return (
     <nav className="bg-gray-800">
-      <ul className="flex items-center justify-between max-w-6xl mx-auto px-4 py-2">
+      <ul className="flex items-center justify-between max-w-6xl mx-auto px-4 py-2 w-1/3">
         {user ? (
           <>
             <li>
