@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
-  const [tickets, setTickets] = useState([]);
+  const [tickets, setTickets] = useState({
+    title: "",
+    content: "",
+  });
   console.log(tickets);
   const closeModal = () => {
     props.setIsOpenCreate(false);
   };
 
-  function handleFormUpdate(event) {
-    const { name, value } = event.target;
-    setTickets((prevValue) => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
-    });
+  function handleTitleUpdate(event) {
+    setTickets({ ...tickets, title: event.target.value });
+  }
+  function handleContentUpdate(event) {
+    setTickets({ ...tickets, content: event.target.value });
   }
 
   function handleAddItem(headerId) {
@@ -59,16 +59,16 @@ const CreateTicketPopUp = (props) => {
                     type="text"
                     name="title"
                     placeholder="Title"
-                    ariaLabel="Input for the title of the ticket"
-                    onChange={handleFormUpdate}
+                    ariaLabel="title"
+                    onChange={handleTitleUpdate}
                   />
                   <Form_Input
                     label="Content"
                     type="text"
                     name="content"
                     placeholder="Content"
-                    ariaLabel="Input for the content of the ticket"
-                    onChange={handleFormUpdate}
+                    ariaLabel="content"
+                    onChange={handleContentUpdate}
                   />
                   <Form_Button
                     buttonText="Save"
