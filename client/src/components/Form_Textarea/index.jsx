@@ -12,6 +12,7 @@ const Form_Textarea = ({ label, value, onChange, formElementId, ariaLabel }) => 
                 value={value}
                 onChange={onChange}
                 aria-label={ariaLabel}
+                name={formElementId}
             />
         </div>
     );
