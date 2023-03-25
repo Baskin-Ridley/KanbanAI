@@ -4,7 +4,8 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-import { FetchKBD, FetchTickets } from '../index'
+const initialHeaders = [];
+import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
   const initialHeaders = [];
@@ -21,8 +22,8 @@ const Headers = ({ board_id }) => {
   const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
   function handleNewItemClick(headerId) {
-    setIsOpenCreate(true);
     setCurrentHeaderId(headerId);
+    setIsOpenCreate(true);
   }
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
-    setResponseData(boardData)
+    setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
     const headersData = Array.isArray(boardData.boards_headers)
@@ -79,62 +80,9 @@ const Headers = ({ board_id }) => {
     setNewHeaderName("");
   };
 
-  const handleNewItemNameChange = (headerId, newValue) => {
-    setNewItemNames((prevState) =>
-      prevState.map((name, index) =>
-        headers[index].id === headerId ? newValue : name
-      )
-    );
-  };
-
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
   }, [headers]);
-
-  const handleAddSubItem = async (headerId) => {
-    if (headerId){
-      console.log(headerId, 'headerID 126')
-    }
-    const headerIndex = headers.findIndex((header) => header.id === headerId);
-    const itemName = newItemNames[headerIndex];
-    if (itemName) {
-      const newSubItemId = `item-${itemName.trim()}`;
-      const newSubItem = { id: newSubItemId, content: itemName };
-      console.log(headers[headerIndex]);
-      console.log(newSubItem, "item added");
-      setHeaders((prevState) =>
-        prevState.map((header) =>
-          header.id === headerId
-            ? { ...header, items: [...header.items, newSubItem] }
-            : header
-        )
-      );
-      setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
-      );
-    }
-    try {
-      const response = await fetch(`http://localhost:5000/kanban-tickets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: itemName,
-          content: itemName,
-          user_id: 1,
-          start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-          header_id: responseData.boards_headers[headerIndex].header_id,
-          ticket_status: "open",
-          kanban_board_id: board_id,
-        }),
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error adding new item:", error);
-    }
-  };
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
@@ -174,10 +122,15 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
-      <Form_Button buttonText="Open Create" onClick={handleNewItemClick} formElementId="board-headers-button-open-create" ariaLabel="Button for open create" />
       <CreateTicketPopUp
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
+        id={currentHeaderId}
+        headers={headers}
+        setHeaders={setHeaders}
+        newItemNames={newItemNames}
+        setNewItemNames={setNewItemNames}
+        fetchData={fetchData}
       />
       <div>
         {selectedTicket && (
@@ -241,30 +194,19 @@ const Headers = ({ board_id }) => {
                           </div>
                         )}
                       </Droppable>
-                      {/* <Form_Input type="text" value={newItemNames[index]} onChange={(e) => handleNewItemNameChange(id, e.target.value)} ariaLabel="Field in which to type new task" />
-                      <Form_Button buttonText="Add Item" onClick={handleNewItemClick} formElementId="board-headers-button-add-item" ariaLabel="Button for adding task" /> */}
-                      <input type="text"
-                        className="p-2 bg-gray-100 rounded-lg border border-gray-400 mb-2"
-                        value={newItemNames[index]}
-                        onChange={(e) =>
-                          handleNewItemNameChange(id, e.target.value)
-                        } />
-                      <button onClick={() => handleNewItemClick(id)}>Add Item</button>
-                      <CreateTicketPopUp
-                        setIsOpenCreate={setIsOpenCreate}
-                        isOpenCreate={isOpenCreate}
-                        id={currentHeaderId}
-                        headers={headers}
-                        setHeaders={setHeaders}
-                        newItemNames={newItemNames}
-                        setNewItemNames={setNewItemNames}
-                        handleAddSubItem={handleAddSubItem}
-                      />{" "}
+                      <Form_Button
+                        onClick={() => handleNewItemClick(id)}
+                        buttonText="Add Ticket"
+                      />
                     </div>
                   )}
                 </Draggable>
               ))}
-              <Draggable key="new-header" draggableId="new-header" index={headers.length}>
+              <Draggable
+                key="new-header"
+                draggableId="new-header"
+                index={headers.length}
+              >
                 {(provided) => (
                   <div
                     className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
@@ -272,8 +214,17 @@ const Headers = ({ board_id }) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                   >
-                    <Form_Input type="text" value={newHeaderName} onChange={(e) => setNewHeaderName(e.target.value)} ariaLabel="Field in which to type new header" />
-                    <Form_Button buttonText="Add Header" onClick={handleAddHeader} ariaLabel="Button for adding new header" />
+                    <Form_Input
+                      type="text"
+                      value={newHeaderName}
+                      onChange={(e) => setNewHeaderName(e.target.value)}
+                      ariaLabel="Field in which to type new header"
+                    />
+                    <Form_Button
+                      buttonText="Add Header"
+                      onClick={handleAddHeader}
+                      ariaLabel="Button for adding new header"
+                    />
                   </div>
                 )}
               </Draggable>
