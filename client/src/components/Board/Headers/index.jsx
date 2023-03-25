@@ -316,7 +316,6 @@ const Headers = ({ board_id }) => {
                           setHeaders={setHeaders}
                           newItemNames={newItemNames}
                           setNewItemNames={setNewItemNames}
-                          handleAddSubItem={handleAddSubItem}
                           fetchData={fetchData}
                         />{" "}
                       </div>

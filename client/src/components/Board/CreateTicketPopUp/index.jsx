@@ -3,10 +3,20 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
   const [tickets, setTickets] = useState([]);
-
+  console.log(tickets);
   const closeModal = () => {
     props.setIsOpenCreate(false);
   };
+
+  function handleFormUpdate(event) {
+    const { name, value } = event.target;
+    setTickets((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  }
 
   function handleAddItem(headerId) {
     const number = parseInt(headerId.split("-")[1]);
@@ -44,7 +54,22 @@ const CreateTicketPopUp = (props) => {
               <div className="p-4">
                 <div className="flex flex-col	justify-between">
                   <h2 className="text-xl font-bold">Create New Task</h2>
-                  <h3>{props.id}</h3>
+                  <Form_Input
+                    label="Title"
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    ariaLabel="Input for the title of the ticket"
+                    onChange={handleFormUpdate}
+                  />
+                  <Form_Input
+                    label="Content"
+                    type="text"
+                    name="content"
+                    placeholder="Content"
+                    ariaLabel="Input for the content of the ticket"
+                    onChange={handleFormUpdate}
+                  />
                   <Form_Button
                     buttonText="Save"
                     onClick={() => handleAddItem(props.id)}
