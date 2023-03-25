@@ -8,7 +8,7 @@ const CreateTicketPopUp = (props) => {
     props.setIsOpenCreate(false);
   };
 
-  function handleAddItem() {
+  function handleAddItem(headerId) {
     fetch("http://localhost:5000/kanban-tickets", {
       method: "POST",
       headers: {
@@ -17,17 +17,20 @@ const CreateTicketPopUp = (props) => {
       body: JSON.stringify({
         title: "New Ticket",
         content: "New Ticket Content",
-        ticket_status: "New",
+        user_id: 1,
+        start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
+        header_id: headerId,
+        ticket_status: "open",
+        kanban_board_id: 1,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Ticket created:", data);
+        props.fetchData();
+        closeModal();
       })
       .catch((error) => console.error(error));
-
-    props.fetchData();
-    closeModal();
   }
 
   return (
