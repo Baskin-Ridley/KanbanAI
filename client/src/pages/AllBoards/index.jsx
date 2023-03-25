@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import Form_Button from "../../components/Form_Button";
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
@@ -44,14 +45,26 @@ function AllBoards() {
       <h2 className="text-3xl font-bold mb-8 m-12 text-center">All Kanban Boards</h2>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
-          <li key={kanbanBoard.board_id}>
-            {kanbanBoard.board_id}
-            <Link to={`/board/${kanbanBoard.board_id}`} key={`view-${kanbanBoard.board_id}`}>View</Link>
-            <button type="button" onClick={() => handleDelete(kanbanBoard.board_id)}>
-              Delete
-            </button>
-            <Link to={`/kanban/${kanbanBoard.board_id}/edit`} key={`edit-${kanbanBoard.board_id}`}>Edit</Link>
-          </li>
+          <div class="w-full mx-auto">
+            <li key={kanbanBoard.board_id} class="flex items-center justify-center space-x-4 mb-4">
+              <div>
+                Board Id: {kanbanBoard.board_id}
+              </div>
+              <div>
+                <Link to={`/board/${kanbanBoard.board_id}`} key={`view-${kanbanBoard.board_id}`}>
+                  View
+                </Link>
+              </div>
+              <div>
+                <Form_Button buttonText="Delete" onClick={() => handleDelete(kanbanBoard.board_id)} ariaLabel="Button for deleting a Kanban board" />
+              </div>
+              <div>
+                <Link to={`/kanban/${kanbanBoard.board_id}/edit`} key={`edit-${kanbanBoard.board_id}`}>
+                  Edit
+                </Link>
+              </div>
+            </li>
+          </div>
         ))}
       </ul>
     </main>
