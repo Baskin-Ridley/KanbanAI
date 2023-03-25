@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import "./style.css"
 import { decode } from 'html-entities';
+import "../../index.css"
 
 export const StackCard = () => {
 
