@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Input, Button } from "..";
+import Form_Button from "../Form_Button";
+import Form_Input from "../Form_Input";
 const AISteps = () => {
   const [task, setTask] = useState("");
   const [responseData, setResponseData] = useState("");
@@ -20,15 +21,10 @@ const AISteps = () => {
   }
 
   return (
-    <div className="form-container">
-      <h2>AI Steps</h2>
-      <Input
-        label="Insert your task:"
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-      />
-      <Button onClick={handleClick}>Click me</Button>
+    <main className="flex flex-col items-center justify-center">
+      <h2 className="text-3xl font-bold mb-8 m-12 text-center">AI Steps</h2>
+      <Form_Input label="Insert your task:" type="text" value={task} onChange={(e) => setTask(e.target.value)} ariaLabel="Field for inputting the task to be outlined into steps by AI" />
+      <Form_Button buttonText="Generate steps for task" onClick={handleClick} ariaLabel="Button for generating steps for task using AI" />
 
       {responseData && (
         <div>
@@ -40,7 +36,7 @@ const AISteps = () => {
           </ol>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
