@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 const CreateTicketPopUp = (props) => {
+  console.log("hello", props.id);
   const [tickets, setTickets] = useState({
     title: "",
     content: "",

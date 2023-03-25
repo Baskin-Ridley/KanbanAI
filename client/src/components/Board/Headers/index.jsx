@@ -21,8 +21,8 @@ const Headers = ({ board_id }) => {
   const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
   function handleNewItemClick(headerId) {
-    setIsOpenCreate(true);
     setCurrentHeaderId(headerId);
+    setIsOpenCreate(true);
   }
 
   const fetchKanbanBoardData = async () => {
@@ -121,52 +121,6 @@ const Headers = ({ board_id }) => {
     console.log(headers);
   }, [headers]);
 
-  const handleAddSubItem = async (headerId) => {
-    if (headerId) {
-      console.log(headerId, "headerID 126");
-    }
-    const headerIndex = headers.findIndex((header) => header.id === headerId);
-    const itemName = newItemNames[headerIndex];
-    if (itemName) {
-      const newSubItemId = `item-${itemName.trim()}`;
-      const newSubItem = { id: newSubItemId, content: itemName };
-      console.log(headers[headerIndex]);
-      console.log(newSubItem, "item added");
-      setHeaders((prevState) =>
-        prevState.map((header) =>
-          header.id === headerId
-            ? { ...header, items: [...header.items, newSubItem] }
-            : header
-        )
-      );
-      setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
-      );
-    }
-    console.log(newItemNames, "inputs check");
-    try {
-      const response = await fetch(`http://localhost:5000/kanban-tickets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: itemName,
-          content: itemName,
-          user_id: 1,
-          start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-          header_id: responseData.boards_headers[headerIndex].header_id,
-          ticket_status: "open",
-          kanban_board_id: board_id,
-        }),
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error adding new item:", error);
-    }
-  };
-
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
 
@@ -208,15 +162,15 @@ const Headers = ({ board_id }) => {
 
   return (
     <div>
-      <Form_Button
-        buttonText="Open Create"
-        onClick={handleNewItemClick}
-        formElementId="board-headers-button-open-create"
-        ariaLabel="Button for open create"
-      />
       <CreateTicketPopUp
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
+        id={currentHeaderId}
+        headers={headers}
+        setHeaders={setHeaders}
+        newItemNames={newItemNames}
+        setNewItemNames={setNewItemNames}
+        fetchData={fetchData}
       />
       <div>
         {selectedTicket && (
@@ -305,19 +259,6 @@ const Headers = ({ board_id }) => {
                             handleNewItemNameChange(id, e.target.value)
                           }
                         />
-                        <Form_Button onClick={() => handleNewItemClick(id)}>
-                          Add Item
-                        </Form_Button>
-                        <CreateTicketPopUp
-                          setIsOpenCreate={setIsOpenCreate}
-                          isOpenCreate={isOpenCreate}
-                          id={currentHeaderId}
-                          headers={headers}
-                          setHeaders={setHeaders}
-                          newItemNames={newItemNames}
-                          setNewItemNames={setNewItemNames}
-                          fetchData={fetchData}
-                        />{" "}
                       </div>
                     )}
                   </Draggable>
