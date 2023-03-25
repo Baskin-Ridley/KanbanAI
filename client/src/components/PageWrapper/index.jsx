@@ -6,11 +6,9 @@ import Navigation from "../Navigation";
 import Message from "../Message";
 import Footer from "../Footer";
 import { FancyMenu } from "../../pages";
-import { UserProvider } from "../../context/UserContext";
-import { BrowserRouter as Router } from "react-router-dom";
 
 const PageWrapper = () => {
-  const { user, login, register, logout } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   return (
     <>
       <Header />

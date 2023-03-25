@@ -56,7 +56,6 @@ def register_Super_User():
 # User controller
 
 
-
 def register_user(super_user_name):
     data = request.get_json()
     username = data.get('username')
@@ -90,7 +89,7 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
   
     #check wether it is a super_user or not
-    if (user.isSuper): 
+    if (hasattr(user,'isSuper')): 
         user_data = {
             'id': user.id,
             'username': user.username,
