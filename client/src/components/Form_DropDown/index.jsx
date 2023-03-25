@@ -1,8 +1,8 @@
 import React from "react";
 import Form_Label from "../Form_Label";
 
-const Form_DropDown = ({ label, value, onChange, formElementId, ariaLabel }) => {
-    const roleOptions = ["Leader", "Member"];
+const Form_DropDown = ({ label, value, onChange, formElementId, ariaLabel, listOptions }) => {
+    //const listOptions = ["Leader", "Member"];
 
     return (
         <div className="mb-4">
@@ -13,8 +13,9 @@ const Form_DropDown = ({ label, value, onChange, formElementId, ariaLabel }) => 
                 onChange={onChange}
                 id={formElementId}
                 aria-label={ariaLabel}
+                name={formElementId}
             >
-                {roleOptions.map((option) => (
+                {listOptions.map((option) => (
                     <option key={option} value={option}>
                         {option}
                     </option>
