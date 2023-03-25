@@ -20,22 +20,24 @@ email.config['MAIL_USE_SSL'] = True
 
 # notification Controller
 
+
 def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=super_user_name)
-   
+
     for item in data:
-        
-        note={
+
+        note = {
             "content": item.content,
             "member": item.user_name
         }
         list.append(note)
-    
+
     print(list)
-    return list , 200
+    return list, 200
 
 # Super User Controller
+
 
 def register_Super_User():
     data = request.get_json()
@@ -45,12 +47,12 @@ def register_Super_User():
     role = data.get('role')
     email = data.get('email')
     members = data.get('members')
-    if not username or not name or not password or not role or not email :
+    if not username or not name or not password or not role or not email:
         return jsonify({'error': 'Missing parameters'}), 400
     if Super_User.query.filter_by(username=username).first():
         return jsonify({'error': 'Username already exists'}), 400
     super_user = Super_User(username=username, name=name, password=password,
-                role=role, email=email, members=members)
+                            role=role, email=email, members=members)
     db.session.add(super_user)
     db.session.commit()
     return jsonify({'message': 'Super-User created successfully'}), 201
@@ -80,7 +82,7 @@ def register_user(super_user_name):
     role = data.get('role')
     email = data.get('email')
     avatar = data.get('avatar')
-    
+
     if not username or not name or not password or not role or not email:
         return jsonify({'error': 'Missing parameters'}), 400
     if User.query.filter_by(username=username).first():
@@ -103,9 +105,9 @@ def login():
         user = Super_User.query.filter_by(username=username).first()
     if not user or not user.check_password(password):
         return jsonify({'error': 'Invalid username or password'}), 401
-  
-    #check wether it is a super_user or not
-    if (hasattr(user,'isSuper')): 
+
+    # check wether it is a super_user or not
+    if (hasattr(user, 'isSuper')):
         user_data = {
             'id': user.id,
             'username': user.username,
@@ -358,12 +360,15 @@ def create_kanban_header(kanban_board_id):
     db.session.commit()
     return jsonify({'message': 'Kanban Header created successfully', 'header': header.serialize()}), 201
 
+
 def get_kanban_headers_by_board(kanban_board_id):
     headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([header.serialize() for header in headers]), 200
 
+
 def delete_kanban_header_by_board(kanban_board_id, header_id):
-    header = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)[header_id - 1]
+    header = Kanban_Header.query.filter_by(
+        kanban_board_id=kanban_board_id)[header_id - 1]
     if not header:
         return jsonify({'error': 'Kanban header not found'}), 404
     db.session.delete(header)

@@ -237,27 +237,12 @@ const Headers = ({ board_id }) => {
                             </div>
                           )}
                         </Droppable>
-                        <Form_Input
-                          type="text"
-                          value={newItemNames[index]}
-                          onChange={(e) =>
-                            handleNewItemNameChange(id, e.target.value)
-                          }
-                          ariaLabel="Field in which to type new task"
-                        />
+
                         <Form_Button
                           buttonText="Add Item"
                           onClick={handleNewItemClick}
                           formElementId="board-headers-button-add-item"
                           ariaLabel="Button for adding task"
-                        />
-                        <Form_Input
-                          type="text"
-                          // className="p-2 bg-gray-100 rounded-lg border border-gray-400 mb-2"
-                          value={newItemNames[index]}
-                          onChange={(e) =>
-                            handleNewItemNameChange(id, e.target.value)
-                          }
                         />
                       </div>
                     )}
