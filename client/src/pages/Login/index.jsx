@@ -25,10 +25,10 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="form-container">
+    <main className="flex flex-col items-center justify-center">
       <Message message={error} type="error" />
       <form onSubmit={handleLogin}>
-        <h2>Login</h2>
+        <h2 className="text-3xl font-bold mb-8 m-12 text-center">Login</h2>
         <Form_Input
           label="Username:"
           type="text"
@@ -46,13 +46,13 @@ const LoginPage = () => {
           ariaLabel="Field in which to input the password"
         />
         <Form_Button buttonText="Login" formElementId="login-page-button-login" ariaLabel="Button for logging in" />
-        <div className="mb-4">
-          <span className="text-sm text-gray-600 mr-2">
-            Don't have an account?
-          </span>
+        <div className="mb-4 text-center">
           <br />
+          <p className="text-sm text-gray-600 mr-2">
+            Don't have an account?
+          </p>
           <CustomLink to="/register">
-            <Button buttonText="Register" formElementId="login-page-button-register" ariaLogin="Button for registering" />
+            <Form_Button buttonText="Register" formElementId="login-page-button-register" ariaLogin="Button for registering" />
           </CustomLink>
         </div>
       </form>
