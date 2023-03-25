@@ -14,6 +14,7 @@ const Form_Input = ({ label, type, value, onChange, formElementId, ariaLabel }) 
         onChange={onChange}
         id={formElementId}
         aria-label={ariaLabel}
+        name={formElementId}
       />
 
     </div>
