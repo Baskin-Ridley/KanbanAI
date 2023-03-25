@@ -4,37 +4,347 @@
 @import 'tailwindcss/utilities';
 
 /* Palette URL: http://paletton.com/#uid=33G0u0krnUkfRWSlVVA-lS4O0CR */
-.color-text-0 { color: #357CED }
-.color-bg-0 { background-color: #357CED }
-.color-text-1 { color: #86B1F4 }
-.color-bg-1 { background-color: #86B1F4 }
-.color-text-2 { color: #5B95F0 }
-.color-bg-2 { background-color: #5B95F0 }
-.color-text-3 { color: #1265E7 }
-.color-bg-3 { background-color: #1265E7 }
-.color-text-4 { color: #074EBE }
-.color-bg-4 { background-color: #074EBE }
+.color-text-0 {
+    color: #357CED
+}
 
-.color-text-1-0 { color: #FFD425 }	
-.color-bg-1-0 { background-color: #FFD425 }	
-.color-text-1-1 { color: #FFE681 }
-.color-bg-1-1 { background-color: #FFE681 }	
-.color-text-1-2 { color: #FFDC50 }
-.color-bg-1-2 { background-color: #FFDC50 }	
-.color-text-1-3 { color: #FFCD00 }
-.color-bg-1-3 { background-color: #FFCD00 }	
-.color-text-1-4 { color: #FFCD00 }
-.color-bg-1-4 { background-color: #FFCD00 }	
+.color-bg-0 {
+    background-color: #357CED
+}
 
-.color-text-2-0 { color: #FF7D25 }
-.color-bg-2-0 { background-color: #FFD425 }	
-.color-text-2-1 { color: #FFB481 }
-.color-bg-2-1 { background-color: #FFB481 }	
-.color-text-2-2 { color: #FF9750 }
-.color-bg-2-2 { background-color: #FF9750 }	
-.color-text-2-3 { color: #FF6700 }
-.color-bg-2-3 { background-color: #FF6700 }	
-.color-text-2-4 { color: #FF6700 }
-.color-bg-2-4 { background-color: #FF6700 }	
+.color-text-1 {
+    color: #86B1F4
+}
+
+.color-bg-1 {
+    background-color: #86B1F4
+}
+
+.color-text-2 {
+    color: #5B95F0
+}
+
+.color-bg-2 {
+    background-color: #5B95F0
+}
+
+.color-text-3 {
+    color: #1265E7
+}
+
+.color-bg-3 {
+    background-color: #1265E7
+}
+
+.color-text-4 {
+    color: #074EBE
+}
+
+.color-bg-4 {
+    background-color: #074EBE
+}
+
+.color-text-1-0 {
+    color: #FFD425
+}
+
+.color-bg-1-0 {
+    background-color: #FFD425
+}
+
+.color-text-1-1 {
+    color: #FFE681
+}
+
+.color-bg-1-1 {
+    background-color: #FFE681
+}
+
+.color-text-1-2 {
+    color: #FFDC50
+}
+
+.color-bg-1-2 {
+    background-color: #FFDC50
+}
+
+.color-text-1-3 {
+    color: #FFCD00
+}
+
+.color-bg-1-3 {
+    background-color: #FFCD00
+}
+
+.color-text-1-4 {
+    color: #FFCD00
+}
+
+.color-bg-1-4 {
+    background-color: #FFCD00
+}
+
+.color-text-2-0 {
+    color: #FF7D25
+}
+
+.color-bg-2-0 {
+    background-color: #FFD425
+}
+
+.color-text-2-1 {
+    color: #FFB481
+}
+
+.color-bg-2-1 {
+    background-color: #FFB481
+}
+
+.color-text-2-2 {
+    color: #FF9750
+}
+
+.color-bg-2-2 {
+    background-color: #FF9750
+}
+
+.color-text-2-3 {
+    color: #FF6700
+}
+
+.color-bg-2-3 {
+    background-color: #FF6700
+}
+
+.color-text-2-4 {
+    color: #FF6700
+}
+
+.color-bg-2-4 {
+    background-color: #FF6700
+}
 
 /*Background image url import statements*/
+
+body {
+    background-image: url('assets/download.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* components/GitCard/index.jsx */
+
+.remove-git-view {
+    bottom: 2vh;
+    right: 16vw;
+}
+
+.gitCard {
+    background-image: url(../../assets/git.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: azure;
+    margin-bottom: 0px;
+    padding: 10px;
+    color: black;
+    border: solid #038983;
+}
+
+.name-input {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.repo-input {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+#commit-btn {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.access-btn {
+    background-color: #4CAF50;
+    border: none;
+    /* color: white; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.parent-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* components/StackCard/index.jsx */
+
+.parent-container-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.stackContainer {
+    max-height: 41vh;
+    max-width: 30vw;
+    overflow-y: scroll;
+    border: solid azure 4px;
+}
+
+.remove-stack-view {
+    margin-top: 1rem;
+}
+
+.stackCard {
+    background-image: url(../../assets/stack.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: azure;
+    margin-bottom: 0px;
+    padding: 10px;
+    color: black;
+    border: solid #038983;
+}
+
+.input-section {
+    color: black;
+}
+
+#view-button {
+    margin-top: 1rem;
+}
+
+#question-button {
+    margin-top: 1rem;
+}
+
+.access-btn {
+    background-color: #4caf50;
+    border: none;
+    /* color: white; */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+/* components/FloatingMenu/index.jsx */
+
+.menu-item,
+.menu-open-button {
+    background: yellow;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    position: absolute;
+    top: 20px;
+    color: black;
+    text-align: center;
+    line-height: 80px;
+    transform: translate3d(0, 0, 0);
+    transition: transform ease-out 200ms;
+    opacity: .95;
+}
+
+.menu-open-button {
+    opacity: 1;
+    background: orange;
+}
+
+.menu-open {
+    display: none;
+}
+
+.hamburger {
+    width: 25px;
+    height: 3px;
+    background: black;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -12.5px;
+    margin-top: -1.5px;
+    transition: transform 200ms;
+}
+
+.hamburger-1 {
+    transform: translate3d(0, -8px, 0);
+}
+
+.hamburger-2 {
+    transform: translate3d(0, 0, 0);
+}
+
+.hamburger-3 {
+    transform: translate3d(0, 8px, 0);
+}
+
+.menu-open:checked+.menu-open-button .hamburger-1 {
+    transform: translate3d(0, 0, 0) rotate(45deg);
+}
+
+.menu-open:checked+.menu-open-button .hamburger-2 {
+    transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+
+.menu-open:checked+.menu-open-button .hamburger-3 {
+    transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+
+.menu-item:hover {
+    background: orange;
+    color: black;
+    opacity: 1;
+}
+
+.menu-open-button {
+    z-index: 2;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-duration: 400ms;
+    transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+    cursor: pointer;
+}
+
+.menu-open-button:hover {
+    transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+    opacity: .9;
+}
+
+.menu-open:checked+.menu-open-button {
+    transition-timing-function: linear;
+    transition-duration: 200ms;
+    transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+    background: orange;
+    opacity: 1;
+}
+
+.menu-open:checked~.menu-item {
+    transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+}
+
+.menu-open:checked~.menu-item:nth-child(3) {
+    transition-duration: 180ms;
+    transform: translate3d(-104.99987px, -0.16723px, 0);
+}
+
+.menu-open:checked~.menu-item:nth-child(4) {
+    transition-duration: 280ms;
+    transform: translate3d(0.08361px, -104.99997px, 0);
+}
+
+.menu-open:checked~.menu-item:nth-child(5) {
+    transition-duration: 380ms;
+    transform: translate3d(105px, 0px, 0);
+}
