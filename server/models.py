@@ -2,6 +2,20 @@ from database import db
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
+#notification model 
+class Notification(db.Model):
+    __tablename__ = 'notification'
+    id = db.Column(db.Integer, primary_key= True)
+    content =  db.Column(db.String(255), nullable = False )
+    user_name = db.Column(db.String(255), nullable = False )
+    super_user_name = db.Column(db.String(255), nullable = False )    
+    def __init__(self, content,user_name, super_user_name):
+        self.content = content
+        self.user_name = user_name
+        self.super_user_name = super_user_name
+
+
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)

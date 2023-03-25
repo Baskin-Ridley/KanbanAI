@@ -1,6 +1,6 @@
 from models import User
 from flask import jsonify, request
-from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header
+from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification
 from database import db
 from datetime import datetime
 from mail import *
@@ -18,6 +18,22 @@ email.config['MAIL_PASSWORD'] = "ntapobukehzgjomg"
 email.config['MAIL_USE_TLS'] = False
 email.config['MAIL_USE_SSL'] = True
 
+# notification Controller
+
+def get_Notifications(super_user_name):
+    list = []
+    data = Notification.query.filter_by(super_user_name=super_user_name)
+   
+    for item in data:
+        
+        note={
+            "content": item.content,
+            "member": item.user_name
+        }
+        list.append(note)
+    
+    print(list)
+    return list , 200
 
 # Super User Controller
 

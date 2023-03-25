@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board 
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board,get_Notifications
 ##create_user
 
 
@@ -36,6 +36,11 @@ db.init_app(app)
 # Remove .env key after project completes: https://platform.openai.com/account/api-keys
 
 # ai routes
+
+
+@app.route('/notification/<string:super_user_name>', methods=['GET'])
+def notification(super_user_name):
+    return get_Notifications(super_user_name)
 
 @app.route('/ai-test', methods=['POST'])
 def ai_test():
@@ -110,6 +115,8 @@ def register_user_route(super_user_name):
 @ app.route('/login', methods=['POST'])
 def login_route():
     return login()
+
+
 
 
 # @ app.route('/users', methods=['POST'])
