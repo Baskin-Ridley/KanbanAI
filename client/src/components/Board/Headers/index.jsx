@@ -20,10 +20,13 @@ const Headers = ({ board_id }) => {
     setIsOpen(true);
     console.log(selectedTicket);
   }
+  const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
-  function handleNewItemClick() {
+  function handleNewItemClick(headerId) {
     setIsOpenCreate(true);
+    setCurrentHeaderId(headerId);
   }
+
 
   const fetchKanbanBoardData = async () => {
     try {
@@ -122,6 +125,9 @@ const Headers = ({ board_id }) => {
   }, [headers]);
 
   const handleAddSubItem = async (headerId) => {
+    if (headerId){
+      console.log(headerId, 'headerID 126')
+    }
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const itemName = newItemNames[headerIndex];
     if (itemName) {
@@ -231,6 +237,10 @@ const Headers = ({ board_id }) => {
               ref={provided.innerRef}
             >
               {headers.map(({ id, name, items }, index) => (
+                <>
+                
+                  {/* {console.log(id)} */}
+                
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
@@ -279,11 +289,12 @@ const Headers = ({ board_id }) => {
                           handleNewItemNameChange(id, e.target.value)
                         }
                       />
-                      <Button onClick={handleNewItemClick}>Add Item</Button>
+                      <Button onClick={() => handleNewItemClick(id)}>Add Item</Button>
                       <CreateTicketPopUp
+
                         setIsOpenCreate={setIsOpenCreate}
                         isOpenCreate={isOpenCreate}
-                        id={id}
+                        id={currentHeaderId}
                         headers={headers}
                         setHeaders={setHeaders}
                         newItemNames={newItemNames}
@@ -293,6 +304,7 @@ const Headers = ({ board_id }) => {
                     </div>
                   )}
                 </Draggable>
+                </>
               ))}
               <Draggable key="new-header" draggableId="new-header" index={headers.length}>
                 {(provided) => (
