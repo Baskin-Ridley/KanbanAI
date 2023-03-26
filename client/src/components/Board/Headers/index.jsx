@@ -60,42 +60,19 @@ const Headers = ({ board_id }) => {
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
   const [newHeaderName, setNewHeaderName] = useState("");
 
-  // const handleAddHeader = () => {
-  //   if (newHeaderName.trim() === "") {
-  //     alert("Please enter a header name");
-  //     return;
-  //   }
-  //   const newHeaderId = `header-${newHeaderName}`;
-  //   const newHeader = {
-  //     id: newHeaderId,
-  //     header_id: newHeaderId,
-  //     name: newHeaderName,
-  //     header_name: newHeaderName,
-  //     tickets_under_this_header: [],
-  //     items: [],
-  //   };
-  //   console.log(newHeader);
-
-  //   setHeaders((prevState) => [...prevState, newHeader]);
-  //   setNewHeaderName("");
-  // };
-
   const handleAddHeader = () => {
     if (newHeaderName.trim() === "") {
       alert("Please enter a header name");
       return;
     }
 
-    fetch(
-      `https://built-differently-backend.onrender.com//kanban-board/${board_id}/kanban-headers`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: newHeaderName }),
-      }
-    )
+    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newHeaderName }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
@@ -104,10 +81,10 @@ const Headers = ({ board_id }) => {
       })
       .then((data) => {
         const newHeader = {
-          id: `header-${newHeaderName}`,
-          header_id: data.header_id,
-          name: data.header_name,
-          tickets_under_this_header: [],
+          id: `header-${data.header.header_id}`,
+          header_id: data.header.header_id,
+          name: data.header.header_name,
+          tickets_under_this_header: data.header.tickets_under_this_header,
           items: [],
         };
 
