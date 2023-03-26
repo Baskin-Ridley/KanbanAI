@@ -60,6 +60,8 @@ with app.app_context():
     )
     db.session.add(notification8)
 
+    # Commit the notifications
+    db.session.commit()
 
     # Add some users
 
@@ -157,7 +159,11 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board1.id,
         header_id=header1.id,
-        assigned=user1.id
+        assigned=user1.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_python_function(x, y): return x + y",
+        test_generated_test=""
     )
     db.session.add(ticket1)
 
@@ -170,6 +176,10 @@ with app.app_context():
         header_id=header2.id,
         ticket_status="closed",
         kanban_board_id=board3.id,
+        test_technologies="JavaScript",
+        test_testing_framework="jest",
+        test_function="function my_javascript_function(x, y) { return x + y; }",
+        test_generated_test=""
     )
     db.session.add(ticket2)
 
@@ -181,6 +191,10 @@ with app.app_context():
         ticket_status="in_progress",
         header_id=header2.id,
         kanban_board_id=board1.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_other_python_function(s): return s.upper()",
+        test_generated_test=""
     )
     db.session.add(ticket3)
 
@@ -192,7 +206,11 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board3.id,
         header_id=header2.id,
-        assigned=user2.id
+        assigned=user2.id,
+        test_technologies="JavaScript",
+        test_testing_framework="jest",
+        test_function="function my_javascript_function(a, b, c) { return a * b * c; }",
+        test_generated_test=""
     )
     db.session.add(ticket4)
 
@@ -204,19 +222,27 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board1.id,
         header_id=header1.id,
-        assigned=user1.id
+        assigned=user1.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_other_python_function(s): return s.lower()",
+        test_generated_test=""
     )
     db.session.add(ticket5)
 
     ticket6 = Kanban_Ticket(
-        title="Ticket 10",
+        title="Ticket 6",
         content="Content for ticket 6",
         user_id=user1.id,
         start_time=datetime.utcnow(),
         ticket_status="open",
         kanban_board_id=board1.id,
         header_id=header1.id,
-        assigned=user1.id
+        assigned=user1.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_python_function(x, y, z): return x * y + z",
+        test_generated_test=""
     )
     db.session.add(ticket6)
 
@@ -228,7 +254,11 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board1.id,
         header_id=header1.id,
-        assigned=user1.id
+        assigned=user1.id,
+        test_technologies="JavaScript",
+        test_testing_framework="jest",
+        test_function="function my_javascript_function(x, y) { return x - y; }",
+        test_generated_test="Test file content here"
     )
     db.session.add(ticket7)
 
@@ -240,7 +270,11 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board1.id,
         header_id=header1.id,
-        assigned=user1.id
+        assigned=user1.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_python_function(x, y, z): return (x + y) * z",
+        test_generated_test="Test file content here"
     )
     db.session.add(ticket8)
 
@@ -252,21 +286,29 @@ with app.app_context():
         ticket_status="open",
         kanban_board_id=board3.id,
         header_id=header3.id,
-        assigned=user2.id
+        assigned=user2.id,
+        test_technologies="Python",
+        test_testing_framework="pytest",
+        test_function="def my_other_python_function(s): return s.strip()",
+        test_generated_test="Test file content here"
     )
     db.session.add(ticket9)
 
-    ticket14 = Kanban_Ticket(
-        title="Ticket 9",
-        content="Content for ticket 9",
+    ticket10 = Kanban_Ticket(
+        title="Ticket 10",
+        content="Content for ticket 10",
         user_id=user2.id,
         start_time=datetime.utcnow(),
         ticket_status="open",
         kanban_board_id=board3.id,
         header_id=header3.id,
-        assigned=user2.id
+        assigned=user2.id,
+        test_technologies="JavaScript",
+        test_testing_framework="jest",
+        test_function="function my_javascript_function(a, b) { return a / b; }",
+        test_generated_test="Test file content here"
     )
-    db.session.add(ticket9)
+    db.session.add(ticket10)
 
     # Commit the tickets
     db.session.commit()
