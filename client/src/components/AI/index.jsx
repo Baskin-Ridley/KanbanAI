@@ -28,6 +28,10 @@ const AISteps = () => {
       .catch((error) => console.error(error));
   }
 
+  function handleClickForStep(step) {
+    console.log(`Clicked for step: ${step}`);
+  }
+
   return (
     <main className="flex flex-col items-center justify-center">
       <h2 className="text-3xl font-bold mb-8 m-12 text-center">AI Steps</h2>
@@ -48,9 +52,14 @@ const AISteps = () => {
         <div>
           <h2>Response data:</h2>
           <ol>
-            {/* {responseData.split("\n").map((step) => (
-              <li key={step}>{step}</li>
-            ))} */}
+            {responseData.map((step, index) => (
+              <li key={index}>
+                {step}{" "}
+                <button onClick={() => handleClickForStep(step)}>
+                  More info
+                </button>
+              </li>
+            ))}
           </ol>
         </div>
       )}
