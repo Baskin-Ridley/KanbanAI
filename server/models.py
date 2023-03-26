@@ -126,6 +126,8 @@ class Kanban_Ticket(db.Model):
     test_testing_framework = db.Column(db.String(120), nullable=True)
     test_function = db.Column(db.String(120), nullable=True)
     test_generated_test = db.Column(db.String(120), nullable=True)
+    kanban_board = relationship("Kanban_Board", back_populates="tickets")
+    header = relationship("Kanban_Header", back_populates="tickets")
 
     def serialize(self):
         return {
