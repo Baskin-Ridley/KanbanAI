@@ -406,8 +406,7 @@ def get_kanban_headers_by_board(kanban_board_id):
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):
-    header = Kanban_Header.query.filter_by(
-        kanban_board_id=kanban_board_id)[header_id - 1]
+    header = Kanban_Header.query.get(header_id)
     if not header:
         return jsonify({'error': 'Kanban header not found'}), 404
     db.session.delete(header)
