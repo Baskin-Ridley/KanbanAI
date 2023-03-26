@@ -1,6 +1,6 @@
 from models import User
 from flask import jsonify, request
-from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification
+from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification, Positions
 from database import db
 from datetime import datetime
 from mail import *
@@ -413,6 +413,33 @@ def delete_kanban_header_by_board(kanban_board_id, header_id):
     db.session.commit()
     return jsonify({'message': 'Kanban header deleted successfully'}), 200
 
+# POSITIONS:
+
+def get_positions_by_board(kanban_board_id):
+    positions = Positions.query.filter_by(board_id=kanban_board_id)
+    # return jsonify({"positions": positions.position_data})
+    return jsonify([position.serialize() for position in positions]), 200
+
+def update_positions_by_board(kanban_board_id):
+    board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    positions_data = request.get_json().get('positions')
+    if board.positions:
+        board.positions.position_data = positions_data
+    else:
+        new_positions = Positions(kanban_board=board, position_data=positions_data)
+        db.session.add(new_positions)
+    # positions = Positions.query.filter_by(board_id=kanban_board_id)
+    # positions.positions_data = request.get_json().get('positions')
+    # if kanban_board_id is None:
+    #     return jsonify({'error': 'Kanban board not found.'}), 404
+    # data = request.get_json()
+    # print(data)
+    # if not data:
+    #     return jsonify({'error': 'No data provided.'}), 400
+    # # if 'positions' in data:
+    # positions.position_data = [{"ko": "sa"}]
+    db.session.commit()
+    return jsonify({'success': 'Kanban board POSITIONS updated successfully.'})
 
 
 #checker functions:
