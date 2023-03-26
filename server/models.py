@@ -94,7 +94,7 @@ class Kanban_Board(db.Model):
         'user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
-    positions = db.Column(db.JSON, nullable=True)
+    positions = db.relationship("Positions", back_populates="kanban_board", uselist=False)
     headers = relationship("Kanban_Header", back_populates="kanban_board")
     tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
 
@@ -104,9 +104,23 @@ class Kanban_Board(db.Model):
             "board_creator_id": self.user_id,
             "start_time": self.start_time,
             "end_time": self.end_time,
+            "positions": self.positions.serialize() if self.positions else None,      
             "boards_headers": [header.serialize() for header in self.headers]
         }
 
+class Positions(db.Model):
+    __tablename__ = 'positions'
+    id = db.Column(db.Integer, primary_key=True)
+    board_id = db.Column(db.Integer, db.ForeignKey('kanban_board.id'), nullable=False)
+    position_data = db.Column(db.JSON, nullable=True)  
+    kanban_board = db.relationship('Kanban_Board', back_populates='positions')
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "board_id": self.board_id,
+            "position_data": self.position_data,
+        }
 
 class Kanban_Ticket(db.Model):
     __tablename__ = 'kanban_ticket'
