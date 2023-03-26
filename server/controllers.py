@@ -95,6 +95,8 @@ def register_user(super_user_name):
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
+
+##add members to the admins
 def add_member():
     data = request.get_json()
     new_members = data.get('new_member')
@@ -102,17 +104,22 @@ def add_member():
     
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
-   
+
+    
+    for member in new_members:
+        if check_user_name(member) == False:
+            return jsonify({'error': f'{member} does not exist'}), 404
+        
     user = Super_User.query.filter_by(username=super_user).first()
     if user.members is None:
         user.members =  []
 
     user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
+
     print(user.members)
     db.session.commit()
-    return jsonify({'message': 'members added to the database'}), 200
+    return jsonify({'message': 'members added to the database'}), 201
    
-
 
 
 
@@ -397,3 +404,14 @@ def delete_kanban_header_by_board(kanban_board_id, header_id):
     db.session.delete(header)
     db.session.commit()
     return jsonify({'message': 'Kanban header deleted successfully'}), 200
+
+
+
+#checker functions:
+
+def check_user_name(username):
+        temp = User.query.filter_by(username=username).first()
+        if not temp:
+            return False
+        else:
+            return True
