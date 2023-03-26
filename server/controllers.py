@@ -21,6 +21,8 @@ email.config['MAIL_USE_SSL'] = True
 # notification Controller
 
 
+
+
 def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=super_user_name)
@@ -93,6 +95,26 @@ def register_user(super_user_name):
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
+def add_member():
+    data = request.get_json()
+    new_members = data.get('new_member')
+    super_user = data.get('super_user')
+    
+    if not new_members or not super_user:
+        return jsonify({'error': 'super_user invalid'}), 404
+   
+    user = Super_User.query.filter_by(username=super_user).first()
+    if user.members is None:
+        user.members =  []
+
+    user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
+    print(user.members)
+    db.session.commit()
+    return jsonify({'message': 'members added to the database'}), 200
+   
+
+
+
 
 def login():
     data = request.get_json()
@@ -113,6 +135,7 @@ def login():
             'username': user.username,
             'email': user.email,
             'name': user.name,
+            'members': user.members,
             'isSuper': True
         }
 
