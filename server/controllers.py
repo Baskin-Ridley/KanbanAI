@@ -105,19 +105,23 @@ def add_member():
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
 
-    
+    ## add admin to members
     for member in new_members:
         if check_user_name(member) == False:
             return jsonify({'error': f'{member} does not exist'}), 404
-        
+        temp_user = User.query.filter_by(username=member).first()
+        temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
+
     user = Super_User.query.filter_by(username=super_user).first()
+    if not user:
+         return jsonify({'error': f'{super_user} does not exist'}), 404
     if user.members is None:
         user.members =  []
 
     user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
 
-    print(user.members)
     db.session.commit()
+
     return jsonify({'message': 'members added to the database'}), 201
    
 
@@ -361,12 +365,12 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_admin, ticket.title, "closed", user_name)
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_admin, ticket.title, "closed", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
