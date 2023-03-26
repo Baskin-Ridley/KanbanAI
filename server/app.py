@@ -6,8 +6,8 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header,register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board,get_Notifications,add_member
-##create_user
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member
+# create_user
 
 
 load_dotenv()
@@ -42,6 +42,7 @@ db.init_app(app)
 def notification(super_user_name):
     return get_Notifications(super_user_name)
 
+
 @app.route('/ai-test', methods=['POST'])
 def ai_test():
     technologies = request.get_json()['technologies']
@@ -54,7 +55,7 @@ def ai_test():
         # engine="davinci",
         model="text-davinci-003",
         prompt=prompt_text,
-        #max_tokens=100,
+        # max_tokens=100,
         max_tokens=256,
         n=1,
         stop=None,
@@ -100,27 +101,27 @@ def ai_steps():
 
 # User routes
 
+
 @ app.route('/register/super_user', methods=['POST'])
 def register_super_user_route():
     return register_Super_User()
 
-@ app.route('/super_user/member', methods = ['PUT'])
+
+@ app.route('/super_user/member', methods=['PUT'])
 def add_member_to_super():
-        return add_member()
+    return add_member()
     # if (request.method() == 'GET'):
     #     return show_members()
-
 
 
 @ app.route('/register/<string:super_user_name>', methods=['POST'])
 def register_user_route(super_user_name):
     return register_user(super_user_name)
 
+
 @ app.route('/login', methods=['POST'])
 def login_route():
     return login()
-
-
 
 
 # @ app.route('/users', methods=['POST'])
@@ -215,13 +216,17 @@ def delete_kanban_ticket_route(kanban_ticket_id):
     return delete_kanban_ticket(kanban_ticket_id)
 
 # Kanban Header routes
+
+
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['POST'])
 def create_kanban_header_route(kanban_board_id):
     return create_kanban_header(kanban_board_id)
 
+
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['GET'])
 def get_kanban_headers_by_board_route(kanban_board_id):
     return get_kanban_headers_by_board(kanban_board_id)
+
 
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers/<int:header_id>', methods=['DELETE'])
 def delete_kanban_header_by_board_route(kanban_board_id, header_id):

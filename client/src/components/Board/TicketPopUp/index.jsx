@@ -28,6 +28,23 @@ function TicketPopUp(props) {
     props.setIsOpen(false);
   };
 
+  useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "KeyG") {
+        closeModal();
+      }
+    });
+
+    // cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener("keydown", function (event) {
+        if (event.code === "KeyG") {
+          closeModal();
+        }
+      });
+    };
+  }, []);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setEditedTicket({
@@ -39,9 +56,9 @@ function TicketPopUp(props) {
   // Test functionality
   const sanitiseInput = (input) => {
     let sanitizedInput = input.trim();
-    sanitizedInput = sanitizedInput.replace(/\t/g, '  ');
-    sanitizedInput = sanitizedInput.replace(/ +/g, ' ');
-    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
+    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
+    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
     return sanitizedInput;
   };
 
@@ -50,37 +67,45 @@ function TicketPopUp(props) {
     event.preventDefault();
     // Test functionality
     const sanitisedTechnologies = sanitiseInput(editedTicket.test_technologies);
-    const sanitisedTestFramework = sanitiseInput(editedTicket.test_testing_framework);
+    const sanitisedTestFramework = sanitiseInput(
+      editedTicket.test_testing_framework
+    );
     const sanitisedFunctionToTest = sanitiseInput(editedTicket.test_function);
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         technologies: sanitisedTechnologies,
         test_framework: sanitisedTestFramework,
         function_to_test: sanitisedFunctionToTest,
       }),
     };
-    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const response = await fetch(
+      "http://localhost:5000/ai-test",
+      requestOptions
+    );
     const data = await response.json();
     const newlyGeneatedTest = data.tests_for_function;
     // Add await before fetch
-    await fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: editedTicket.ticket_title,
-        content: editedTicket.ticket_content,
-        ticket_status: editedTicket.ticket_status,
-        // Test functionality
-        test_technologies: sanitisedTechnologies,
-        test_testing_framework: sanitisedTestFramework,
-        test_function: sanitisedFunctionToTest,
-        test_generated_test: newlyGeneatedTest,
-      }),
-    })
+    await fetch(
+      `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: editedTicket.ticket_title,
+          content: editedTicket.ticket_content,
+          ticket_status: editedTicket.ticket_status,
+          // Test functionality
+          test_technologies: sanitisedTechnologies,
+          test_testing_framework: sanitisedTestFramework,
+          test_function: sanitisedFunctionToTest,
+          test_generated_test: newlyGeneatedTest,
+        }),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setEditedTicket(data);
