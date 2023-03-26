@@ -60,25 +60,64 @@ const Headers = ({ board_id }) => {
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
   const [newHeaderName, setNewHeaderName] = useState("");
 
-  const handleAddHeader = () => {
-    if (newHeaderName.trim() === "") {
-      alert("Please enter a header name");
-      return;
+  // const handleAddHeader = () => {
+  //   if (newHeaderName.trim() === "") {
+  //     alert("Please enter a header name");
+  //     return;
+  //   }
+  //   const newHeaderId = `header-${newHeaderName}`;
+  //   const newHeader = {
+  //     id: newHeaderId,
+  //     header_id: newHeaderId,
+  //     name: newHeaderName,
+  //     header_name: newHeaderName,
+  //     tickets_under_this_header: [],
+  //     items: [],
+  //   };
+  //   console.log(newHeader);
+
+  //   setHeaders((prevState) => [...prevState, newHeader]);
+  //   setNewHeaderName("");
+  // };
+
+const handleAddHeader = () => {
+  if (newHeaderName.trim() === "") {
+    alert("Please enter a header name");
+    return;
+  }
+  
+  fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: newHeaderName }),
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Failed to create a new header");
     }
-    const newHeaderId = `header-${newHeaderName}`;
+    return response.json();
+  })
+  .then((data) => {
     const newHeader = {
-      id: newHeaderId,
-      header_id: newHeaderId,
-      name: newHeaderName,
-      header_name: newHeaderName,
+      id: `header-${newHeaderName}`,
+      header_id: data.header_id,
+      name: data.header_name,
       tickets_under_this_header: [],
       items: [],
     };
-    console.log(newHeader);
-
+  
     setHeaders((prevState) => [...prevState, newHeader]);
     setNewHeaderName("");
-  };
+  })
+  .catch((error) => {
+    console.error("Error creating a new header:", error);
+    alert("Failed to create a new header");
+  });
+};
+     
+  
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
