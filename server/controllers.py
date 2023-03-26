@@ -21,6 +21,8 @@ email.config['MAIL_USE_SSL'] = True
 # notification Controller
 
 
+
+
 def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=super_user_name)
@@ -94,6 +96,33 @@ def register_user(super_user_name):
     return jsonify({'message': 'User created successfully'}), 201
 
 
+##add members to the admins
+def add_member():
+    data = request.get_json()
+    new_members = data.get('new_member')
+    super_user = data.get('super_user')
+    
+    if not new_members or not super_user:
+        return jsonify({'error': 'super_user invalid'}), 404
+
+    
+    for member in new_members:
+        if check_user_name(member) == False:
+            return jsonify({'error': f'{member} does not exist'}), 404
+        
+    user = Super_User.query.filter_by(username=super_user).first()
+    if user.members is None:
+        user.members =  []
+
+    user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
+
+    print(user.members)
+    db.session.commit()
+    return jsonify({'message': 'members added to the database'}), 201
+   
+
+
+
 def login():
     data = request.get_json()
     username = data.get('username')
@@ -113,6 +142,7 @@ def login():
             'username': user.username,
             'email': user.email,
             'name': user.name,
+            'members': user.members,
             'isSuper': True
         }
 
@@ -374,3 +404,14 @@ def delete_kanban_header_by_board(kanban_board_id, header_id):
     db.session.delete(header)
     db.session.commit()
     return jsonify({'message': 'Kanban header deleted successfully'}), 200
+
+
+
+#checker functions:
+
+def check_user_name(username):
+        temp = User.query.filter_by(username=username).first()
+        if not temp:
+            return False
+        else:
+            return True
