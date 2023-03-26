@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
-import useClickOutside from "../../../CustomHooks/useClickOutside";
 const CreateTicketPopUp = (props) => {
   const [tickets, setTickets] = useState({
     title: "",
@@ -10,10 +9,11 @@ const CreateTicketPopUp = (props) => {
   });
   const [responseData, setResponseData] = useState([]);
   console.log(tickets);
-  const closeModal = () => {
+
+  function closeModal() {
     props.setIsOpenCreate(false);
     setResponseData([]);
-  };
+  }
 
   function handleTitleUpdate(event) {
     setTickets({ ...tickets, title: event.target.value });
@@ -79,6 +79,22 @@ const CreateTicketPopUp = (props) => {
       .catch((error) => console.error(error));
   }
 
+  useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "KeyG") {
+        closeModal();
+      }
+    });
+
+    // cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener("keydown", function (event) {
+        if (event.code === "KeyG") {
+          closeModal();
+        }
+      });
+    };
+  }, []);
   return (
     <>
       {props.isOpenCreate && (
