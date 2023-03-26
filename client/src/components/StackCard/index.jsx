@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import "./style.css"
+import { decode } from 'html-entities';
+import "../../index.css"
 
-function StackCard() {
+export const StackCard = () => {
 
     const [stack, setStack] = useState()
     const [title, setTitle] = useState("")
@@ -9,7 +10,6 @@ function StackCard() {
     const [states, setStates] = useState(false)
     const [titleView, setTitleView] = useState(true)
     const [latest, setLatest] = useState("question")
-
 
     const clickHandler = (states) => {
         setStates(!states)
@@ -28,7 +28,6 @@ function StackCard() {
         console.log(latest)
     }
 
-
     useEffect(() => {
 
         const fetchDataTitle = async () => {
@@ -45,8 +44,6 @@ function StackCard() {
                     setStack(datatags.items)
                     console.log("using tags")
                 }
-
-
             } catch (error) {
                 console.log(error)
             }
@@ -54,17 +51,13 @@ function StackCard() {
         fetchDataTitle()
     }, [states])
 
-
-
-
-
     const rendering = (titleView) => {
 
         if (titleView) {
             return (
                 <label>
                     <div className='input-section-stack'>
-                        question to ask:
+                        Question to ask:
                         <br />
                         <input className='input-line-stack' type="text" name="question" onChange={titleHandler} />
                     </div>
@@ -80,7 +73,6 @@ function StackCard() {
                     </div>
                 </label>)
         }
-
     }
 
     const stackCard = (data) => {
@@ -90,13 +82,12 @@ function StackCard() {
                 {data.map((e, i) => (
                     e.is_answered == true ?
                         <div className='stackCard'>
-                            <li key={i}><a href={e.link}>{e.title}</a></li>
+                            <li key={i}><a href={e.link}>{decode(e.title, { level: 'html5' })}</a></li>
                             <li > tags :{e.tags.toString()}</li>
                         </div>
                         :
                         null
                 ))}
-
             </div>
             <button className='remove-stack-view' onClick={() => clickHandler(states)} >back</button>
         </>
@@ -104,19 +95,11 @@ function StackCard() {
     }
 
     return (
-        <>
+        <div className='parent-container-stack'>
             {rendering(titleView)}
-
             <button className='access-btn' id="view-button" onClick={() => { viewHandler(titleView) }}>{titleView == true ? "look for tags" : "look with title"}</button> <br />
             <button className='access-btn' id="question-button" onClick={() => { clickHandler(states) }}>Click me to get the questions</button>
-
             {states ? <ul>{stack && stackCard(stack)}</ul> : null}
-
-        </>
+        </div>
     )
-
-
-
 }
-
-export default StackCard

@@ -1,26 +1,18 @@
 import React from 'react'
-import "./style.css"
-import { FloatingMenu, StackCard, GitCommitCard } from '../../components'
+import { FloatingMenu} from '../FloatingMenu'
+import { StackCard } from '../StackCard'
+import { GitCard } from '../GitCard'
 import { useView } from '../../context/UserContext'
 
-
-function BoardTest() {
-
+function FancyMenu() {
     const { stackView, setStackView, gitView, setGitView } = useView()
-
-
     return (
-
-        <>
+        <main>
             <FloatingMenu />
             {stackView && <StackCard />}
-            {gitView && <GitCommitCard />}
-        </>
-
+            {gitView && <GitCard />}
+        </main>
     )
-
-
 }
 
-
-export default BoardTest
+export default FancyMenu

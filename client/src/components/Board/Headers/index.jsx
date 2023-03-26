@@ -1,109 +1,128 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import "./style.css";
-
-const initialHeaders = [
-  {
-    id: "header-1",
-    name: "Header 1",
-    items: [
-      { id: "0-item-0", content: "Item 1" },
-      {
-        id: "0-item-1",
-        content: "Item 2",
-        comment: "This is a comment",
-        assigned: [
-          { id: "1", name: "John Doe" },
-          { id: "2", name: "Jane Doe" },
-        ],
-      },
-    ],
-  },
-  {
-    id: "header-2",
-    name: "Header 2",
-    items: [
-      { id: "1-item-0", content: "Item 3" },
-      { id: "1-item-1", content: "Item 4" },
-    ],
-  },
-  {
-    id: "header-3",
-    name: "Header 3",
-    items: [
-      { id: "2-item-0", content: "Item 5" },
-      { id: "2-item-1", content: "Item 6" },
-    ],
-  },
-];
+import Form_Button from "../../Form_Button";
+import Form_Input from "../../Form_Input";
+import TicketPopUp from "../TicketPopUp";
+import CreateTicketPopUp from "../CreateTicketPopUp";
+const initialHeaders = [];
+import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
-  const fetchKanbanBoardData = async () => {
-    try {
-      const response = await fetch(
-        `https://built-differently-backend.onrender.com/kanban-boards/${board_id}`
-      );
-      const data = await response.json();
-      const header = data.boards_headers[0];
-      // setHeaders({ id: header.header_id, name: header.header_name, items: header.tickets_under_this_header})
-      console.log(data);
-      console.log(header.header_id);
-      console.log(header.header_name);
-      console.log(header.tickets_under_this_header);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const initialHeaders = [];
+  const [selectedTicket, setSelectedTicket] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [responseData, setResponseData] = useState("");
+
+  function handleTicketClick(ticketContent) {
+    setSelectedTicket(ticketContent.content);
+    setIsOpen(true);
+    console.log(selectedTicket);
+  }
+  const [currentHeaderId, setCurrentHeaderId] = useState(null);
+
+  function handleNewItemClick(headerId) {
+    setCurrentHeaderId(headerId);
+    setIsOpenCreate(true);
+  }
 
   useEffect(() => {
-    fetchKanbanBoardData();
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    const boardData = await FetchKBD(board_id);
+    setResponseData(boardData);
+    const ticketsData = await FetchTickets(board_id);
+
+    const headersData = Array.isArray(boardData.boards_headers)
+      ? boardData.boards_headers
+      : [boardData.boards_headers];
+
+    const updatedHeaders = headersData.map((header) => {
+      const headerTickets = ticketsData.filter(
+        (ticket) => ticket.header_id === header.header_id
+      );
+      return {
+        id: `header-${header.header_id}`,
+        name: header.header_name,
+        items: headerTickets.map((ticket) => ({
+          id: `item-${ticket.ticket_id}`,
+          content: ticket.ticket_content,
+        })),
+      };
+    });
+
+    setHeaders(updatedHeaders);
+  };
+
   const [headers, setHeaders] = useState(initialHeaders);
-
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
-
   const [newHeaderName, setNewHeaderName] = useState("");
+
+  // const handleAddHeader = () => {
+  //   if (newHeaderName.trim() === "") {
+  //     alert("Please enter a header name");
+  //     return;
+  //   }
+  //   const newHeaderId = `header-${newHeaderName}`;
+  //   const newHeader = {
+  //     id: newHeaderId,
+  //     header_id: newHeaderId,
+  //     name: newHeaderName,
+  //     header_name: newHeaderName,
+  //     tickets_under_this_header: [],
+  //     items: [],
+  //   };
+  //   console.log(newHeader);
+
+  //   setHeaders((prevState) => [...prevState, newHeader]);
+  //   setNewHeaderName("");
+  // };
 
   const handleAddHeader = () => {
     if (newHeaderName.trim() === "") {
       alert("Please enter a header name");
       return;
     }
-    const newHeaderId = `header-${Date.now()}`;
-    const newHeader = { id: newHeaderId, name: newHeaderName, items: [] };
 
-    setHeaders((prevState) => [...prevState, newHeader]);
-    setNewHeaderName(""); // Clear the input field after adding the header
+    fetch(
+      `https://built-differently-backend.onrender.com//kanban-board/${board_id}/kanban-headers`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newHeaderName }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create a new header");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newHeader = {
+          id: `header-${newHeaderName}`,
+          header_id: data.header_id,
+          name: data.header_name,
+          tickets_under_this_header: [],
+          items: [],
+        };
+
+        setHeaders((prevState) => [...prevState, newHeader]);
+        setNewHeaderName("");
+      })
+      .catch((error) => {
+        console.error("Error creating a new header:", error);
+        alert("Failed to create a new header");
+      });
   };
 
-  const handleNewItemNameChange = (headerId, newValue) => {
-    setNewItemNames((prevState) =>
-      prevState.map((name, index) =>
-        headers[index].id === headerId ? newValue : name
-      )
-    );
-  };
-
-  const handleAddSubItem = (headerId) => {
-    const headerIndex = headers.findIndex((header) => header.id === headerId);
-    const itemName = newItemNames[headerIndex];
-    if (itemName) {
-      const newSubItemId = `item-${Date.now()}`;
-      const newSubItem = { id: newSubItemId, content: itemName };
-
-      setHeaders((prevState) =>
-        prevState.map((header) =>
-          header.id === headerId
-            ? { ...header, items: [...header.items, newSubItem] }
-            : header
-        )
-      );
-      setNewItemNames((prevState) =>
-        prevState.map((name, index) => (index === headerIndex ? "" : name))
-      );
-    }
-  };
+  useEffect(() => {
+    setNewItemNames(headers.map(() => ""));
+  }, [headers]);
 
   const handleOnDragEnd = (result) => {
     const { source, destination, type } = result;
@@ -129,7 +148,6 @@ const Headers = ({ board_id }) => {
         const [reorderedItem] = newItems.splice(source.index, 1);
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
-        console.log(newItems);
         setHeaders([...headers]);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
@@ -137,18 +155,40 @@ const Headers = ({ board_id }) => {
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
-        console.log(destinationHeader.items);
       }
     }
+    // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
   };
 
   return (
     <div>
+      <CreateTicketPopUp
+        setIsOpenCreate={setIsOpenCreate}
+        isOpenCreate={isOpenCreate}
+        id={currentHeaderId}
+        headers={headers}
+        setHeaders={setHeaders}
+        newItemNames={newItemNames}
+        setNewItemNames={setNewItemNames}
+        fetchData={fetchData}
+      />
+      <div>
+        {selectedTicket && (
+          <div className="">
+            <TicketPopUp
+              ticketContent={selectedTicket}
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+              fetchData={fetchData}
+            />
+          </div>
+        )}
+      </div>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
             <div
-              className="container"
+              className="flex justify-between"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -156,16 +196,16 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="box"
+                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <p>{name}</p>
+                      <h2 className="text-lg font-bold mb-2">{name}</h2>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div
-                            className="item-container"
+                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -177,10 +217,13 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="item"
+                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    onClick={() =>
+                                      handleTicketClick({ content })
+                                    }
                                   >
                                     {content}
                                   </div>
@@ -191,38 +234,40 @@ const Headers = ({ board_id }) => {
                           </div>
                         )}
                       </Droppable>
-                      <input
-                        type="text"
-                        className="new-item-input item"
-                        value={newItemNames[index]}
-                        onChange={(e) =>
-                          handleNewItemNameChange(id, e.target.value)
-                        }
+                      <Form_Button
+                        onClick={() => handleNewItemClick(id)}
+                        buttonText="Add Ticket"
                       />
-                      <button
-                        className="add-item-button item"
-                        onClick={() => handleAddSubItem(id)}
-                      >
-                        Add Item
-                      </button>
                     </div>
                   )}
                 </Draggable>
               ))}
-              <div className="box">
-                <input
-                  type="text"
-                  className="new-header-input item"
-                  value={newHeaderName}
-                  onChange={(e) => setNewHeaderName(e.target.value)}
-                />
-                <button
-                  className="add-header-button item"
-                  onClick={handleAddHeader}
-                >
-                  Add Header
-                </button>
-              </div>
+              <Draggable
+                key="new-header"
+                draggableId="new-header"
+                index={headers.length}
+              >
+                {(provided) => (
+                  <div
+                    className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <Form_Input
+                      type="text"
+                      value={newHeaderName}
+                      onChange={(e) => setNewHeaderName(e.target.value)}
+                      ariaLabel="Field in which to type new header"
+                    />
+                    <Form_Button
+                      buttonText="Add Header"
+                      onClick={handleAddHeader}
+                      ariaLabel="Button for adding new header"
+                    />
+                  </div>
+                )}
+              </Draggable>
               {provided.placeholder}
             </div>
           )}

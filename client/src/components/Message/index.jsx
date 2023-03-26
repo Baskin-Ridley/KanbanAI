@@ -5,10 +5,12 @@ const Message = ({ message, type }) => {
     return null;
   }
 
-  const messageClass = type === 'error' ? 'message-container w3-panel w3-red w3-padding' : 'message-container w3-panel w3-green w3-padding';
+  const messageClass = type === 'error' 
+    ? 'message-container mt-12 ml-12 mr-12 bg-orange-500 text-white border-red-500 border-2 p-4'
+    : 'message-container mt-12 ml-12 mr-12 bg-blue-500 text-white border-blue-500 border-2 p-4';
 
   return (
-    <div className={messageClass}>
+    <div className={`rounded-md ${messageClass}`}>
       <p>{message}</p>
     </div>
   );
