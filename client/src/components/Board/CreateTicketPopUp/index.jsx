@@ -3,14 +3,15 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
-  console.log("hello", props.id);
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
   });
+  const [responseData, setResponseData] = useState([]);
   console.log(tickets);
   const closeModal = () => {
     props.setIsOpenCreate(false);
+    setResponseData([]);
   };
 
   function handleTitleUpdate(event) {
@@ -101,7 +102,7 @@ const CreateTicketPopUp = (props) => {
                     ariaLabel="content"
                     onChange={handleContentUpdate}
                   />
-                  <AISteps />
+                  <AISteps responseData={responseData} />
 
                   <Form_Button
                     buttonText="Save"

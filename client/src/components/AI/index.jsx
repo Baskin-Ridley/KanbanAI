@@ -1,44 +1,16 @@
 import React, { useState } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
-const AISteps = () => {
-  const [task, setTask] = useState("");
-  const [responseData, setResponseData] = useState([]);
+const AISteps = (props) => {
+  const { responseData } = props;
 
-  function handleClick() {
-    const data = { task: task, steps: "currently not used" };
-    console.log("Sending data:", data);
-
-    fetch("http://localhost:5000/ai-steps", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Received data:", data);
-        const steps = data.steps_for_task
-          .split("\n")
-          .filter((step) => step.trim() !== "");
-        console.log("Extracted steps:", steps);
-        setResponseData(steps);
-      })
-      .catch((error) => console.error(error));
-  }
+  console.log("responseData", responseData);
 
   function handleClickForStep(step) {
     console.log(`Clicked for step: ${step}`);
   }
 
   return (
-    // <main className="flex flex-col items-center justify-center">
-    //   <Form_Button
-    //     buttonText="Generate steps for task"
-    //     onClick={handleClick}
-    //     ariaLabel="Button for generating steps for task using AI"
-    //   />
     <>
       {responseData && (
         <div>
