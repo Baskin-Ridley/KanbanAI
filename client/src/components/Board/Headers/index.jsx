@@ -60,26 +60,6 @@ const Headers = ({ board_id }) => {
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
   const [newHeaderName, setNewHeaderName] = useState("");
 
-  // const handleAddHeader = () => {
-  //   if (newHeaderName.trim() === "") {
-  //     alert("Please enter a header name");
-  //     return;
-  //   }
-  //   const newHeaderId = `header-${newHeaderName}`;
-  //   const newHeader = {
-  //     id: newHeaderId,
-  //     header_id: newHeaderId,
-  //     name: newHeaderName,
-  //     header_name: newHeaderName,
-  //     tickets_under_this_header: [],
-  //     items: [],
-  //   };
-  //   console.log(newHeader);
-
-  //   setHeaders((prevState) => [...prevState, newHeader]);
-  //   setNewHeaderName("");
-  // };
-
 const handleAddHeader = () => {
   if (newHeaderName.trim() === "") {
     alert("Please enter a header name");
@@ -101,15 +81,16 @@ const handleAddHeader = () => {
   })
   .then((data) => {
     const newHeader = {
-      id: `header-${newHeaderName}`,
-      header_id: data.header_id,
-      name: data.header_name,
-      tickets_under_this_header: [],
+      id: `header-${data.header.header_id}`,
+      header_id: data.header.header_id,
+      name: data.header.header_name,
+      tickets_under_this_header: data.header.tickets_under_this_header,
       items: [],
     };
-  
+    
     setHeaders((prevState) => [...prevState, newHeader]);
     setNewHeaderName("");
+    
   })
   .catch((error) => {
     console.error("Error creating a new header:", error);
