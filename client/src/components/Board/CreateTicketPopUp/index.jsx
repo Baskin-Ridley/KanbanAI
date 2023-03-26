@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
+import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
   console.log("hello", props.id);
   const [tickets, setTickets] = useState({
@@ -72,6 +73,8 @@ const CreateTicketPopUp = (props) => {
                     ariaLabel="content"
                     onChange={handleContentUpdate}
                   />
+                  <AISteps />
+
                   <Form_Button
                     buttonText="Save"
                     onClick={() => handleAddItem(props.id)}

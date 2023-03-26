@@ -33,24 +33,15 @@ const AISteps = () => {
   }
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-bold mb-8 m-12 text-center">AI Steps</h2>
-      <Form_Input
-        label="Insert your task:"
-        type="text"
-        value={task}
-        onChange={(e) => setTask(e.target.value)}
-        ariaLabel="Field for inputting the task to be outlined into steps by AI"
-      />
-      <Form_Button
-        buttonText="Generate steps for task"
-        onClick={handleClick}
-        ariaLabel="Button for generating steps for task using AI"
-      />
-
+    // <main className="flex flex-col items-center justify-center">
+    //   <Form_Button
+    //     buttonText="Generate steps for task"
+    //     onClick={handleClick}
+    //     ariaLabel="Button for generating steps for task using AI"
+    //   />
+    <>
       {responseData && (
         <div>
-          <h2>Response data:</h2>
           <ol>
             {responseData.map((step, index) => (
               <div className="flex flex-row gap-2 mb-2">
@@ -71,7 +62,9 @@ const AISteps = () => {
           </ol>
         </div>
       )}
-    </main>
+    </>
+
+    // {/* </main> */}
   );
 };
 
