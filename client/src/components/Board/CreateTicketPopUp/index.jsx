@@ -48,6 +48,29 @@ const CreateTicketPopUp = (props) => {
       .catch((error) => console.error(error));
   }
 
+  function handleAiClick() {
+    const data = { task: tickets.title, steps: "currently not used" };
+    console.log("Sending data:", data);
+
+    fetch("http://localhost:5000/ai-steps", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Received data:", data);
+        const steps = data.steps_for_task
+          .split("\n")
+          .filter((step) => step.trim() !== "");
+        console.log("Extracted steps:", steps);
+        setResponseData(steps);
+      })
+      .catch((error) => console.error(error));
+  }
+
   return (
     <>
       {props.isOpenCreate && (
@@ -64,6 +87,11 @@ const CreateTicketPopUp = (props) => {
                     placeholder="Title"
                     ariaLabel="title"
                     onChange={handleTitleUpdate}
+                  />
+                  <Form_Button
+                    buttonText="Generate steps for task"
+                    onClick={handleAiClick}
+                    ariaLabel="Button for generating steps for task using AI"
                   />
                   <Form_Input
                     label="Content"
