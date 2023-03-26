@@ -23,6 +23,7 @@ const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
     let cleanString = step.replace(/^[0-9]+\)\s+/, "");
     console.log(cleanString);
     setTickets({ ...tickets, title: cleanString, content: cleanString });
+    console.log(tickets);
     handleAddItem(3, false);
   }
 
