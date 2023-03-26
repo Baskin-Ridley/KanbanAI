@@ -102,7 +102,11 @@ const CreateTicketPopUp = (props) => {
                     ariaLabel="content"
                     onChange={handleContentUpdate}
                   />
-                  <AISteps responseData={responseData} />
+                  <AISteps
+                    responseData={responseData}
+                    setTickets={setTickets}
+                    tickets={tickets}
+                  />
 
                   <Form_Button
                     buttonText="Save"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
 const AISteps = (props) => {
-  const { responseData } = props;
+  const { responseData, setTickets, tickets } = props;
 
   const [renderedSteps, setRenderedSteps] = useState([]);
 
@@ -22,7 +22,9 @@ const AISteps = (props) => {
   }, [responseData]);
 
   function handleClickForStep(step) {
-    console.log(`Clicked for step: ${step}`);
+    let cleanString = step.replace(/^[0-9]+\)\s+/, "");
+    console.log(cleanString);
+    setTickets({ ...tickets, title: cleanString, content: cleanString });
   }
 
   return (
