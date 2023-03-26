@@ -1,42 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
-const AISteps = () => {
-  const [task, setTask] = useState("");
-  const [responseData, setResponseData] = useState("");
+const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
+  const [renderedSteps, setRenderedSteps] = useState([]);
 
-  function handleClick() {
-    const data = { task: task, steps: "currently not used" };
+  useEffect(() => {
+    const delay = 250; // Set the delay time in milliseconds
+    const steps = responseData.map((step, index) => {
+      const timeoutId = setTimeout(() => {
+        setRenderedSteps((prevSteps) => [...prevSteps, step]);
+      }, index * delay);
 
-    fetch("http://localhost:5000/ai-steps", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => setResponseData(data.steps_for_task))
-      .catch((error) => console.error(error));
+      return { step, timeoutId };
+    });
+
+    return () => {
+      steps.forEach(({ timeoutId }) => clearTimeout(timeoutId));
+    };
+  }, [responseData]);
+
+  function handleClickForStep(step) {
+    let cleanString = step.replace(/^[0-9]+\)\s+/, "");
+    console.log(cleanString);
+    setTickets({ ...tickets, title: cleanString, content: cleanString });
+    console.log(tickets);
+    handleAddItem(3, false);
   }
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-bold mb-8 m-12 text-center">AI Steps</h2>
-      <Form_Input label="Insert your task:" type="text" value={task} onChange={(e) => setTask(e.target.value)} ariaLabel="Field for inputting the task to be outlined into steps by AI" />
-      <Form_Button buttonText="Generate steps for task" onClick={handleClick} ariaLabel="Button for generating steps for task using AI" />
-
+    <>
       {responseData && (
         <div>
-          <h2>Response data:</h2>
           <ol>
-            {responseData.split("\n").map((step) => (
-              <li key={step}>{step}</li>
+            {renderedSteps.map((step, index) => (
+              <div className="flex flex-row gap-2 mb-2">
+                <li
+                  className="w-64 border rounded p-2 flex items-center bg-white"
+                  key={index}
+                >
+                  {step}{" "}
+                </li>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleClickForStep(step)}
+                >
+                  Add Ticket
+                </button>
+              </div>
             ))}
           </ol>
         </div>
       )}
-    </main>
+    </>
+
+    // {/* </main> */}
   );
 };
 

@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
+import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
-  console.log("hello", props.id);
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
   });
+  const [responseData, setResponseData] = useState([]);
   console.log(tickets);
-  const closeModal = () => {
+
+  function closeModal() {
     props.setIsOpenCreate(false);
-  };
+    setResponseData([]);
+  }
 
   function handleTitleUpdate(event) {
     setTickets({ ...tickets, title: event.target.value });
@@ -19,9 +22,10 @@ const CreateTicketPopUp = (props) => {
     setTickets({ ...tickets, content: event.target.value });
   }
 
-  function handleAddItem(headerId) {
+  function handleAddItem(headerId, shouldCloseModal) {
     // console.log(headerId);
     // const number = parseInt(headerId.split("-")[1]);
+    console.log(shouldCloseModal);
 
     fetch("http://localhost:5000/kanban-tickets", {
       method: "POST",
@@ -42,11 +46,55 @@ const CreateTicketPopUp = (props) => {
       .then((data) => {
         console.log("Ticket created:", data);
         props.fetchData();
-        closeModal();
+        if (shouldCloseModal) {
+          closeModal();
+        }
       })
       .catch((error) => console.error(error));
   }
 
+  function handleAiClick() {
+    const data = { task: tickets.title, steps: "currently not used" };
+    console.log("Sending data:", data);
+
+    fetch("http://localhost:5000/ai-steps", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Received data:", data);
+        const steps = data.steps_for_task
+          .split("\n")
+          .filter((step) => step.trim() !== "");
+        console.log("Extracted steps:", steps);
+        setResponseData(steps);
+        if (shouldCloseModal) {
+          closeModal();
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
+  useEffect(() => {
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "KeyG") {
+        closeModal();
+      }
+    });
+
+    // cleanup function to remove the event listener
+    return () => {
+      document.removeEventListener("keydown", function (event) {
+        if (event.code === "KeyG") {
+          closeModal();
+        }
+      });
+    };
+  }, []);
   return (
     <>
       {props.isOpenCreate && (
@@ -64,6 +112,11 @@ const CreateTicketPopUp = (props) => {
                     ariaLabel="title"
                     onChange={handleTitleUpdate}
                   />
+                  <Form_Button
+                    buttonText="Generate steps for task"
+                    onClick={handleAiClick}
+                    ariaLabel="Button for generating steps for task using AI"
+                  />
                   <Form_Input
                     label="Content"
                     type="text"
@@ -72,9 +125,16 @@ const CreateTicketPopUp = (props) => {
                     ariaLabel="content"
                     onChange={handleContentUpdate}
                   />
+                  <AISteps
+                    responseData={responseData}
+                    setTickets={setTickets}
+                    tickets={tickets}
+                    handleAddItem={handleAddItem}
+                  />
+
                   <Form_Button
                     buttonText="Save"
-                    onClick={() => handleAddItem(props.id)}
+                    onClick={() => handleAddItem(props.id, true)}
                     ariaLabel="Button for saving the data"
                   />
                   <Form_Button
