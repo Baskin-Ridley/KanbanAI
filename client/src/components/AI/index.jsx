@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
 const AISteps = (props) => {
   const { responseData } = props;
 
-  console.log("responseData", responseData);
+  const [renderedSteps, setRenderedSteps] = useState([]);
+
+  useEffect(() => {
+    const delay = 250; // Set the delay time in milliseconds
+    const steps = responseData.map((step, index) => {
+      const timeoutId = setTimeout(() => {
+        setRenderedSteps((prevSteps) => [...prevSteps, step]);
+      }, index * delay);
+
+      return { step, timeoutId };
+    });
+
+    return () => {
+      steps.forEach(({ timeoutId }) => clearTimeout(timeoutId));
+    };
+  }, [responseData]);
 
   function handleClickForStep(step) {
     console.log(`Clicked for step: ${step}`);
@@ -15,7 +30,7 @@ const AISteps = (props) => {
       {responseData && (
         <div>
           <ol>
-            {responseData.map((step, index) => (
+            {renderedSteps.map((step, index) => (
               <div className="flex flex-row gap-2 mb-2">
                 <li
                   className="w-64 border rounded p-2 flex items-center bg-white"
