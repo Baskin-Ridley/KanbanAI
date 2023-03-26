@@ -3,6 +3,7 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
+  // console.log(props)
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
@@ -23,6 +24,7 @@ const CreateTicketPopUp = (props) => {
   }
 
   function handleAddItem(headerId, shouldCloseModal) {
+    // console.log(headerId)
     const slicedId = headerId.id.slice(6).replace(/\D/g, '')
     // console.log(shouldCloseModal);
 
@@ -38,7 +40,7 @@ const CreateTicketPopUp = (props) => {
         start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
         header_id: slicedId,
         ticket_status: "open",
-        kanban_board_id: 1,
+        kanban_board_id: props.board_id,
       }),
     })
       .then((response) => response.json())

@@ -114,6 +114,7 @@ const handleAddHeader = () => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
+      console.log(items)
     } else if (type === "item") {
       const sourceHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === source.droppableId
@@ -129,12 +130,14 @@ const handleAddHeader = () => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
+        console.log(headers)
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
         const destinationHeader = headers[destinationHeaderIndex];
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
+        console.log(headers)
       }
     }
     // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
@@ -143,6 +146,7 @@ const handleAddHeader = () => {
   return (
     <div>
       <CreateTicketPopUp
+        board_id={board_id}
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
         id={currentHeaderId}
