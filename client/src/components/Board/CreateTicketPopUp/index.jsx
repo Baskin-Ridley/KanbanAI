@@ -106,6 +106,7 @@ const CreateTicketPopUp = (props) => {
                     responseData={responseData}
                     setTickets={setTickets}
                     tickets={tickets}
+                    handleAddItem={handleAddItem}
                   />
 
                   <Form_Button
