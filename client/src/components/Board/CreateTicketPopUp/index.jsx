@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
+import useClickOutside from "../../../CustomHooks/useClickOutside";
 const CreateTicketPopUp = (props) => {
   const [tickets, setTickets] = useState({
     title: "",
