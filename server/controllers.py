@@ -136,7 +136,7 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
 
     # check wether it is a super_user or not
-    if (hasattr(user, 'isSuper')):
+    if user.isSuper:
         user_data = {
             'id': user.id,
             'username': user.username,
@@ -145,6 +145,15 @@ def login():
             'members': user.members,
             'isSuper': True
         }
+    # if (hasattr(user, 'isSuper')):
+    #     user_data = {
+    #         'id': user.id,
+    #         'username': user.username,
+    #         'email': user.email,
+    #         'name': user.name,
+    #         'members': user.members,
+    #         'isSuper': True
+    #     }
 
     else:
         user_data = {

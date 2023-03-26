@@ -49,7 +49,7 @@ function AllBoards() {
       </h2>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
-          <div className="w-full mx-auto">
+          <div key={kanbanBoard.board_id} className="w-full mx-auto">
             <li
               key={kanbanBoard.board_id}
               className="flex items-center justify-center space-x-4 mb-4"
