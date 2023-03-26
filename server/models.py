@@ -94,6 +94,7 @@ class Kanban_Board(db.Model):
         'user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
+    positions = db.Column(db.JSON, nullable=True)
     headers = relationship("Kanban_Header", back_populates="kanban_board")
     tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
 
