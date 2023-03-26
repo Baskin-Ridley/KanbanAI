@@ -158,7 +158,6 @@ def login():
     #         'members': user.members,
     #         'isSuper': True
     #     }
-
     else:
         user_data = {
             'id': user.id,
