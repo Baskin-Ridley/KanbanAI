@@ -23,9 +23,8 @@ const CreateTicketPopUp = (props) => {
   }
 
   function handleAddItem(headerId, shouldCloseModal) {
-    // console.log(headerId);
-    // const number = parseInt(headerId.split("-")[1]);
-    console.log(shouldCloseModal);
+    const slicedId = headerId.id.slice(6).replace(/\D/g, '')
+    // console.log(shouldCloseModal);
 
     fetch("http://localhost:5000/kanban-tickets", {
       method: "POST",
@@ -37,7 +36,7 @@ const CreateTicketPopUp = (props) => {
         content: tickets.content,
         user_id: 1,
         start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-        header_id: 3,
+        header_id: slicedId,
         ticket_status: "open",
         kanban_board_id: 1,
       }),
@@ -134,7 +133,7 @@ const CreateTicketPopUp = (props) => {
 
                   <Form_Button
                     buttonText="Save"
-                    onClick={() => handleAddItem(props.id, true)}
+                    onClick={() => handleAddItem(props, true)}
                     ariaLabel="Button for saving the data"
                   />
                   <Form_Button
