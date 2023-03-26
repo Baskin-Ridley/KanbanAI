@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
@@ -101,7 +101,7 @@ const CreateTicketPopUp = (props) => {
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen">
             <div className="bg-white rounded-lg overflow-hidden shadow-xl">
-              <div className="p-4">
+              <div className="p-4" id="create-ticket">
                 <div className="flex flex-col	justify-between">
                   <h2 className="text-xl font-bold">Create New Task</h2>
                   <Form_Input

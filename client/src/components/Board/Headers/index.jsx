@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
@@ -24,6 +24,7 @@ const Headers = ({ board_id }) => {
   function handleNewItemClick(headerId) {
     setCurrentHeaderId(headerId);
     setIsOpenCreate(true);
+    createTicket.current.focus();
   }
 
   useEffect(() => {
@@ -80,44 +81,42 @@ const Headers = ({ board_id }) => {
   //   setNewHeaderName("");
   // };
 
-const handleAddHeader = () => {
-  if (newHeaderName.trim() === "") {
-    alert("Please enter a header name");
-    return;
-  }
-  
-  fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: newHeaderName }),
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Failed to create a new header");
+  const handleAddHeader = () => {
+    if (newHeaderName.trim() === "") {
+      alert("Please enter a header name");
+      return;
     }
-    return response.json();
-  })
-  .then((data) => {
-    const newHeader = {
-      id: `header-${newHeaderName}`,
-      header_id: data.header_id,
-      name: data.header_name,
-      tickets_under_this_header: [],
-      items: [],
-    };
-  
-    setHeaders((prevState) => [...prevState, newHeader]);
-    setNewHeaderName("");
-  })
-  .catch((error) => {
-    console.error("Error creating a new header:", error);
-    alert("Failed to create a new header");
-  });
-};
-     
-  
+
+    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newHeaderName }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create a new header");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newHeader = {
+          id: `header-${newHeaderName}`,
+          header_id: data.header_id,
+          name: data.header_name,
+          tickets_under_this_header: [],
+          items: [],
+        };
+
+        setHeaders((prevState) => [...prevState, newHeader]);
+        setNewHeaderName("");
+      })
+      .catch((error) => {
+        console.error("Error creating a new header:", error);
+        alert("Failed to create a new header");
+      });
+  };
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
