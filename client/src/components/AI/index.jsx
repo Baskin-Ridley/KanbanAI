@@ -53,12 +53,20 @@ const AISteps = () => {
           <h2>Response data:</h2>
           <ol>
             {responseData.map((step, index) => (
-              <li key={index}>
-                {step}{" "}
-                <button onClick={() => handleClickForStep(step)}>
-                  More info
+              <div className="flex flex-row gap-2 mb-2">
+                <li
+                  className="w-64 border rounded p-2 flex items-center bg-white"
+                  key={index}
+                >
+                  {step}{" "}
+                </li>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => handleClickForStep(step)}
+                >
+                  Add Ticket
                 </button>
-              </li>
+              </div>
             ))}
           </ol>
         </div>
