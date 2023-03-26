@@ -36,10 +36,36 @@ function TicketPopUp(props) {
     });
   };
 
-  const handleSubmit = (event) => {
+  // Test functionality
+  const sanitiseInput = (input) => {
+    let sanitizedInput = input.trim();
+    sanitizedInput = sanitizedInput.replace(/\t/g, '  ');
+    sanitizedInput = sanitizedInput.replace(/ +/g, ' ');
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
+    return sanitizedInput;
+  };
+
+  const handleSubmit = async (event) => {
     console.log(matchingTicket);
     event.preventDefault();
-    fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
+    // Test functionality
+    const sanitisedTechnologies = sanitiseInput(editedTicket.test_technologies);
+    const sanitisedTestFramework = sanitiseInput(editedTicket.test_testing_framework);
+    const sanitisedFunctionToTest = sanitiseInput(editedTicket.test_function);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        technologies: sanitisedTechnologies,
+        test_framework: sanitisedTestFramework,
+        function_to_test: sanitisedFunctionToTest,
+      }),
+    };
+    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const data = await response.json();
+    const newlyGeneatedTest = data.tests_for_function;
+    // Add await before fetch
+    await fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,6 +74,11 @@ function TicketPopUp(props) {
         title: editedTicket.ticket_title,
         content: editedTicket.ticket_content,
         ticket_status: editedTicket.ticket_status,
+        // Test functionality
+        test_technologies: sanitisedTechnologies,
+        test_testing_framework: sanitisedTestFramework,
+        test_function: sanitisedFunctionToTest,
+        test_generated_test: newlyGeneatedTest,
       }),
     })
       .then((response) => response.json())
@@ -116,6 +147,48 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
+                    <p>
+                      <Form_Input
+                        label="Technologies:"
+                        type="text"
+                        value={editedTicket.test_technologies}
+                        onChange={handleInputChange}
+                        formElementId="test_technologies"
+                        ariaLabel="Field for input of technologies"
+                      />
+                    </p>
+                    <p>
+                      <Form_Input
+                        label="Test Framework:"
+                        type="text"
+                        value={editedTicket.test_framework}
+                        onChange={handleInputChange}
+                        formElementId="test_testing_framework"
+                        ariaLabel="Field for input of test framework"
+                      />
+                    </p>
+                    <p>
+                      <Form_Textarea
+                        label="Function to Test:"
+                        value={editedTicket.test_function}
+                        // value={functionToTest}
+                        // onChange={(e) => setFunctionToTest(e.target.value)}
+                        onChange={handleInputChange}
+                        formElementId="test_function"
+                        ariaLabel="Textarea in which to write the function to test"
+                      />
+                    </p>
+                    <p>
+                      <Form_Textarea
+                        label="Tests for Function:"
+                        value={editedTicket.test_generated_test}
+                        // value={testsForFunction}
+                        // onChange={(e) => setTestsForFunction(e.target.value)}
+                        onChange={handleInputChange}
+                        formElementId="test_generated_test"
+                        ariaLabel="Textarea in which generated tests are displayed"
+                      />
+                    </p>
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
