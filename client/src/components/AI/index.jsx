@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
-const AISteps = (props) => {
-  const { responseData, setTickets, tickets, handleAddItem } = props;
-
+const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
   const [renderedSteps, setRenderedSteps] = useState([]);
 
   useEffect(() => {
@@ -25,7 +23,7 @@ const AISteps = (props) => {
     let cleanString = step.replace(/^[0-9]+\)\s+/, "");
     console.log(cleanString);
     setTickets({ ...tickets, title: cleanString, content: cleanString });
-    handleAddItem();
+    handleAddItem(3, false);
   }
 
   return (

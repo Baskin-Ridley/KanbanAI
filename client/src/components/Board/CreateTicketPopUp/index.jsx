@@ -21,9 +21,10 @@ const CreateTicketPopUp = (props) => {
     setTickets({ ...tickets, content: event.target.value });
   }
 
-  function handleAddItem(headerId) {
+  function handleAddItem(headerId, shouldCloseModal) {
     // console.log(headerId);
     // const number = parseInt(headerId.split("-")[1]);
+    console.log(shouldCloseModal);
 
     fetch("http://localhost:5000/kanban-tickets", {
       method: "POST",
@@ -44,7 +45,9 @@ const CreateTicketPopUp = (props) => {
       .then((data) => {
         console.log("Ticket created:", data);
         props.fetchData();
-        closeModal();
+        if (shouldCloseModal) {
+          closeModal();
+        }
       })
       .catch((error) => console.error(error));
   }
@@ -68,6 +71,9 @@ const CreateTicketPopUp = (props) => {
           .filter((step) => step.trim() !== "");
         console.log("Extracted steps:", steps);
         setResponseData(steps);
+        if (shouldCloseModal) {
+          closeModal();
+        }
       })
       .catch((error) => console.error(error));
   }
@@ -111,7 +117,7 @@ const CreateTicketPopUp = (props) => {
 
                   <Form_Button
                     buttonText="Save"
-                    onClick={() => handleAddItem(props.id)}
+                    onClick={() => handleAddItem(props.id, true)}
                     ariaLabel="Button for saving the data"
                   />
                   <Form_Button
