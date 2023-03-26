@@ -66,13 +66,16 @@ const Headers = ({ board_id }) => {
       return;
     }
 
-    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newHeaderName }),
-    })
+    fetch(
+      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newHeaderName }),
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
