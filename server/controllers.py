@@ -101,14 +101,15 @@ def add_member():
     data = request.get_json()
     new_members = data.get('new_member')
     super_user = data.get('super_user')
-    
+
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
 
     ## add admin to members
     for member in new_members:
+        print(member)
         if check_user_name(member) == False:
-            return jsonify({'error': f'{member} does not exist'}), 404
+            return jsonify({'error': f'{member} does not exist' }), 404
         temp_user = User.query.filter_by(username=member).first()
         temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
 
