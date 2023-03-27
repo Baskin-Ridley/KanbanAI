@@ -4,7 +4,7 @@ function AssignUsers({ imageSrc, username, onClick, ticketId }) {
   const storageKey = `AssignUsers:${imageSrc}:${ticketId}`;
 
   const [grayedOut, setGrayedOut] = useState(
-    localStorage.getItem(storageKey) === "true"
+    localStorage.getItem(storageKey) !== "false"
   );
   const [showUsername, setShowUsername] = useState(false);
 
@@ -28,7 +28,7 @@ function AssignUsers({ imageSrc, username, onClick, ticketId }) {
   };
 
   useEffect(() => {
-    const storedGrayedOut = localStorage.getItem(storageKey) === "true";
+    const storedGrayedOut = localStorage.getItem(storageKey) !== "false";
     if (storedGrayedOut !== grayedOut) {
       setGrayedOut(storedGrayedOut);
     }
