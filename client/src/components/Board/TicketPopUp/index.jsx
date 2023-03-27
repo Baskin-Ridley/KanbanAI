@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import Form_Textarea from "../../Form_Textarea";
 import Form_DropDown from "../../Form_DropDown";
-import AssignUsers from "../../AssignUsers";
+import AssignUserContainer from "../../AssignUsers/AssignUserContainer.jsx";
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
@@ -130,17 +130,6 @@ function TicketPopUp(props) {
       });
   }
 
-  const images = [
-    "https://placebear.com/200/300",
-    "https://placebear.com/200/300",
-    "https://placebear.com/200/300",
-  ];
-
-  const handleAssignClick = (index) => {
-    console.log(`Image ${index} clicked`);
-    // Call your function here
-  };
-
   return (
     <>
       {props.isOpen && (
@@ -173,21 +162,12 @@ function TicketPopUp(props) {
                         formElementId="ticket_content"
                         ariaLabel="Textarea for inputting the ticket content"
                       />
-                    </p>
+                    </p>{" "}
                     {matchingTicket && (
-                      <div className="flex justify-center space-x-4">
-                        {images.map((image, index) => (
-                          <AssignUsers
-                            key={index}
-                            imageSrc={image}
-                            username={`User${index + 1}`}
-                            onClick={() => handleAssignClick(index)}
-                            ticketId={matchingTicket.ticket_id}
-                          />
-                        ))}
-                      </div>
+                      <AssignUserContainer
+                        ticketId={matchingTicket.ticket_id}
+                      />
                     )}
-
                     <p className="text-gray-700 mb-2">
                       <Form_DropDown
                         label="Status:"

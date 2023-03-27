@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 function AssignUsers({ imageSrc, username, onClick, ticketId }) {
-  const storageKey = `AssignUsers:${imageSrc}:${ticketId}`;
+  console.log("hello", ticketId);
 
+  const storageKey = `AssignUsers:${JSON.stringify({
+    imageSrc,
+    ticketId,
+  })}`;
   const [grayedOut, setGrayedOut] = useState(
-    localStorage.getItem(storageKey) !== "false"
+    () => localStorage.getItem(storageKey) !== "false"
   );
   const [showUsername, setShowUsername] = useState(false);
 
@@ -19,7 +23,7 @@ function AssignUsers({ imageSrc, username, onClick, ticketId }) {
   const handleClick = () => {
     const newGrayedOut = !grayedOut;
     setGrayedOut(newGrayedOut);
-    localStorage.setItem(storageKey, newGrayedOut);
+    localStorage.setItem(storageKey, newGrayedOut.toString());
     onClick();
   };
 
@@ -32,7 +36,7 @@ function AssignUsers({ imageSrc, username, onClick, ticketId }) {
     if (storedGrayedOut !== grayedOut) {
       setGrayedOut(storedGrayedOut);
     }
-  }, [storageKey]);
+  }, [grayedOut, storageKey]);
 
   return (
     <div className="inline-block relative">
