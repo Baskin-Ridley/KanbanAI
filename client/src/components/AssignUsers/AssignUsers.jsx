@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function AssignUsers({ imageSrc, username, onClick }) {
-  const [grayedOut, setGrayedOut] = useState(true);
+function AssignUsers({ imageSrc, username, onClick, ticketId }) {
+  console.log("hello", ticketId);
+
+  const storageKey = `AssignUsers:${JSON.stringify({
+    imageSrc,
+    ticketId,
+  })}`;
+  const [grayedOut, setGrayedOut] = useState(
+    () => localStorage.getItem(storageKey) !== "false"
+  );
   const [showUsername, setShowUsername] = useState(false);
 
   const handleMouseEnter = () => {
@@ -13,13 +21,22 @@ function AssignUsers({ imageSrc, username, onClick }) {
   };
 
   const handleClick = () => {
-    setGrayedOut(!grayedOut);
+    const newGrayedOut = !grayedOut;
+    setGrayedOut(newGrayedOut);
+    localStorage.setItem(storageKey, newGrayedOut.toString());
     onClick();
   };
 
   const imageStyle = {
     opacity: grayedOut ? "0.5" : "1",
   };
+
+  useEffect(() => {
+    const storedGrayedOut = localStorage.getItem(storageKey) !== "false";
+    if (storedGrayedOut !== grayedOut) {
+      setGrayedOut(storedGrayedOut);
+    }
+  }, [grayedOut, storageKey]);
 
   return (
     <div className="inline-block relative">
