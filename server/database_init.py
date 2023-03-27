@@ -10,52 +10,52 @@ with app.app_context():
     # Create the tables
     db.create_all()
 
-##creat notification
+# creat notification
     notification = Notification(
         user_name="user1",
-        content = "test content",
+        content="test content",
         super_user_name="admin1"
     )
     db.session.add(notification)
     notification2 = Notification(
         user_name="user1",
-        content = "test content 2",
+        content="test content 2",
         super_user_name="admin1"
     )
     db.session.add(notification2)
     notification3 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification3)
     notification4 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification4)
     notification5 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification5)
     notification6 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification6)
     notification7 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification7)
     notification8 = Notification(
         user_name="user1",
-        content = "test content 3",
+        content="test content 3",
         super_user_name="admin1"
     )
     db.session.add(notification8)
@@ -101,19 +101,21 @@ with app.app_context():
     )
     db.session.add(user3)
 
-
     # Commit the users
     db.session.commit()
 
     # Add some Kanban boards
 
-    board1 = Kanban_Board(user_id=user1.id, start_time=datetime.utcnow())
+    board1 = Kanban_Board(
+        user_id=user1.id, start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
+
     db.session.add(board1)
 
     board2 = Kanban_Board(
         user_id=user1.id,
         start_time=datetime.utcnow() - timedelta(days=5),
         end_time=datetime.utcnow() - timedelta(days=1),
+        board_users=[1, 2, 3, 4]
     )
     db.session.add(board2)
 
