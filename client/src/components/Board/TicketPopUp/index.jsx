@@ -116,6 +116,19 @@ function TicketPopUp(props) {
       .catch((error) => console.error(error));
   };
 
+  function deleteTicket() {
+    console.log(matchingTicket);
+    fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket deleted:", data);
+        closeModal();
+        props.fetchData();
+      });
+  }
+
   return (
     <>
       {props.isOpen && (
@@ -125,13 +138,20 @@ function TicketPopUp(props) {
               <div className="p-4">
                 {editedTicket ? (
                   <form onSubmit={handleSubmit}>
-                    <h2 className="text-lg font-bold mb-2">
-                      <Form_Input
-                        type="text"
-                        value={editedTicket.ticket_title}
-                        onChange={handleInputChange}
-                        formElementId="ticket_title"
-                        ariaLabel="Field for inputting the ticket title"
+                    <h2 className="text-lg font-bold mb-2 flex flex-row justify-between">
+                      <div className="w-3/4">
+                        <Form_Input
+                          type="text"
+                          value={editedTicket.ticket_title}
+                          onChange={handleInputChange}
+                          formElementId="ticket_title"
+                          ariaLabel="Field for inputting the ticket title"
+                        />
+                      </div>
+                      <Form_Button
+                        type="submit"
+                        buttonText="Delete"
+                        onClick={deleteTicket}
                       />
                     </h2>
                     <p className="text-gray-700 mb-2">

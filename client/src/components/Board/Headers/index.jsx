@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
@@ -24,6 +24,7 @@ const Headers = ({ board_id }) => {
   function handleNewItemClick(headerId) {
     setCurrentHeaderId(headerId);
     setIsOpenCreate(true);
+    createTicket.current.focus();
   }
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
-    console.log(boardData)
+    console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -61,46 +62,43 @@ const Headers = ({ board_id }) => {
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
   const [newHeaderName, setNewHeaderName] = useState("");
 
-const handleAddHeader = () => {
-  if (newHeaderName.trim() === "") {
-    alert("Please enter a header name");
-    return;
-  }
-  
-  fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: newHeaderName }),
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Failed to create a new header");
+  const handleAddHeader = () => {
+    if (newHeaderName.trim() === "") {
+      alert("Please enter a header name");
+      return;
     }
-    return response.json();
-  })
-  .then((data) => {
-    const newHeader = {
-      id: `header-${data.header.header_id}`,
-      header_id: data.header.header_id,
-      name: data.header.header_name,
-      tickets_under_this_header: data.header.tickets_under_this_header,
-      items: [],
-    };
-    
-    setHeaders((prevState) => [...prevState, newHeader]);
 
-    setNewHeaderName("");
-    
-  })
-  .catch((error) => {
-    console.error("Error creating a new header:", error);
-    alert("Failed to create a new header");
-  });
-};
-     
-  
+    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newHeaderName }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create a new header");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newHeader = {
+          id: `header-${data.header.header_id}`,
+          header_id: data.header.header_id,
+          name: data.header.header_name,
+          tickets_under_this_header: data.header.tickets_under_this_header,
+          items: [],
+        };
+
+        setHeaders((prevState) => [...prevState, newHeader]);
+
+        setNewHeaderName("");
+      })
+      .catch((error) => {
+        console.error("Error creating a new header:", error);
+        alert("Failed to create a new header");
+      });
+  };
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -116,7 +114,7 @@ const handleAddHeader = () => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
-      console.log(items)
+      console.log(items);
       fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
         method: "PUT",
         headers: {
@@ -152,14 +150,14 @@ const handleAddHeader = () => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
-        console.log(headers)
+        console.log(headers);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
         const destinationHeader = headers[destinationHeaderIndex];
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
-        console.log(headers)
+        console.log(headers);
       }
     }
     // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
