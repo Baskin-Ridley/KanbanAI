@@ -22,9 +22,14 @@ const Settings = () => {
           },
           body: JSON.stringify(data),
         };
-        console.log(options.body)
-        const response = await fetch("http://localhost:5000/super_user/member", options)
-        const listen = await response.json()
+        try {
+          console.log(options.body)
+          const response = await fetch("http://localhost:5000/super_user/member", options)
+          const listen = await response.json()
+          setMessage(listen)
+        } catch (error) {
+          return ({ "error": error })
+        }
       }
       sendMembers();
     }
@@ -33,8 +38,7 @@ const Settings = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(true);
-    justFetch();
-    setMessage('Details updated successfully');
+
   };
 
   return (
@@ -51,11 +55,11 @@ const Settings = () => {
           </div>
           {user.isSuper &&
             <div className="mb-4">
-              <input label="Add Members" type="text" onChange={(event) => {
+              <Form_Input label="Add Members" type="text" onChange={(event) => {
                 setData((prevstate) => ({
-                  "new_member": event.target.value.replace(" ", ",").split(","),
+                  "new_member": event.target.value.replaceAll(" ", ",").split(","),
                   "super_user": user.username
-                })); console.log(data);
+                }));
               }} formElementId="add members" ariaLabel="Field for inputting the members" />
             </div>}
           <Form_Button buttonText="Update" ariaLabel="Button for submitting the form" />
