@@ -188,6 +188,7 @@ const Headers = ({ board_id }) => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
+        updatePositions(headers)
         console.log(headers);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
@@ -195,6 +196,7 @@ const Headers = ({ board_id }) => {
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
+        updatePositions(headers)
         console.log(headers);
       }
     }
