@@ -25,9 +25,10 @@ email.config['MAIL_USE_SSL'] = True
 
 
 def get_Notifications(super_user_name):
+    print("i am in")
     list = []
-    data = Notification.query.filter_by(super_user_name=super_user_name)
-    
+    data = Notification.query.filter_by(super_user_name=[[super_user_name]])
+
     for item in data:
         print(item)
         

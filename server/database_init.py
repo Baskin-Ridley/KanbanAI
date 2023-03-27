@@ -14,19 +14,19 @@ with app.app_context():
     notification = Notification(
         user_name="user1",
         content="test content",
-        super_user_name=["admin1"]
+        super_user_name=[["admin1"]]
     )
     db.session.add(notification)
     notification2 = Notification(
         user_name="user1",
         content="test content 2",
-          super_user_name=["admin1"]
+          super_user_name=[["admin1"]]
     )
     db.session.add(notification2)
     notification3 = Notification(
         user_name="user1",
         content="test content 3",
-         super_user_name=["admin1"]
+         super_user_name=[["admin1"]]
     )
    
 
