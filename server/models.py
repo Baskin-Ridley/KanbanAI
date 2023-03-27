@@ -10,7 +10,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
     user_name = db.Column(db.String(255), nullable=False)
-    super_user_name = db.Column(db.String(255), nullable=False)
+    super_user_name = db.Column(ARRAY(db.String()), nullable=False)
 
     def __init__(self, content, user_name, super_user_name):
         self.content = content
