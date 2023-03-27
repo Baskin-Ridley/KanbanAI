@@ -9,7 +9,7 @@ const CreateTicketPopUp = (props) => {
     content: "",
   });
   const [responseData, setResponseData] = useState([]);
-  console.log(tickets);
+  // console.log(tickets);
 
   function closeModal() {
     props.setIsOpenCreate(false);
@@ -47,12 +47,17 @@ const CreateTicketPopUp = (props) => {
       .then((data) => {
         console.log("Ticket created:", data);
         props.fetchData();
+        // NEW CODE BELOW
+        // console.log(updatedHeaders)
+        // props.setHeaders(updatedHeaders);
+        // NEW CODE ABOVE
         if (shouldCloseModal) {
           closeModal();
         }
       })
       .catch((error) => console.error(error));
   }
+
 
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };

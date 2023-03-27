@@ -4,7 +4,6 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-const initialHeaders = [];
 import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
@@ -17,14 +16,12 @@ const Headers = ({ board_id }) => {
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
-    console.log(selectedTicket);
   }
   const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
   function handleNewItemClick(headerId) {
     setCurrentHeaderId(headerId);
     setIsOpenCreate(true);
-    createTicket.current.focus();
   }
 
   useEffect(() => {
@@ -52,12 +49,10 @@ const Headers = ({ board_id }) => {
         console.error("Error updating header positions:", error);
         alert("Failed to update header positions");
       });
-      console.log(items, 'positions update')
   }
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
-    console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -78,13 +73,11 @@ const Headers = ({ board_id }) => {
         })),
       };
     });
-
-        // if (headersData){
-          //   setHeaders(headersData)
-          // }
     // new code below
+      console.log(headers)
       if (boardData.positions){
         setHeaders(boardData.positions.position_data)
+
       } else{
         setHeaders(updatedHeaders)
       }
@@ -125,8 +118,7 @@ const Headers = ({ board_id }) => {
           items: [],
         };
 
-        setHeaders((prevState) => [...prevState, newHeader]);
-
+        setHeaders((prevState) => [...prevState, newHeader], console.log(headers));
         setNewHeaderName("");
       })
       .catch((error) => {
@@ -134,6 +126,11 @@ const Headers = ({ board_id }) => {
         alert("Failed to create a new header");
       });
   };
+
+  useEffect(() => {
+    updatePositions(headers);
+  }, [headers])
+  console.log(headers, 'head');
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -149,10 +146,7 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
-      console.log(items)
-      updatePositions(items)
 
-      console.log(items);
       fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
         method: "PUT",
         headers: {
@@ -180,7 +174,6 @@ const Headers = ({ board_id }) => {
       const destinationHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === destination.droppableId
       );
-
       if (sourceHeaderIndex === destinationHeaderIndex) {
         const header = headers[sourceHeaderIndex];
         const newItems = Array.from(header.items);
@@ -188,19 +181,14 @@ const Headers = ({ board_id }) => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
-        updatePositions(headers)
-        console.log(headers);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
         const destinationHeader = headers[destinationHeaderIndex];
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
-        updatePositions(headers)
-        console.log(headers);
       }
     }
-    // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
   };
 
   return (
