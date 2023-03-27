@@ -174,16 +174,19 @@ function TicketPopUp(props) {
                         ariaLabel="Textarea for inputting the ticket content"
                       />
                     </p>
-                    <div className="flex justify-center space-x-4">
-                      {images.map((image, index) => (
-                        <AssignUsers
-                          key={index}
-                          imageSrc={image}
-                          username={`User${index + 1}`}
-                          onClick={() => handleAssignClick(index)}
-                        />
-                      ))}
-                    </div>
+                    {matchingTicket && (
+                      <div className="flex justify-center space-x-4">
+                        {images.map((image, index) => (
+                          <AssignUsers
+                            key={index}
+                            imageSrc={image}
+                            username={`User${index + 1}`}
+                            onClick={() => handleAssignClick(index)}
+                            ticketId={matchingTicket.ticket_id}
+                          />
+                        ))}
+                      </div>
+                    )}
 
                     <p className="text-gray-700 mb-2">
                       <Form_DropDown
