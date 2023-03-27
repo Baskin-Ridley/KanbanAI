@@ -457,8 +457,7 @@ def check_user_name(username):
 
 def log_changes(username,body):
     temp = User.query.filter_by(username=username).first()
-    print(type(temp.supervisors))
-    if not temp:
+    if not hasattr(temp,"supervisors"):
         return
     notification =Notification(
         content=body,
