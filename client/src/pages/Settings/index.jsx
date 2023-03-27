@@ -3,12 +3,15 @@ import Form_Button from "../../components/Form_Button";
 import Form_Input from "../../components/Form_Input";
 //import { UserContext } from '../../context/UserContext';
 import Message from '../../components/Message';
+import { useView } from '../../context/UserContext';
 
 const Settings = () => {
   //const { user } = useContext(UserContext);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [members, setMembers] = useState('');
+  const { user } = useView();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,9 +31,15 @@ const Settings = () => {
           <div className="mb-4">
             <Form_Input label="New Email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} formElementId="email" ariaLabel="Field for inputting the email" />
           </div>
+          {user.isSuper &&
+            <div className="mb-4">
+              <Form_Input label="Add Members" type="text" value={members} onChange={(event) => { setMembers((event.target.value).replace(" ", ",").split(",")); console.log(members) }} formElementId="add members" ariaLabel="Field for inputting the members" />
+            </div>}
           <Form_Button buttonText="Update" ariaLabel="Button for submitting the form" />
         </form>
+
       </main>
+
     </>
   );
 };
