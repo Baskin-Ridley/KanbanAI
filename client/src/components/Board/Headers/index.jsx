@@ -51,7 +51,7 @@ const Headers = ({ board_id }) => {
         console.error("Error updating header positions:", error);
         alert("Failed to update header positions");
       });
-      console.log(headers, 'positions update')
+      console.log(items, 'positions update')
   }
 
   const fetchData = async () => {
@@ -78,17 +78,17 @@ const Headers = ({ board_id }) => {
       };
     });
 
-    updatePositions(updatedHeaders)
-    // if (headersData){
-    //   setHeaders(headersData)
-    // }
+        // if (headersData){
+          //   setHeaders(headersData)
+          // }
     // new code below
-    if (boardData.positions){
-      setHeaders(boardData.positions.position_data)
-    } else{
-      setHeaders(initialHeaders)
-    }
-    // previous code below 
+      if (boardData.positions){
+        setHeaders(boardData.positions.position_data)
+      } else{
+        setHeaders(initialHeaders)
+      }
+  // previous code below 
+    // updatePositions(updatedHeaders)
     // setHeaders(updatedHeaders);
   };
 
