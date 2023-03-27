@@ -26,6 +26,7 @@ const Settings = () => {
           console.log(options.body)
           const response = await fetch("http://localhost:5000/super_user/member", options)
           const listen = await response.json()
+          console.log(listen)
           setMessage(listen)
         } catch (error) {
           return ({ "error": error })
@@ -37,7 +38,7 @@ const Settings = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setSubmitted(true);
+    setSubmitted(!submitted);
 
   };
 

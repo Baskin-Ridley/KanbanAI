@@ -6,6 +6,7 @@ from datetime import datetime
 from mail import *
 from flask_mail import Mail, Message
 from flask import Flask
+import datetime
 
 
 email = Flask(__name__)
@@ -150,15 +151,6 @@ def login():
             'members': user.members,
             'isSuper': True
         }
-    # if (hasattr(user, 'isSuper')):
-    #     user_data = {
-    #         'id': user.id,
-    #         'username': user.username,
-    #         'email': user.email,
-    #         'name': user.name,
-    #         'members': user.members,
-    #         'isSuper': True
-    #     }
     else:
         user_data = {
             'id': user.id,
@@ -167,6 +159,9 @@ def login():
             'name': user.name,
             'isSuper': False
         }
+
+    body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
     return jsonify(user_data), 200
 
 
@@ -269,6 +264,10 @@ def create_kanban_board():
         user_id=user_id, start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
+    
+    body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
+    
     return jsonify(kanban_board.serialize()), 201
 
 
@@ -454,3 +453,14 @@ def check_user_name(username):
             return False
         else:
             return True
+
+def log_changes(username,body):
+    temp = User.query.filter_by(username=username).first()
+    notification =Notification(
+        content=body,
+        user_name= username,
+        super_user_name=temp.supervisors
+    )  
+    db.session.add(notification)
+    db.session.commit()
+    return jsonify({"message":"changes added"})
