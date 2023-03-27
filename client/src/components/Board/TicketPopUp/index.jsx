@@ -3,6 +3,7 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import Form_Textarea from "../../Form_Textarea";
 import Form_DropDown from "../../Form_DropDown";
+import AssignUsers from "../../AssignUsers";
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
@@ -129,6 +130,11 @@ function TicketPopUp(props) {
       });
   }
 
+  const handleAssignClick = (index) => {
+    console.log(`Image ${index} clicked`);
+    // Call your function here
+  };
+
   return (
     <>
       {props.isOpen && (
@@ -160,6 +166,24 @@ function TicketPopUp(props) {
                         onChange={handleInputChange}
                         formElementId="ticket_content"
                         ariaLabel="Textarea for inputting the ticket content"
+                      />
+                    </p>
+                    <div>
+                      <AssignUsers onClick={handleAssignClick} />
+                    </div>
+                    <p className="text-gray-700 mb-2">
+                      <Form_DropDown
+                        label="Status:"
+                        value={editedTicket.ticket_status}
+                        onChange={handleInputChange}
+                        formElementId="ticket_status"
+                        ariaLabel="List to select the task status from"
+                        listOptions={[
+                          "To do",
+                          "In Progress",
+                          "Done",
+                          "Blocked",
+                        ]}
                       />
                     </p>
                     <p className="text-gray-700 mb-2">
