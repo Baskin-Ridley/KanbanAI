@@ -33,8 +33,8 @@ export const GitCard = () => {
 
   const gitCommitCard = data => {
     return (
-      <div className="absolute">
-        <div className='absolute bottom-5 right-2 max-h-45vh w-30vw overflow-y-scroll border-4 border-azure'>
+      <div className='gitcard-container'>
+        <div>
           {Object.keys(data).map((e, i) => (
             <div className='gitCard'>
               <li key={i}>
@@ -77,7 +77,7 @@ export const GitCard = () => {
   };
 
   return (
-    <div className='parent-container'>
+    <div className='parent-container parent-container-git'>
       <form>
         <label>
           <div className='name-input'>

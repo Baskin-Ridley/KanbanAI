@@ -22,6 +22,10 @@ const Dashboard = () => {
                   {user && <Notification />}
                 </div>
 
+                <div className='Card' id="check">
+                  {user && <Notification />}
+                </div>
+
               </div>
             </div>
             <div className='col-8'>
