@@ -13,6 +13,7 @@ const Headers = ({ board_id }) => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [responseData, setResponseData] = useState("");
 
+
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
@@ -51,6 +52,27 @@ const Headers = ({ board_id }) => {
       });
   }
 
+  // function addSubItemToHeader() {
+  //   const headerIdToUpdate = 'header-3';
+  //   const newItem = {
+  //     id: 'item-11',
+  //     content: 'Content for ticket 11'
+  //   };
+
+  //   setHeaders((prevHeaders) => {
+  //     return prevHeaders.map((header) => {
+  //       if (header.id === headerIdToUpdate) {
+  //         return {
+  //           ...header,
+  //           items: [...header.items, newItem]
+  //         };
+  //       } else {
+  //         return header;
+  //       }
+  //     });
+  //   });
+  // }
+
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
     setResponseData(boardData);
@@ -74,7 +96,6 @@ const Headers = ({ board_id }) => {
       };
     });
     // new code below
-      console.log(headers)
       if (boardData.positions){
         setHeaders(boardData.positions.position_data)
 
@@ -125,12 +146,12 @@ const Headers = ({ board_id }) => {
         console.error("Error creating a new header:", error);
         alert("Failed to create a new header");
       });
+      // addSubItemToHeader()
   };
 
   useEffect(() => {
     updatePositions(headers);
   }, [headers])
-  console.log(headers, 'head');
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -146,27 +167,7 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
-
-      fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ positions: items }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update header positions");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Header positions updated successfully", data);
-        })
-        .catch((error) => {
-          console.error("Error updating header positions:", error);
-          alert("Failed to update header positions");
-        });
+      // updatePositions(items)
     } else if (type === "item") {
       const sourceHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === source.droppableId
@@ -203,6 +204,7 @@ const Headers = ({ board_id }) => {
         newItemNames={newItemNames}
         setNewItemNames={setNewItemNames}
         fetchData={fetchData}
+        updatePositions={updatePositions}
       />
       <div>
         {selectedTicket && (
@@ -275,6 +277,7 @@ const Headers = ({ board_id }) => {
                 </Draggable>
               ))}
               <Draggable
+                id="new-header"
                 key="new-header"
                 draggableId="new-header"
                 index={headers.length}
