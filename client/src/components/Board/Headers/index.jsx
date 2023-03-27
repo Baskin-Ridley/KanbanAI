@@ -86,7 +86,7 @@ const Headers = ({ board_id }) => {
       if (boardData.positions){
         setHeaders(boardData.positions.position_data)
       } else{
-        setHeaders(initialHeaders)
+        setHeaders(updatedHeaders)
       }
   // previous code below 
     // updatePositions(updatedHeaders)
