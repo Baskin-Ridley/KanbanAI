@@ -25,7 +25,7 @@ const CreateTicketPopUp = (props) => {
 
   function handleAddItem(headerId, shouldCloseModal) {
     // console.log(headerId)
-    const slicedId = headerId.id.slice(6).replace(/\D/g, '')
+    const slicedId = headerId.id.slice(6).replace(/\D/g, "");
     // console.log(shouldCloseModal);
 
     fetch("http://localhost:5000/kanban-tickets", {
@@ -82,7 +82,7 @@ const CreateTicketPopUp = (props) => {
 
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
-      if (event.code === "KeyG") {
+      if (event.keyCode === 27) {
         closeModal();
       }
     });
@@ -90,7 +90,7 @@ const CreateTicketPopUp = (props) => {
     // cleanup function to remove the event listener
     return () => {
       document.removeEventListener("keydown", function (event) {
-        if (event.code === "KeyG") {
+        if (event.keyCode === 27) {
           closeModal();
         }
       });

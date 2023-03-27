@@ -3,6 +3,7 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import Form_Textarea from "../../Form_Textarea";
 import Form_DropDown from "../../Form_DropDown";
+import AssignUsers from "../../AssignUsers";
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
@@ -30,7 +31,7 @@ function TicketPopUp(props) {
 
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
-      if (event.code === "KeyG") {
+      if (event.keyCode === 27) {
         closeModal();
       }
     });
@@ -129,6 +130,17 @@ function TicketPopUp(props) {
       });
   }
 
+  const images = [
+    "https://placebear.com/200/300",
+    "https://placebear.com/200/300",
+    "https://placebear.com/200/300",
+  ];
+
+  const handleAssignClick = (index) => {
+    console.log(`Image ${index} clicked`);
+    // Call your function here
+  };
+
   return (
     <>
       {props.isOpen && (
@@ -160,6 +172,32 @@ function TicketPopUp(props) {
                         onChange={handleInputChange}
                         formElementId="ticket_content"
                         ariaLabel="Textarea for inputting the ticket content"
+                      />
+                    </p>
+                    <div className="flex justify-center space-x-4">
+                      {images.map((image, index) => (
+                        <AssignUsers
+                          key={index}
+                          imageSrc={image}
+                          username={`User${index + 1}`}
+                          onClick={() => handleAssignClick(index)}
+                        />
+                      ))}
+                    </div>
+
+                    <p className="text-gray-700 mb-2">
+                      <Form_DropDown
+                        label="Status:"
+                        value={editedTicket.ticket_status}
+                        onChange={handleInputChange}
+                        formElementId="ticket_status"
+                        ariaLabel="List to select the task status from"
+                        listOptions={[
+                          "To do",
+                          "In Progress",
+                          "Done",
+                          "Blocked",
+                        ]}
                       />
                     </p>
                     <p className="text-gray-700 mb-2">

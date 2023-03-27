@@ -3,6 +3,7 @@ from database import db
 from models import User, Kanban_Board, Kanban_Ticket
 from datetime import datetime, timedelta
 
+
 def test_database_init():
     with app.app_context():
 
@@ -36,7 +37,8 @@ def test_database_init():
         db.session.commit()
 
         # Add some Kanban boards
-        board1 = Kanban_Board(user_id=user1.id, start_time=datetime.utcnow())
+        board1 = Kanban_Board(
+            user_id=user1.id, start_time=datetime.utcnow())
         db.session.add(board1)
 
         board2 = Kanban_Board(
