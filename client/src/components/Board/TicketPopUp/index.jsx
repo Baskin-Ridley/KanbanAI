@@ -179,6 +179,7 @@ function TicketPopUp(props) {
                         <AssignUsers
                           key={index}
                           imageSrc={image}
+                          username={`User${index + 1}`}
                           onClick={() => handleAssignClick(index)}
                         />
                       ))}
