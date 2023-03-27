@@ -129,11 +129,6 @@ def login_route():
     return login()
 
 
-# @ app.route('/users', methods=['POST'])
-# def create_user_route():
-#     return create_user()
-
-
 @ app.route('/users', methods=['GET'])
 def get_users_route():
     return get_users()
@@ -159,14 +154,6 @@ def delete_user_route(user_id):
     return delete_user(user_id)
 
 # Kanban Board routes
-
-# @ app.route('/kanban-boards', methods=['POST'])
-# def create_kanban_board_route():
-#     return create_kanban_board()
-
-# @ app.route('/kanban-boards', methods=['GET'])
-# def get_kanban_boards_route():
-#     return get_kanban_boards()
 
 
 @app.route('/users/<int:user_id>/kanban_boards', methods=['GET'])
@@ -236,10 +223,6 @@ def get_kanban_headers_by_board_route(kanban_board_id):
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers/<int:header_id>', methods=['DELETE'])
 def delete_kanban_header_by_board_route(kanban_board_id, header_id):
     return delete_kanban_header_by_board(kanban_board_id, header_id)
-
-# @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers', methods=['GET'])
-# def get_kanban_headers_by_board_route(kanban_board_id):
-#     return get_kanban_headers_by_board(kanban_board_id)
 
 
 # POSITIONS

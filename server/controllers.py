@@ -62,22 +62,6 @@ def register_Super_User():
     return jsonify({'message': 'Super-User created successfully'}), 201
 
 
-# def super_login(username,password):
-#     if not username or not password:
-#         return jsonify({'error': 'Missing parameters'}), 400
-#     super_user = Super_User.query.filter_by(username=username).first()
-#     if not super_user or not super_user.check_password(password):
-#         return jsonify({'error': 'Invalid username or password'}), 401
-#     super_user_data = {
-#         'id': super_user.id,
-#         'username': super_user.username,
-#         'email': super_user.email,
-#         'name': super_user.name,
-#     }
-#     return jsonify(super_user_data), 200
-# User controller
-
-
 def register_user(super_user_name):
     data = request.get_json()
     username = data.get('username')
@@ -164,26 +148,6 @@ def login():
     body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
     log_changes(user.username, body)
     return jsonify(user_data), 200
-
-
-# def create_user():
-#     data = request.get_json()
-#     username = data.get('username')
-#     name = data.get('name')
-#     password = data.get('password')
-#     role = data.get('role')
-#     email = data.get('email')
-#     avatar = data.get('avatar')
-#     if not username or not name or not password or not role or not email:
-#         return jsonify({'error': 'Missing parameters'}), 400
-#     if User.query.filter_by(username=username).first():
-#         return jsonify({'error': 'Username already exists'}), 400
-#     user = User(username=username, name=name, password=password,
-#                 role=role, email=email, avatar=avatar)
-#     db.session.add(user)
-#     db.session.commit()
-#     return jsonify({'message': 'User created successfully'}), 201
-
 
 def get_users():
     users = User.query.all()
@@ -432,16 +396,6 @@ def update_positions_by_board(kanban_board_id):
     else:
         new_positions = Positions(kanban_board=board, position_data=positions_data)
         db.session.add(new_positions)
-    # positions = Positions.query.filter_by(board_id=kanban_board_id)
-    # positions.positions_data = request.get_json().get('positions')
-    # if kanban_board_id is None:
-    #     return jsonify({'error': 'Kanban board not found.'}), 404
-    # data = request.get_json()
-    # print(data)
-    # if not data:
-    #     return jsonify({'error': 'No data provided.'}), 400
-    # # if 'positions' in data:
-    # positions.position_data = [{"ko": "sa"}]
     db.session.commit()
     return jsonify({'success': 'Kanban board POSITIONS updated successfully.'})
 
