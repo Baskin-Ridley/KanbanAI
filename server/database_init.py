@@ -14,51 +14,21 @@ with app.app_context():
     notification = Notification(
         user_name="user1",
         content="test content",
-        super_user_name="admin1"
+        super_user_name=["admin1"]
     )
     db.session.add(notification)
     notification2 = Notification(
         user_name="user1",
         content="test content 2",
-        super_user_name="admin1"
+          super_user_name=["admin1"]
     )
     db.session.add(notification2)
     notification3 = Notification(
         user_name="user1",
         content="test content 3",
-        super_user_name="admin1"
+         super_user_name=["admin1"]
     )
-    db.session.add(notification3)
-    notification4 = Notification(
-        user_name="user1",
-        content="test content 3",
-        super_user_name="admin1"
-    )
-    db.session.add(notification4)
-    notification5 = Notification(
-        user_name="user1",
-        content="test content 3",
-        super_user_name="admin1"
-    )
-    db.session.add(notification5)
-    notification6 = Notification(
-        user_name="user1",
-        content="test content 3",
-        super_user_name="admin1"
-    )
-    db.session.add(notification6)
-    notification7 = Notification(
-        user_name="user1",
-        content="test content 3",
-        super_user_name="admin1"
-    )
-    db.session.add(notification7)
-    notification8 = Notification(
-        user_name="user1",
-        content="test content 3",
-        super_user_name="admin1"
-    )
-    db.session.add(notification8)
+   
 
     # Commit the notifications
     db.session.commit()

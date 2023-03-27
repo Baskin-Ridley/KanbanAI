@@ -39,6 +39,7 @@ const Settings = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(!submitted);
+    alert(message.message)
 
   };
 
@@ -57,10 +58,7 @@ const Settings = () => {
           {user.isSuper &&
             <div className="mb-4">
               <Form_Input label="Add Members" type="text" onChange={(event) => {
-                setData((prevstate) => ({
-                  "new_member": event.target.value.replaceAll(" ", ",").split(","),
-                  "super_user": user.username
-                }));
+                setData((prevstate) => ({ "new_member": event.target.value.replaceAll(" ", ",").split(","), "super_user": user.username }));
               }} formElementId="add members" ariaLabel="Field for inputting the members" />
             </div>}
           <Form_Button buttonText="Update" ariaLabel="Button for submitting the form" />
