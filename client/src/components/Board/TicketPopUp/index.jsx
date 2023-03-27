@@ -163,11 +163,13 @@ function TicketPopUp(props) {
                         ariaLabel="Textarea for inputting the ticket content"
                       />
                     </p>{" "}
-                    {matchingTicket && (
-                      <AssignUserContainer
-                        ticketId={matchingTicket.ticket_id}
-                      />
-                    )}
+                    <div className="flex flex-row justify-center">
+                      {matchingTicket && (
+                        <AssignUserContainer
+                          ticketId={matchingTicket.ticket_id}
+                        />
+                      )}
+                    </div>
                     <p className="text-gray-700 mb-2">
                       <Form_DropDown
                         label="Status:"

@@ -43,7 +43,7 @@ function AssignUsers({ imageSrc, username, onClick, ticketId }) {
       <img
         src={imageSrc}
         alt="Profile"
-        className="w-12 h-12 rounded-full cursor-pointer"
+        className="w-12 h-12 rounded-full cursor-pointer m-1"
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
