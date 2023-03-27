@@ -130,6 +130,12 @@ function TicketPopUp(props) {
       });
   }
 
+  const images = [
+    "https://placebear.com/200/300",
+    "https://placebear.com/200/300",
+    "https://placebear.com/200/300",
+  ];
+
   const handleAssignClick = (index) => {
     console.log(`Image ${index} clicked`);
     // Call your function here
@@ -168,9 +174,16 @@ function TicketPopUp(props) {
                         ariaLabel="Textarea for inputting the ticket content"
                       />
                     </p>
-                    <div>
-                      <AssignUsers onClick={handleAssignClick} />
+                    <div className="flex justify-center space-x-4">
+                      {images.map((image, index) => (
+                        <AssignUsers
+                          key={index}
+                          imageSrc={image}
+                          onClick={() => handleAssignClick(index)}
+                        />
+                      ))}
                     </div>
+
                     <p className="text-gray-700 mb-2">
                       <Form_DropDown
                         label="Status:"

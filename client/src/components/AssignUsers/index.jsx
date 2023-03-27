@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 
 function AssignUsers({ imageSrc, onClick }) {
-  const [grayedOut, setGrayedOut] = useState(false);
-
-  const images = [
-    "https://placebear.com/200/300",
-    "https://placebear.com/200/300",
-    "https://placebear.com/200/300",
-  ];
+  const [grayedOut, setGrayedOut] = useState(true);
 
   const handleClick = () => {
     setGrayedOut(!grayedOut);
@@ -21,7 +15,7 @@ function AssignUsers({ imageSrc, onClick }) {
   return (
     <div className="inline-block">
       <img
-        src={images}
+        src={imageSrc}
         alt="Profile"
         className={imageClassName}
         onClick={handleClick}
