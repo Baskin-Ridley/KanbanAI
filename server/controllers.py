@@ -1,6 +1,6 @@
 from models import User
 from flask import jsonify, request
-from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification
+from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification, Positions
 from database import db
 from datetime import datetime
 from mail import *
@@ -105,19 +105,23 @@ def add_member():
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
 
-    
+    ## add admin to members
     for member in new_members:
         if check_user_name(member) == False:
             return jsonify({'error': f'{member} does not exist'}), 404
-        
+        temp_user = User.query.filter_by(username=member).first()
+        temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
+
     user = Super_User.query.filter_by(username=super_user).first()
+    if not user:
+         return jsonify({'error': f'{super_user} does not exist'}), 404
     if user.members is None:
         user.members =  []
 
     user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
 
-    print(user.members)
     db.session.commit()
+
     return jsonify({'message': 'members added to the database'}), 201
    
 
@@ -154,7 +158,6 @@ def login():
     #         'members': user.members,
     #         'isSuper': True
     #     }
-
     else:
         user_data = {
             'id': user.id,
@@ -361,12 +364,12 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_admin, ticket.title, "closed", user_name)
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_admin, ticket.title, "closed", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -406,14 +409,40 @@ def get_kanban_headers_by_board(kanban_board_id):
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):
-    header = Kanban_Header.query.filter_by(
-        kanban_board_id=kanban_board_id)[header_id - 1]
+    header = Kanban_Header.query.get(header_id)
     if not header:
         return jsonify({'error': 'Kanban header not found'}), 404
     db.session.delete(header)
     db.session.commit()
     return jsonify({'message': 'Kanban header deleted successfully'}), 200
 
+# POSITIONS:
+
+def get_positions_by_board(kanban_board_id):
+    positions = Positions.query.filter_by(board_id=kanban_board_id)
+    # return jsonify({"positions": positions.position_data})
+    return jsonify([position.serialize() for position in positions]), 200
+
+def update_positions_by_board(kanban_board_id):
+    board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    positions_data = request.get_json().get('positions')
+    if board.positions:
+        board.positions.position_data = positions_data
+    else:
+        new_positions = Positions(kanban_board=board, position_data=positions_data)
+        db.session.add(new_positions)
+    # positions = Positions.query.filter_by(board_id=kanban_board_id)
+    # positions.positions_data = request.get_json().get('positions')
+    # if kanban_board_id is None:
+    #     return jsonify({'error': 'Kanban board not found.'}), 404
+    # data = request.get_json()
+    # print(data)
+    # if not data:
+    #     return jsonify({'error': 'No data provided.'}), 400
+    # # if 'positions' in data:
+    # positions.position_data = [{"ko": "sa"}]
+    db.session.commit()
+    return jsonify({'success': 'Kanban board POSITIONS updated successfully.'})
 
 
 #checker functions:

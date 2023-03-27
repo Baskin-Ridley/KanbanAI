@@ -33,6 +33,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
+    console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -61,26 +62,6 @@ const Headers = ({ board_id }) => {
   const [newItemNames, setNewItemNames] = useState(headers.map(() => ""));
   const [newHeaderName, setNewHeaderName] = useState("");
 
-  // const handleAddHeader = () => {
-  //   if (newHeaderName.trim() === "") {
-  //     alert("Please enter a header name");
-  //     return;
-  //   }
-  //   const newHeaderId = `header-${newHeaderName}`;
-  //   const newHeader = {
-  //     id: newHeaderId,
-  //     header_id: newHeaderId,
-  //     name: newHeaderName,
-  //     header_name: newHeaderName,
-  //     tickets_under_this_header: [],
-  //     items: [],
-  //   };
-  //   console.log(newHeader);
-
-  //   setHeaders((prevState) => [...prevState, newHeader]);
-  //   setNewHeaderName("");
-  // };
-
   const handleAddHeader = () => {
     if (newHeaderName.trim() === "") {
       alert("Please enter a header name");
@@ -102,14 +83,15 @@ const Headers = ({ board_id }) => {
       })
       .then((data) => {
         const newHeader = {
-          id: `header-${newHeaderName}`,
-          header_id: data.header_id,
-          name: data.header_name,
-          tickets_under_this_header: [],
+          id: `header-${data.header.header_id}`,
+          header_id: data.header.header_id,
+          name: data.header.header_name,
+          tickets_under_this_header: data.header.tickets_under_this_header,
           items: [],
         };
 
         setHeaders((prevState) => [...prevState, newHeader]);
+
         setNewHeaderName("");
       })
       .catch((error) => {
@@ -132,6 +114,27 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
+      console.log(items);
+      fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ positions: items }),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to update header positions");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Header positions updated successfully", data);
+        })
+        .catch((error) => {
+          console.error("Error updating header positions:", error);
+          alert("Failed to update header positions");
+        });
     } else if (type === "item") {
       const sourceHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === source.droppableId
@@ -147,12 +150,14 @@ const Headers = ({ board_id }) => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
+        console.log(headers);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
         const destinationHeader = headers[destinationHeaderIndex];
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
+        console.log(headers);
       }
     }
     // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
@@ -161,6 +166,7 @@ const Headers = ({ board_id }) => {
   return (
     <div>
       <CreateTicketPopUp
+        board_id={board_id}
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
         id={currentHeaderId}
