@@ -116,6 +116,19 @@ function TicketPopUp(props) {
       .catch((error) => console.error(error));
   };
 
+  function deleteTicket() {
+    console.log(matchingTicket);
+    fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Ticket deleted:", data);
+        closeModal();
+        props.fetchData();
+      });
+  }
+
   return (
     <>
       {props.isOpen && (
