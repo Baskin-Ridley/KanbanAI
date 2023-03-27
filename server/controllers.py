@@ -6,6 +6,7 @@ from datetime import datetime
 from mail import *
 from flask_mail import Mail, Message
 from flask import Flask
+import datetime
 
 
 email = Flask(__name__)
@@ -101,23 +102,28 @@ def add_member():
     data = request.get_json()
     new_members = data.get('new_member')
     super_user = data.get('super_user')
-    
+
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
 
-    
+    ## add admin to members
     for member in new_members:
+        print(member)
         if check_user_name(member) == False:
-            return jsonify({'error': f'{member} does not exist'}), 404
-        
+            return jsonify({'error': f'{member} does not exist' }), 404
+        temp_user = User.query.filter_by(username=member).first()
+        temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
+
     user = Super_User.query.filter_by(username=super_user).first()
+    if not user:
+         return jsonify({'error': f'{super_user} does not exist'}), 404
     if user.members is None:
         user.members =  []
 
     user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
 
-    print(user.members)
     db.session.commit()
+
     return jsonify({'message': 'members added to the database'}), 201
    
 
@@ -145,16 +151,6 @@ def login():
             'members': user.members,
             'isSuper': True
         }
-    # if (hasattr(user, 'isSuper')):
-    #     user_data = {
-    #         'id': user.id,
-    #         'username': user.username,
-    #         'email': user.email,
-    #         'name': user.name,
-    #         'members': user.members,
-    #         'isSuper': True
-    #     }
-
     else:
         user_data = {
             'id': user.id,
@@ -163,6 +159,9 @@ def login():
             'name': user.name,
             'isSuper': False
         }
+
+    body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
     return jsonify(user_data), 200
 
 
@@ -265,6 +264,10 @@ def create_kanban_board():
         user_id=user_id, start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
+    
+    body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
+
     return jsonify(kanban_board.serialize()), 201
 
 
@@ -361,12 +364,12 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_admin, ticket.title, "closed", user_name)
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_admin, ticket.title, "closed", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -450,3 +453,16 @@ def check_user_name(username):
             return False
         else:
             return True
+
+def log_changes(username,body):
+    temp = User.query.filter_by(username=username).first()
+    if not temp:
+        return
+    notification =Notification(
+        content=body,
+        user_name= username,
+        super_user_name=temp.supervisors
+    )  
+    db.session.add(notification)
+    db.session.commit()
+    return jsonify({"message":"changes added"})
