@@ -30,7 +30,7 @@ function TicketPopUp(props) {
 
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
-      if (event.code === "KeyG") {
+      if (event.keyCode === 27) {
         closeModal();
       }
     });
