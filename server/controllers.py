@@ -27,16 +27,17 @@ email.config['MAIL_USE_SSL'] = True
 def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=super_user_name)
-
+    
     for item in data:
-
+        print(item)
+        
         note = {
             "content": item.content,
             "member": item.user_name
         }
         list.append(note)
 
-    print(list)
+   
     return list, 200
 
 # Super User Controller
@@ -456,12 +457,12 @@ def check_user_name(username):
 
 def log_changes(username,body):
     temp = User.query.filter_by(username=username).first()
-    if not temp:
+    if not hasattr(temp,"supervisors"):
         return
     notification =Notification(
         content=body,
         user_name= username,
-        super_user_name=temp.supervisors
+        super_user_name=[temp.supervisors]
     )  
     db.session.add(notification)
     db.session.commit()
