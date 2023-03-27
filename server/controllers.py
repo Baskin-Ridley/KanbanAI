@@ -267,7 +267,7 @@ def create_kanban_board():
     
     body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
     log_changes(user.username, body)
-    
+
     return jsonify(kanban_board.serialize()), 201
 
 
@@ -456,6 +456,8 @@ def check_user_name(username):
 
 def log_changes(username,body):
     temp = User.query.filter_by(username=username).first()
+    if not temp:
+        return
     notification =Notification(
         content=body,
         user_name= username,
