@@ -31,6 +31,30 @@ const Headers = ({ board_id }) => {
     fetchData();
   }, []);
 
+  const updatePositions = (items) => {
+    fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ positions: items }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update header positions");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Header positions updated successfully", data);
+      })
+      .catch((error) => {
+        console.error("Error updating header positions:", error);
+        alert("Failed to update header positions");
+      });
+      console.log(headers, 'positions update')
+  }
+
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
     console.log(boardData);
@@ -55,7 +79,18 @@ const Headers = ({ board_id }) => {
       };
     });
 
-    setHeaders(updatedHeaders);
+    updatePositions(updatedHeaders)
+    // if (headersData){
+    //   setHeaders(headersData)
+    // }
+    // new code below
+    if (boardData.positions){
+      setHeaders(boardData.positions.position_data)
+    } else{
+      setHeaders(initialHeaders)
+    }
+    // previous code below 
+    // setHeaders(updatedHeaders);
   };
 
   const [headers, setHeaders] = useState(initialHeaders);
@@ -114,6 +149,9 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
+      console.log(items)
+      updatePositions(items)
+
       console.log(items);
       fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
         method: "PUT",
