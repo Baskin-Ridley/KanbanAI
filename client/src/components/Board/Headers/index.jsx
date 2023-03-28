@@ -174,6 +174,7 @@ const Headers = ({ board_id }) => {
     }
   };
 
+
   return (
     <div>
       <CreateTicketPopUp
@@ -204,7 +205,7 @@ const Headers = ({ board_id }) => {
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
             <div
-              className="flex justify-between"
+              className="flex items-start"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -212,7 +213,8 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2 "
+                      // className="w-64 min-h-[50px] bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
