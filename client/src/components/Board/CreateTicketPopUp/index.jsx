@@ -3,7 +3,7 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
-  // console.log(props)
+  console.log("hey", props.id);
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
@@ -53,11 +53,10 @@ const CreateTicketPopUp = (props) => {
 
         //MODIFY BELOW
         props.setHeaders((prevHeaders) => {
-          console.log(prevHeaders)
-          const newHeaders =  prevHeaders.map((header) => {
-
+          console.log(prevHeaders);
+          const newHeaders = prevHeaders.map((header) => {
             if (header.id.slice(6).replace(/\D/g, "") == slicedId) {
-              console.log('inside if')
+              console.log("inside if");
               return {
                 ...header,
                 items: [...header.items, newItem],
@@ -168,6 +167,7 @@ const CreateTicketPopUp = (props) => {
                     setTickets={setTickets}
                     tickets={tickets}
                     handleAddItem={handleAddItem}
+                    headerId={props.id}
                   />
 
                   <Form_Button

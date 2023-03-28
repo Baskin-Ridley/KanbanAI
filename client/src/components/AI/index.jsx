@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
-const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
+const AISteps = ({
+  responseData,
+  setTickets,
+  tickets,
+  handleAddItem,
+  headerId,
+}) => {
+  console.log(headerId);
   const [renderedSteps, setRenderedSteps] = useState([]);
 
   useEffect(() => {
@@ -24,7 +31,8 @@ const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
     console.log(cleanString);
     setTickets({ ...tickets, title: cleanString, content: cleanString });
     console.log(tickets);
-    handleAddItem(3, false);
+    console.log("hello", headerId);
+    handleAddItem(headerId, false);
   }
 
   return (
