@@ -171,6 +171,10 @@ def get_kanban_boards_route(user_id):
 def get_kanban_board_route(kanban_board_id):
     return get_kanban_board(kanban_board_id)
 
+@ app.route('/kanban-boards/', methods=['POST'])
+def create_kanban_board_route():
+    return create_kanban_board()
+
 
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['PUT'])
 def update_kanban_board_route(kanban_board_id):

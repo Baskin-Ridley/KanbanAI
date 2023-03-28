@@ -6,7 +6,7 @@ from datetime import datetime
 from mail import *
 from flask_mail import Mail, Message
 from flask import Flask
-import datetime
+from datetime import datetime
 
 
 email = Flask(__name__)
@@ -171,7 +171,7 @@ def login():
             'isSuper': False
         }
 
-    body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
+    body = f"logged in at time: {datetime.utcnow().replace(microsecond=0)}"
     log_changes(user.username, body)
     return jsonify(user_data), 200
 
@@ -245,6 +245,7 @@ def delete_user(user_id):
 
 
 def create_kanban_board():
+    data = request.get_json()
     user_id = request.json.get('user_id')
     start_time = datetime.utcnow()
     end_time = None
@@ -252,12 +253,12 @@ def create_kanban_board():
     if not user:
         return jsonify({'error': 'User not found'}), 404
     kanban_board = Kanban_Board(
-        user_id=user_id, start_time=start_time, end_time=end_time)
+        user_id=user_id, name=data['name'], start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
     
-    body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
-    log_changes(user.username, body)
+    body = f"created a kanban board at time: {datetime.utcnow().replace(microsecond=0)}"
+    # log_changes(user.username, body)
 
     return jsonify(kanban_board.serialize()), 201
 

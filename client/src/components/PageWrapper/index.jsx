@@ -12,7 +12,7 @@ const PageWrapper = () => {
   const { user } = useContext(UserContext);
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Navigation />
       <Message />
       <Outlet />
