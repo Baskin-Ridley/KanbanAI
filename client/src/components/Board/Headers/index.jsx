@@ -282,13 +282,14 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="m-2 w-64 rounded-lg border border-gray-400 bg-gray-200 px-2 py-3 "
+                      className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 "
                       // className="w-64 min-h-[50px] bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
                       <div className="flex justify-center items-center">
+                      {/* <div className="flex flex-grow-1 justify-between items-center"> */}
                       {editingHeaderName === id ? (
                             <Form_Input
                               type="text"
@@ -318,20 +319,21 @@ const Headers = ({ board_id }) => {
                             />
                           ) : (
                             <div onClick={() => setEditingHeaderName(id)} tabIndex="0">
-                              <h2 className="text-lg font-bold mb-2">{name}</h2>
+                              <h2 className="text-lg font-bold mb-2 hover:cursor-pointer">{name}</h2>
                             </div>
                           )}
                         <button
-                          className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white"
+                          className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white hover:bg-black hover:text-white"
                           onClick={() => handleDeleteHeader(id)}
                         >
                           Delete
                         </button>
+                      {/* </div> */}
                       </div>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div
-                            className="min-h-20 rounded-lg border-dashed border-transparent bg-gray-100 p-2 transition-colors duration-150 hover:border-gray-400 hover:bg-gray-200"
+                            className="min-h-20 rounded-lg border-dashed border-transparent bg-gray-100 p-2 transition-colors duration-150 hover:border-gray-400 hover:bg-blue-200"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -343,7 +345,7 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className={`mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white ${!content && 'hidden'}`}
+                                    className={`mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-300 hover:text-white ${!content && 'hidden'}`}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -376,7 +378,7 @@ const Headers = ({ board_id }) => {
               >
                 {(provided) => (
                   <div
-                    className="m-2 w-64 rounded-lg border border-gray-400 bg-gray-200 px-2 py-3"
+                    className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
