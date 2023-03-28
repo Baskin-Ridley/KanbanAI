@@ -1,7 +1,11 @@
 import React from "react";
-
+import Header from "./components/Header";
 const Business = () => {
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 
 export default Business;
