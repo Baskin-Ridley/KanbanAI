@@ -13,20 +13,16 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="flex bg-gray-800 rounded-md p-8">
+    <div className="flex bg-gray-800 h-full p-8">
       <div className="flex-1 pr-8">
-        <h2 className="text-3xl text-white font-bold mb-8">Contact Us</h2>
+        <h2 className="text-3xl text-white font-bold mb-8">
+          Improve with Kanban AI today!
+        </h2>
         <p className="text-gray-400 leading-loose mb-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut enim
-          eget nisl consectetur bibendum.
-        </p>
-        <p className="text-gray-400 leading-loose mb-4">
-          Nulla tristique, nisl vitae interdum venenatis, augue eros euismod
-          libero, in varius nulla velit vel arcu.
-        </p>
-        <p className="text-gray-400 leading-loose mb-4">
-          Phasellus imperdiet ex in neque consequat, nec bibendum quam
-          efficitur. Nulla nec metus non ipsum maximus ullamcorper in eu ex.
+          Join the thousands of teams that have improved their productivity and
+          collaboration with Kanban AI.
+          <br /> Contact us to get a custom quote, a demo, or just to say hi! We
+          look forward to hearing from you!
         </p>
       </div>
       <form className="flex-1" onSubmit={handleSubmit}>
@@ -95,7 +91,7 @@ const ContactForm = () => {
             onChange={(e) => setMessage(e.target.value)}
           ></textarea>
         </div>
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-end justify-center">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"

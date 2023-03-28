@@ -6,7 +6,9 @@ import ContactForm from "./components/ContactForm";
 const Business = () => {
   return (
     <div>
-      <Header />
+      <div className="sticky top-0">
+        <Header />
+      </div>
       <Landing />
       <Hook />
       <ContactForm />
