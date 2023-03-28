@@ -13,6 +13,7 @@ import {
   Ticket,
   Registration_member,
   Business,
+  ChartTest,
 } from "./pages";
 
 import AISteps from "./components/AI";
@@ -38,6 +39,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/all-boards" element={<AllBoards />} />
           <Route path="/ticket" element={<Ticket />} />
+          <Route path="/chart-test" element={<ChartTest />} />
         </Route>
       </Routes>
     </UserProvider>
