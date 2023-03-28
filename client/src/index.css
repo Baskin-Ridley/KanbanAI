@@ -127,7 +127,7 @@
 /*Background image url import statements*/
 
 body {
-    background-image: url('assets/download.jpg');
+    /* background-image: url('assets/download.jpg'); */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
