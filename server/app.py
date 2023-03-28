@@ -239,6 +239,10 @@ def delete_kanban_header_by_board_route(kanban_board_id, header_id):
     return delete_kanban_header_by_board(kanban_board_id, header_id)
 
 
+#Gantt chart fetch for kanban tasks
+
+@app.route('/kanban-board/')
+
 # POSITIONS
 
 @ app.route('/kanban-board/<int:kanban_board_id>/positions', methods=['GET'])
