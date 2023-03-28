@@ -8,7 +8,7 @@ function LinkGenerator() {
 
     const handleClick = () => {
         // Generate your link here, e.g.:
-        const generatedLink = `https://localhost:5000/${user.username}`;
+        const generatedLink = `https://localhost:5000/register/${user.username}`;
 
         // Set the link in state
         setLink(generatedLink);
