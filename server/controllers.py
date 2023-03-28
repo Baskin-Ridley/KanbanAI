@@ -80,6 +80,10 @@ def register_user(super_user_name):
     user = User(username=username, name=name, password=password,
                 role=role, email=email, avatar=avatar, supervisors=[super_user_name])
     db.session.add(user)
+
+    super_user = Super_User.query.filter_by(username=super_user_name).first()
+    super_user.members = super_user.members + [user.username]
+    
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 

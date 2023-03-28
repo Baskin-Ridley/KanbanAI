@@ -14,3 +14,6 @@ export { default as Form_Textarea } from "./Form_Textarea";
 export { default as Form_DropDown } from "./Form_DropDown";
 export { default as Form_Label } from "./Form_Label";
 export { default as Notification } from "./Notification"
+export { default as UserWindow } from "./UserWindow"
+export { default as UserList } from "./UserWindow"
+export { default as UserInfo } from "./UserWindow"
