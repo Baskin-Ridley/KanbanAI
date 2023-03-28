@@ -49,7 +49,7 @@ const Headers = ({ board_id }) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Header positions updated successfully", data);
+        // console.log("Header positions updated successfully", data);
       })
       .catch((error) => {
         console.error("Error updating header positions:", error);
@@ -204,6 +204,46 @@ const Headers = ({ board_id }) => {
     }
   };
 
+  const [editingHeaderName, setEditingHeaderName] = useState(null);
+
+  const handleHeaderNameEdit = (headerId, newName) => {
+    const headerIndex = headers.findIndex((header) => header.id === headerId);
+    const headerToEdit = headers[headerIndex];
+    const headerIdToEdit = headerToEdit.id.split("-")[1];
+  
+    fetch(
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToEdit}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newName }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update the header name");
+        }
+        return response.json();
+      })
+      .then(() => {
+        const newHeaders = [...headers];
+        newHeaders[headerIndex] = {
+          ...headerToEdit,
+          name: newName,
+        };
+        setHeaders(newHeaders);
+      })
+      .catch((error) => {
+        console.error("Error updating the header name:", error);
+        alert("Failed to update the header name");
+      })
+      .finally(() => {
+        setEditingHeaderName(null);
+      });
+  };
+
   return (
     <div>
       <CreateTicketPopUp
@@ -248,8 +288,39 @@ const Headers = ({ board_id }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <div className="flex items-center justify-center">
-                        <h2 className="mb-2 text-lg font-bold">{name}</h2>
+                      <div className="flex justify-center items-center">
+                      {editingHeaderName === id ? (
+                            <Form_Input
+                              type="text"
+                              value={name}
+                              tabIndex={0}
+                              onChange={(e) =>
+                                setHeaders((prevState) =>
+                                  prevState.map((header) =>
+                                    header.id === id ? { ...header, name: e.target.value } : header
+                                  )
+                                )
+                              }
+                              onBlur={(e) => {
+                                setTimeout(() => handleHeaderNameEdit(id, e.target.value), 100);
+                              }}
+                              onKeyDown={(e) => {
+                                console.log(e.key)
+                                if (e.key === "Escape") {
+                                  setEditingHeaderName(null);
+                                  e.target.blur();
+                                } else if (e.key === "Enter") {
+                                  handleHeaderNameEdit(id, e.target.value);
+                                  e.preventDefault();
+                                  e.target.blur();
+                                }
+                              }}
+                            />
+                          ) : (
+                            <div onClick={() => setEditingHeaderName(id)} tabIndex="0">
+                              <h2 className="text-lg font-bold mb-2">{name}</h2>
+                            </div>
+                          )}
                         <button
                           className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white"
                           onClick={() => handleDeleteHeader(id)}
