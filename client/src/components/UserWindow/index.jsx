@@ -31,12 +31,15 @@ const UserWindow = () => {
     }
 
     return (
-        <div>
-            {selectedUser ? (
-                <UserInfo selectedUser={selectedUser} handleBackClick={handleBackClick} />
-            ) : (
+        <div style={{ display: 'flex' }}>
+            <div style={{ flex: 1 }}>
                 <UserList userData={userData} handleUserClick={handleUserClick} />
-            )}
+            </div>
+            <div style={{ flex: 2 }}>
+                {selectedUser && (
+                    <UserInfo selectedUser={selectedUser} handleBackClick={handleBackClick} />
+                )}
+            </div>
         </div>
     )
 }
