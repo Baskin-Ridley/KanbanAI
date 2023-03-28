@@ -13,7 +13,6 @@ const Headers = ({ board_id }) => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [responseData, setResponseData] = useState("");
 
-
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
@@ -50,7 +49,7 @@ const Headers = ({ board_id }) => {
         console.error("Error updating header positions:", error);
         alert("Failed to update header positions");
       });
-  }
+  };
 
   // function addSubItemToHeader() {
   //   const headerIdToUpdate = 'header-3';
@@ -96,13 +95,12 @@ const Headers = ({ board_id }) => {
       };
     });
     // new code below
-      if (boardData.positions){
-        setHeaders(boardData.positions.position_data)
-
-      } else{
-        setHeaders(updatedHeaders)
-      }
-  // previous code below 
+    if (boardData.positions) {
+      setHeaders(boardData.positions.position_data);
+    } else {
+      setHeaders(updatedHeaders);
+    }
+    // previous code below
     // updatePositions(updatedHeaders)
     // setHeaders(updatedHeaders);
   };
@@ -139,19 +137,22 @@ const Headers = ({ board_id }) => {
           items: [],
         };
 
-        setHeaders((prevState) => [...prevState, newHeader], console.log(headers));
+        setHeaders(
+          (prevState) => [...prevState, newHeader],
+          console.log(headers)
+        );
         setNewHeaderName("");
       })
       .catch((error) => {
         console.error("Error creating a new header:", error);
         alert("Failed to create a new header");
       });
-      // addSubItemToHeader()
+    // addSubItemToHeader()
   };
 
   useEffect(() => {
     updatePositions(headers);
-  }, [headers])
+  }, [headers]);
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));

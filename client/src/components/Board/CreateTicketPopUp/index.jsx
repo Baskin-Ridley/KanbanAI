@@ -48,17 +48,17 @@ const CreateTicketPopUp = (props) => {
         // correct
         const newItem = {
           id: `item-${data.ticket.ticket_id}`,
-          content: data.ticket.ticket_content
+          content: data.ticket.ticket_content,
         };
 
         //MODIFY BELOW
-         
+
         props.setHeaders((prevHeaders) => {
           return prevHeaders.map((header) => {
             if (header.id === slicedId) {
               return {
                 ...header,
-                items: [...header.items, newItem]
+                items: [...header.items, newItem],
               };
             } else {
               return header;
@@ -76,16 +76,14 @@ const CreateTicketPopUp = (props) => {
         }
       })
       .catch((error) => console.error(error));
-      // useEffect(() => {
-      //   props.updatePositions(props.headers);
-      // }, [props.headers]);
+    // useEffect(() => {
+    //   props.updatePositions(props.headers);
+    // }, [props.headers]);
   }
-
 
   // useEffect(() => {
   //   props.fetchData();
   // }, [props.setHeaders]);
-
 
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };
