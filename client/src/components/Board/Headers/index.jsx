@@ -150,7 +150,7 @@ const Headers = ({ board_id }) => {
   };
 
   useEffect(() => {
-    updatePositions(headers);
+    updatePositions(headers), console.log('Done');
   }, [headers])
 
   useEffect(() => {

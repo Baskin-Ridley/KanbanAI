@@ -52,10 +52,14 @@ const CreateTicketPopUp = (props) => {
         };
 
         //MODIFY BELOW
-         
+        // console.log(data, 'created new ticket')
+        // console.log(props.headers)
         props.setHeaders((prevHeaders) => {
-          return prevHeaders.map((header) => {
-            if (header.id === slicedId) {
+          console.log(prevHeaders)
+          const newHeaders =  prevHeaders.map((header) => {
+
+            if (header.id.slice(6).replace(/\D/g, "") == slicedId) {
+              console.log('inside if')
               return {
                 ...header,
                 items: [...header.items, newItem]
@@ -64,8 +68,12 @@ const CreateTicketPopUp = (props) => {
               return header;
             }
           });
+          // console.log(newHeaders, 'newHeaders')
+          props.updatePositions(newHeaders);
+          // console.log(props.headers, 'headers after setHeader')
+          return newHeaders;
         });
-        console.log("Ticket created:", data);
+        // console.log("Ticket created:", data);
 
         // NEW CODE BELOW
         // console.log(updatedHeaders)
