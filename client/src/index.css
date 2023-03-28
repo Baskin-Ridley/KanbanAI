@@ -16,9 +16,9 @@
     color: #86B1F4
 }
 
-.color-bg-1 {
+/* .color-bg-1 {
     background-color: #86B1F4
-}
+} */
 
 .color-text-2 {
     color: #5B95F0
@@ -127,11 +127,11 @@
 /*Background image url import statements*/
 
 body {
-    /* background-image: url('assets/download.jpg'); */
+    /* background-image: url('assets/download.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; */
 }
 
 /* components/GitCard/index.jsx */
