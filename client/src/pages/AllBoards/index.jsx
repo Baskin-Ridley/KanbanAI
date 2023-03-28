@@ -44,7 +44,7 @@ function AllBoards() {
 
   return (
     <main className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-bold mb-8 m-12 text-center">
+      <h2 className="text-3xl font-bold mb-3 m-2 text-center">
         All Kanban Boards
       </h2>
       <ul>
@@ -52,29 +52,32 @@ function AllBoards() {
           <div key={kanbanBoard.board_id} className="w-full mx-auto">
             <li
               key={kanbanBoard.board_id}
-              className="flex items-center justify-center space-x-4 mb-4"
+              className="flex items-center justify-between space-x-4 mb-4"
             >
-              <div>{kanbanBoard.name}</div>
-              <div>
+              <div className="w-1/3">{kanbanBoard.name}</div>
+              <div className="w-1/3 text-center">
                 <Link
                   to={`/board/${kanbanBoard.board_id}`}
                   key={`view-${kanbanBoard.board_id}`}
+                  className="bg-green-500 text-white border border-transparent hover:border-2 hover:border-green-500 hover:bg-white hover:text-green-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
                 >
                   View
                 </Link>
               </div>
-              <div>
+              <div className="w-1/3 flex justify-around">
                 <Form_Button
                   buttonText="Delete"
                   onClick={() => handleDelete(kanbanBoard.board_id)}
                   ariaLabel="Button for deleting a Kanban board"
+                  additionalClasses="bg-red-500 hover:bg-red-700"
                 />
               </div>
               <div>
                 <Link
                   to={`/kanban/${kanbanBoard.board_id}/edit`}
                   key={`edit-${kanbanBoard.board_id}`}
-                >
+                  className="bg-blue-500 text-white border border-transparent hover:border-2 hover:border-blue-500 hover:bg-white hover:text-blue-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
+                  >
                   Edit
                 </Link>
               </div>
