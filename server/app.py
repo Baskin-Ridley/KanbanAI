@@ -42,11 +42,13 @@ db.init_app(app)
 def notification(super_user_name):
     return get_Notifications(super_user_name)
 
+
 @app.route("/log", methods=['POST'])
 def log():
     username = request.get_json()['username']
-    body= request.get_json()['body']
-    return log_changes(username,body)
+    body = request.get_json()['body']
+    return log_changes(username, body)
+
 
 @app.route('/ai-test', methods=['POST'])
 def ai_test():
@@ -157,8 +159,6 @@ def delete_user_route(user_id):
     return delete_user(user_id)
 
 
-
-
 # Kanban Board routes
 
 
@@ -225,6 +225,7 @@ def create_kanban_header_route(kanban_board_id):
 def get_kanban_headers_by_board_route(kanban_board_id):
     return get_kanban_headers_by_board(kanban_board_id)
 
+
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers/<int:header_id>', methods=['PUT'])
 def update_kanban_headers_by_board_route(kanban_board_id, header_id):
     return update_kanban_headers_by_board(kanban_board_id, header_id)
@@ -241,9 +242,11 @@ def delete_kanban_header_by_board_route(kanban_board_id, header_id):
 def get_positions_by_board_route(kanban_board_id):
     return get_positions_by_board(kanban_board_id)
 
+
 @ app.route('/kanban-board/<int:kanban_board_id>/positions', methods=['PUT'])
 def update_positions_by_board_route(kanban_board_id):
     return update_positions_by_board(kanban_board_id)
+
 
 @app.route("/email", methods=['GET'])
 def index():
