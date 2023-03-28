@@ -1,0 +1,11 @@
+Flask
+Gunicorn
+flask-sqlalchemy
+psycopg2-binary
+python-dotenv
+flask-cors
+pytest
+pytest-cov
+coverage
+openai
+flask_mail

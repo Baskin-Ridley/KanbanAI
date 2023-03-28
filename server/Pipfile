@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-sqlalchemy = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+flask-cors = "*"
+jwt = "*"
+gunicorn = "*"
+pytest = "*"
+pytest-cov = "*"
+coverage = "*"
+openai = "*"
+flask-mail = "*"
+py-mon = "*"
+colorama = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

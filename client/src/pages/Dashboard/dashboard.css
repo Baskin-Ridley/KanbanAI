@@ -1,0 +1,59 @@
+
+.wrapper{
+
+}
+.Card{
+    background-color: azure;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.row{
+display: flex;
+flex-direction: row;
+align-items: center;
+height: 100%;
+margin-left: 3vw;
+}
+.col-4{
+flex-grow: 4;
+}
+.col-8{
+flex-grow: 8;
+    
+}
+
+.left-container, .right-container{
+    display: flex;
+    flex-direction: column;
+    gap:25px;
+    justify-content: left;
+}
+
+/* .left-container{
+
+} */
+
+.right-container{
+    justify-content: space-between;
+}
+
+/* body {
+    display: block;
+    justify-content: unset;
+    height: 100vh !important;
+    width: 100vw !important;
+} */
+.wrapper-notifications::-webkit-scrollbar{
+    display: none;
+}
+.wrapper-notifications{
+    overflow-x:hidden;
+    overflow-y:scroll;
+    max-height: 14vh;
+}
+.wrapper-content-notification{
+    border: 1.5px solid black;
+    border-radius: 2px;
+}
