@@ -8,7 +8,7 @@ const Board = () => {
   return (
     <main className="flex flex-col items-start justify-start ml-3">
       <div className="w-full flex justify-center">
-        <h2 className="text-3xl font-bold mb-8 m-12 text-center">
+        <h2 className="text-3xl font-bold mb-3 m-2 text-center">
           Board id {id}
         </h2>
       </div>
