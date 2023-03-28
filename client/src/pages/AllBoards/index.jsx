@@ -24,7 +24,7 @@ function AllBoards() {
   const navigate = useNavigate();
 
   function handleDelete(id) {
-    fetch(`http://localhost:5000/kanban_boards/${id}`, { method: "DELETE" })
+    fetch(`http://localhost:5000/kanban-boards/${id}`, { method: "DELETE" })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to delete kanban board");
@@ -34,7 +34,7 @@ function AllBoards() {
       .then(() => {
         setKanbanBoards(
           kanbanBoards.filter(
-            (kanbanBoard) => kanbanBoard.board_id !== board_id
+            (kanbanBoard) => kanbanBoard.board_id !== id
           )
         );
         alert("Kanban board was deleted");

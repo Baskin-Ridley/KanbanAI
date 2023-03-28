@@ -292,7 +292,7 @@ def update_kanban_board(kanban_board_id):
 
 
 def delete_kanban_board(kanban_board_id):
-    kanban_board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    kanban_board = Kanban_Board.query.get(kanban_board_id)
     if kanban_board is None:
         return jsonify({'error': 'Kanban board not found.'}), 404
     db.session.delete(kanban_board)
