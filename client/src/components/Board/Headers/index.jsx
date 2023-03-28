@@ -35,7 +35,7 @@ const Headers = ({ board_id }) => {
   }, []);
 
   const updatePositions = (items) => {
-    fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/positions`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +100,7 @@ const Headers = ({ board_id }) => {
       return;
     }
 
-    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -140,7 +140,7 @@ const Headers = ({ board_id }) => {
     const headerIdToDelete = headerToDelete.id.split("-")[1];
   
     fetch(
-      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
+      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
       {
         method: "DELETE",
       }

@@ -12,7 +12,7 @@ function TicketPopUp(props) {
   console.log(props.ticketContent);
 
   useEffect(() => {
-    fetch("http://localhost:5000/kanban-tickets")
+    fetch("https://built-differently-backend.onrender.com/kanban-tickets")
       .then((response) => response.json())
       .then((data) => {
         setTickets(data);
@@ -82,14 +82,14 @@ function TicketPopUp(props) {
       }),
     };
     const response = await fetch(
-      "http://localhost:5000/ai-test",
+      "https://built-differently-backend.onrender.com/ai-test",
       requestOptions
     );
     const data = await response.json();
     const newlyGeneatedTest = data.tests_for_function;
     // Add await before fetch
     await fetch(
-      `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
+      `https://built-differently-backend.onrender.com/kanban-tickets/${matchingTicket.ticket_id}`,
       {
         method: "PUT",
         headers: {
@@ -119,7 +119,7 @@ function TicketPopUp(props) {
 
   function deleteTicket() {
     console.log(matchingTicket);
-    fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-tickets/${matchingTicket.ticket_id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

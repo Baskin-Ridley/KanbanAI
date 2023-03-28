@@ -35,7 +35,7 @@ const Ticket = () => {
                 function_to_test: sanitizedFunctionToTest,
             }),
         };
-        const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+        const response = await fetch('https://built-differently-backend.onrender.com/ai-test', requestOptions);
         const data = await response.json();
         setTestsForFunction(data.tests_for_function);
     };

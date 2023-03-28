@@ -8,7 +8,7 @@ const NotificationCard = () => {
     useEffect(() => {
 
         const fetchNotifications = async () => {
-            const response = await fetch(`http://localhost:5000/notification/${user.username}`)
+            const response = await fetch(`https://built-differently-backend.onrender.com/notification/${user.username}`)
             const data = await response.json()
             setNotification(data)
         }

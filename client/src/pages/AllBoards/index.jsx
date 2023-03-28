@@ -10,7 +10,7 @@ function AllBoards() {
   //user.id = 1;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/users/${user.id}/kanban_boards`)
+    fetch(`https://built-differently-backend.onrender.com/users/${user.id}/kanban_boards`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch kanban boards");
@@ -24,7 +24,7 @@ function AllBoards() {
   const navigate = useNavigate();
 
   function handleDelete(id) {
-    fetch(`http://localhost:5000/kanban_boards/${id}`, { method: "DELETE" })
+    fetch(`https://built-differently-backend.onrender.com/kanban_boards/${id}`, { method: "DELETE" })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to delete kanban board");

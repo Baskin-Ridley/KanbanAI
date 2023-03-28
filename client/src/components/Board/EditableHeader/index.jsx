@@ -51,7 +51,7 @@ const EditableHeader = ({ id, name, onNameChange, setHeaders }) => {
 
     // Add code to save the updated header name to your backend
     const updatedHeaderId = headerId.split('-')[1];
-    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers/${updatedHeaderId}`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers/${updatedHeaderId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
