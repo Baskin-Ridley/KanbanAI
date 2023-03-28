@@ -4,7 +4,6 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-const initialHeaders = [];
 import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
@@ -14,17 +13,16 @@ const Headers = ({ board_id }) => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [responseData, setResponseData] = useState("");
 
+
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
-    console.log(selectedTicket);
   }
   const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
   function handleNewItemClick(headerId) {
     setCurrentHeaderId(headerId);
     setIsOpenCreate(true);
-    createTicket.current.focus();
   }
 
   useEffect(() => {
@@ -52,12 +50,31 @@ const Headers = ({ board_id }) => {
         console.error("Error updating header positions:", error);
         alert("Failed to update header positions");
       });
-      console.log(items, 'positions update')
   }
+
+  // function addSubItemToHeader() {
+  //   const headerIdToUpdate = 'header-3';
+  //   const newItem = {
+  //     id: 'item-11',
+  //     content: 'Content for ticket 11'
+  //   };
+
+  //   setHeaders((prevHeaders) => {
+  //     return prevHeaders.map((header) => {
+  //       if (header.id === headerIdToUpdate) {
+  //         return {
+  //           ...header,
+  //           items: [...header.items, newItem]
+  //         };
+  //       } else {
+  //         return header;
+  //       }
+  //     });
+  //   });
+  // }
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
-    console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -78,13 +95,10 @@ const Headers = ({ board_id }) => {
         })),
       };
     });
-
-        // if (headersData){
-          //   setHeaders(headersData)
-          // }
     // new code below
       if (boardData.positions){
         setHeaders(boardData.positions.position_data)
+
       } else{
         setHeaders(updatedHeaders)
       }
@@ -125,15 +139,19 @@ const Headers = ({ board_id }) => {
           items: [],
         };
 
-        setHeaders((prevState) => [...prevState, newHeader]);
-
+        setHeaders((prevState) => [...prevState, newHeader], console.log(headers));
         setNewHeaderName("");
       })
       .catch((error) => {
         console.error("Error creating a new header:", error);
         alert("Failed to create a new header");
       });
+      // addSubItemToHeader()
   };
+
+  useEffect(() => {
+    updatePositions(headers);
+  }, [headers])
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -149,30 +167,7 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
-      console.log(items)
-      updatePositions(items)
-
-      console.log(items);
-      fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ positions: items }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to update header positions");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Header positions updated successfully", data);
-        })
-        .catch((error) => {
-          console.error("Error updating header positions:", error);
-          alert("Failed to update header positions");
-        });
+      // updatePositions(items)
     } else if (type === "item") {
       const sourceHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === source.droppableId
@@ -180,7 +175,6 @@ const Headers = ({ board_id }) => {
       const destinationHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === destination.droppableId
       );
-
       if (sourceHeaderIndex === destinationHeaderIndex) {
         const header = headers[sourceHeaderIndex];
         const newItems = Array.from(header.items);
@@ -188,17 +182,14 @@ const Headers = ({ board_id }) => {
         newItems.splice(destination.index, 0, reorderedItem);
         header.items = newItems;
         setHeaders([...headers]);
-        console.log(headers);
       } else {
         const sourceHeader = headers[sourceHeaderIndex];
         const destinationHeader = headers[destinationHeaderIndex];
         const [movedItem] = sourceHeader.items.splice(source.index, 1);
         destinationHeader.items.splice(destination.index, 0, movedItem);
         setHeaders([...headers]);
-        console.log(headers);
       }
     }
-    // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
   };
 
   return (
@@ -213,6 +204,7 @@ const Headers = ({ board_id }) => {
         newItemNames={newItemNames}
         setNewItemNames={setNewItemNames}
         fetchData={fetchData}
+        updatePositions={updatePositions}
       />
       <div>
         {selectedTicket && (
@@ -285,6 +277,7 @@ const Headers = ({ board_id }) => {
                 </Draggable>
               ))}
               <Draggable
+                id="new-header"
                 key="new-header"
                 draggableId="new-header"
                 index={headers.length}
