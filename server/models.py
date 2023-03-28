@@ -90,6 +90,7 @@ class Kanban_Header(db.Model):
 class Kanban_Board(db.Model):
     __tablename__ = 'kanban_board'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
@@ -103,6 +104,7 @@ class Kanban_Board(db.Model):
     def serialize(self):
         return {
             "board_id": self.id,
+            "name": self.name,
             "board_creator_id": self.user_id,
             "start_time": self.start_time,
             "board_users": self.board_users,
