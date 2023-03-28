@@ -29,6 +29,7 @@ def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=[[super_user_name]])
 
+    
     for item in data:
         print(item)
         
@@ -113,7 +114,27 @@ def add_member():
     return jsonify({'message': 'members added to the database'}), 201
    
 
+def get_members(super_user_name):
+    list_members = []
+    user = Super_User.query.filter_by(username=super_user_name).first()
 
+    if not user:
+        return ({'error': f"{super_user_name} not found"}), 404
+
+    for item in  user.members:
+        member = User.query.filter_by(username=item).first()
+       
+        member_data = {
+            'username': member.username,
+            'avatar': member.avatar,
+            'email': member.email,
+            'supervisors': member.supervisors
+        }
+        
+        list_members.append(member_data)
+
+    return jsonify(list_members), 200 
+    
 
 def login():
     data = request.get_json()

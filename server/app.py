@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members
 # create_user
 
 
@@ -115,8 +115,11 @@ def register_super_user_route():
 @ app.route('/super_user/member', methods=['PUT'])
 def add_member_to_super():
     return add_member()
-    # if (request.method() == 'GET'):
-    #     return show_members()
+
+
+@ app.route('/super_user/member/<string:super_user_name>', methods=['GET'])
+def get_member_to_super(super_user_name):
+    return get_members(super_user_name)
 
 
 @ app.route('/register/<string:super_user_name>', methods=['POST'])
@@ -152,6 +155,9 @@ def update_user_route(user_id):
 @ app.route('/users/<int:user_id>', methods=['DELETE'])
 def delete_user_route(user_id):
     return delete_user(user_id)
+
+
+
 
 # Kanban Board routes
 
