@@ -272,7 +272,7 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white"
+                                    className={`mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white ${!content && 'hidden'}`}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
