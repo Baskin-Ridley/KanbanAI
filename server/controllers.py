@@ -1,11 +1,12 @@
 from models import User
 from flask import jsonify, request
-from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification
+from models import User, Super_User, Kanban_Board, Kanban_Ticket, Kanban_Header, Notification, Positions
 from database import db
 from datetime import datetime
 from mail import *
 from flask_mail import Mail, Message
 from flask import Flask
+import datetime
 
 
 email = Flask(__name__)
@@ -21,19 +22,24 @@ email.config['MAIL_USE_SSL'] = True
 # notification Controller
 
 
+
+
 def get_Notifications(super_user_name):
+    print("i am in")
     list = []
-    data = Notification.query.filter_by(super_user_name=super_user_name)
+    data = Notification.query.filter_by(super_user_name=[[super_user_name]])
 
+    
     for item in data:
-
+        print(item)
+        
         note = {
             "content": item.content,
             "member": item.user_name
         }
         list.append(note)
 
-    print(list)
+   
     return list, 200
 
 # Super User Controller
@@ -58,22 +64,6 @@ def register_Super_User():
     return jsonify({'message': 'Super-User created successfully'}), 201
 
 
-# def super_login(username,password):
-#     if not username or not password:
-#         return jsonify({'error': 'Missing parameters'}), 400
-#     super_user = Super_User.query.filter_by(username=username).first()
-#     if not super_user or not super_user.check_password(password):
-#         return jsonify({'error': 'Invalid username or password'}), 401
-#     super_user_data = {
-#         'id': super_user.id,
-#         'username': super_user.username,
-#         'email': super_user.email,
-#         'name': super_user.name,
-#     }
-#     return jsonify(super_user_data), 200
-# User controller
-
-
 def register_user(super_user_name):
     data = request.get_json()
     username = data.get('username')
@@ -90,9 +80,65 @@ def register_user(super_user_name):
     user = User(username=username, name=name, password=password,
                 role=role, email=email, avatar=avatar, supervisors=[super_user_name])
     db.session.add(user)
+
+    super_user = Super_User.query.filter_by(username=super_user_name).first()
+    super_user.members = super_user.members + [user.username]
+    
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
+
+##add members to the admins
+def add_member():
+    data = request.get_json()
+    new_members = data.get('new_member')
+    super_user = data.get('super_user')
+
+    if not new_members or not super_user:
+        return jsonify({'error': 'super_user invalid'}), 404
+
+    ## add admin to members
+    for member in new_members:
+        print(member)
+        if check_user_name(member) == False:
+            return jsonify({'error': f'{member} does not exist' }), 404
+        temp_user = User.query.filter_by(username=member).first()
+        temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
+
+    user = Super_User.query.filter_by(username=super_user).first()
+    if not user:
+         return jsonify({'error': f'{super_user} does not exist'}), 404
+    if user.members is None:
+        user.members =  []
+
+    user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
+
+    db.session.commit()
+
+    return jsonify({'message': 'members added to the database'}), 201
+   
+
+def get_members(super_user_name):
+    list_members = []
+    user = Super_User.query.filter_by(username=super_user_name).first()
+
+    if not user:
+        return ({'error': f"{super_user_name} not found"}), 404
+
+    for item in  user.members:
+        member = User.query.filter_by(username=item).first()
+       
+        member_data = {
+            'username': member.username,
+            'avatar': member.avatar,
+            'email': member.email,
+            'supervisors': member.supervisors
+        }
+        
+        list_members.append(member_data)
+
+    return jsonify(list_members), 200 
+    
 
 def login():
     data = request.get_json()
@@ -107,15 +153,15 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
 
     # check wether it is a super_user or not
-    if (hasattr(user, 'isSuper')):
+    if user.isSuper:
         user_data = {
             'id': user.id,
             'username': user.username,
             'email': user.email,
             'name': user.name,
+            'members': user.members,
             'isSuper': True
         }
-
     else:
         user_data = {
             'id': user.id,
@@ -124,27 +170,10 @@ def login():
             'name': user.name,
             'isSuper': False
         }
+
+    body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
     return jsonify(user_data), 200
-
-
-# def create_user():
-#     data = request.get_json()
-#     username = data.get('username')
-#     name = data.get('name')
-#     password = data.get('password')
-#     role = data.get('role')
-#     email = data.get('email')
-#     avatar = data.get('avatar')
-#     if not username or not name or not password or not role or not email:
-#         return jsonify({'error': 'Missing parameters'}), 400
-#     if User.query.filter_by(username=username).first():
-#         return jsonify({'error': 'Username already exists'}), 400
-#     user = User(username=username, name=name, password=password,
-#                 role=role, email=email, avatar=avatar)
-#     db.session.add(user)
-#     db.session.commit()
-#     return jsonify({'message': 'User created successfully'}), 201
-
 
 def get_users():
     users = User.query.all()
@@ -226,6 +255,10 @@ def create_kanban_board():
         user_id=user_id, start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
+    
+    body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
+    log_changes(user.username, body)
+
     return jsonify(kanban_board.serialize()), 201
 
 
@@ -322,12 +355,12 @@ def update_kanban_ticket(kanban_ticket_id):
     if 'end_time' in data:
         ticket.end_time = data['end_time']
 
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_admin, ticket.title, "closed", user_name)
-    # if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
-    #     user_name = User.query.get(ticket.user_id)
-    #     sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_admin, ticket.title, "closed", user_name)
+    if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
+        user_name = User.query.get(ticket.user_id)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -367,10 +400,50 @@ def get_kanban_headers_by_board(kanban_board_id):
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):
-    header = Kanban_Header.query.filter_by(
-        kanban_board_id=kanban_board_id)[header_id - 1]
+    header = Kanban_Header.query.get(header_id)
     if not header:
         return jsonify({'error': 'Kanban header not found'}), 404
     db.session.delete(header)
     db.session.commit()
     return jsonify({'message': 'Kanban header deleted successfully'}), 200
+
+# POSITIONS:
+
+def get_positions_by_board(kanban_board_id):
+    positions = Positions.query.filter_by(board_id=kanban_board_id)
+    # return jsonify({"positions": positions.position_data})
+    return jsonify([position.serialize() for position in positions]), 200
+
+def update_positions_by_board(kanban_board_id):
+    board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    positions_data = request.get_json().get('positions')
+    if board.positions:
+        board.positions.position_data = positions_data
+    else:
+        new_positions = Positions(kanban_board=board, position_data=positions_data)
+        db.session.add(new_positions)
+    db.session.commit()
+    return jsonify({'success': 'Kanban board POSITIONS updated successfully.'})
+
+
+#checker functions:
+
+def check_user_name(username):
+        temp = User.query.filter_by(username=username).first()
+        if not temp:
+            return False
+        else:
+            return True
+
+def log_changes(username,body):
+    temp = User.query.filter_by(username=username).first()
+    if not hasattr(temp,"supervisors"):
+        return
+    notification =Notification(
+        content=body,
+        user_name= username,
+        super_user_name=[temp.supervisors]
+    )  
+    db.session.add(notification)
+    db.session.commit()
+    return jsonify({"message":"changes added"})

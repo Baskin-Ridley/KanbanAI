@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-const initialHeaders = [];
 import { FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
@@ -17,7 +16,6 @@ const Headers = ({ board_id }) => {
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
-    console.log(selectedTicket);
   }
   const [currentHeaderId, setCurrentHeaderId] = useState(null);
 
@@ -29,6 +27,30 @@ const Headers = ({ board_id }) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const updatePositions = (items) => {
+    fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ positions: items }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update header positions");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Header positions updated successfully", data);
+      })
+      .catch((error) => {
+        console.error("Error updating header positions:", error);
+        alert("Failed to update header positions");
+      });
+  };
+
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
@@ -52,8 +74,15 @@ const Headers = ({ board_id }) => {
         })),
       };
     });
-
-    setHeaders(updatedHeaders);
+    // new code below
+    if (boardData.positions) {
+      setHeaders(boardData.positions.position_data);
+    } else {
+      setHeaders(updatedHeaders);
+    }
+    // previous code below
+    // updatePositions(updatedHeaders)
+    // setHeaders(updatedHeaders);
   };
 
   const [headers, setHeaders] = useState(initialHeaders);
@@ -65,20 +94,46 @@ const Headers = ({ board_id }) => {
       alert("Please enter a header name");
       return;
     }
-    const newHeaderId = `header-${newHeaderName}`;
-    const newHeader = {
-      id: newHeaderId,
-      header_id: newHeaderId,
-      name: newHeaderName,
-      header_name: newHeaderName,
-      tickets_under_this_header: [],
-      items: [],
-    };
-    console.log(newHeader);
 
-    setHeaders((prevState) => [...prevState, newHeader]);
-    setNewHeaderName("");
+    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newHeaderName }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to create a new header");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newHeader = {
+          id: `header-${data.header.header_id}`,
+          header_id: data.header.header_id,
+          name: data.header.header_name,
+          tickets_under_this_header: data.header.tickets_under_this_header,
+          items: [],
+        };
+
+        setHeaders(
+          (prevState) => [...prevState, newHeader],
+          console.log(headers)
+        );
+        setNewHeaderName("");
+      })
+      .catch((error) => {
+        console.error("Error creating a new header:", error);
+        alert("Failed to create a new header");
+      });
+    // addSubItemToHeader()
   };
+
+  useEffect(() => {
+    updatePositions(headers);
+  }, [headers]);
+
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -94,6 +149,7 @@ const Headers = ({ board_id }) => {
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
       setHeaders(items);
+      // updatePositions(items)
     } else if (type === "item") {
       const sourceHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === source.droppableId
@@ -101,7 +157,6 @@ const Headers = ({ board_id }) => {
       const destinationHeaderIndex = headers.findIndex(
         (header) => `column-${header.id}` === destination.droppableId
       );
-
       if (sourceHeaderIndex === destinationHeaderIndex) {
         const header = headers[sourceHeaderIndex];
         const newItems = Array.from(header.items);
@@ -117,12 +172,13 @@ const Headers = ({ board_id }) => {
         setHeaders([...headers]);
       }
     }
-    // LOGIC FOR UPDATING DB WITH TICKET?HEADERS POSTIONS HERE:
   };
+
 
   return (
     <div>
       <CreateTicketPopUp
+        board_id={board_id}
         setIsOpenCreate={setIsOpenCreate}
         isOpenCreate={isOpenCreate}
         id={currentHeaderId}
@@ -131,6 +187,7 @@ const Headers = ({ board_id }) => {
         newItemNames={newItemNames}
         setNewItemNames={setNewItemNames}
         fetchData={fetchData}
+        updatePositions={updatePositions}
       />
       <div>
         {selectedTicket && (
@@ -148,7 +205,7 @@ const Headers = ({ board_id }) => {
         <Droppable droppableId="headers" direction="horizontal" type="header">
           {(provided) => (
             <div
-              className="flex justify-between"
+              className="flex items-start"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -156,7 +213,8 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2 "
+                      // className="w-64 min-h-[50px] bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -203,6 +261,7 @@ const Headers = ({ board_id }) => {
                 </Draggable>
               ))}
               <Draggable
+                id="new-header"
                 key="new-header"
                 draggableId="new-header"
                 index={headers.length}

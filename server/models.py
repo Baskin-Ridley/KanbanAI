@@ -10,7 +10,7 @@ class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
     user_name = db.Column(db.String(255), nullable=False)
-    super_user_name = db.Column(db.String(255), nullable=False)
+    super_user_name = db.Column(ARRAY(db.String()), nullable=False)
 
     def __init__(self, content, user_name, super_user_name):
         self.content = content
@@ -94,6 +94,9 @@ class Kanban_Board(db.Model):
         'user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
+    board_users = db.Column(db.JSON, nullable=True)
+    positions = db.relationship(
+        "Positions", back_populates="kanban_board", uselist=False)
     headers = relationship("Kanban_Header", back_populates="kanban_board")
     tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
 
@@ -102,8 +105,26 @@ class Kanban_Board(db.Model):
             "board_id": self.id,
             "board_creator_id": self.user_id,
             "start_time": self.start_time,
+            "board_users": self.board_users,
             "end_time": self.end_time,
+            "positions": self.positions.serialize() if self.positions else None,
             "boards_headers": [header.serialize() for header in self.headers]
+        }
+
+
+class Positions(db.Model):
+    __tablename__ = 'positions'
+    id = db.Column(db.Integer, primary_key=True)
+    board_id = db.Column(db.Integer, db.ForeignKey(
+        'kanban_board.id'), nullable=False)
+    position_data = db.Column(db.JSON, nullable=True)
+    kanban_board = db.relationship('Kanban_Board', back_populates='positions')
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "board_id": self.board_id,
+            "position_data": self.position_data,
         }
 
 
@@ -126,6 +147,8 @@ class Kanban_Ticket(db.Model):
     test_testing_framework = db.Column(db.String(120), nullable=True)
     test_function = db.Column(db.String(120), nullable=True)
     test_generated_test = db.Column(db.String(120), nullable=True)
+    kanban_board = relationship("Kanban_Board", back_populates="tickets")
+    header = relationship("Kanban_Header", back_populates="tickets")
 
     def serialize(self):
         return {

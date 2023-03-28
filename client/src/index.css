@@ -16,9 +16,9 @@
     color: #86B1F4
 }
 
-.color-bg-1 {
+/* .color-bg-1 {
     background-color: #86B1F4
-}
+} */
 
 .color-text-2 {
     color: #5B95F0
@@ -127,18 +127,18 @@
 /*Background image url import statements*/
 
 body {
-    background-image: url('assets/download.jpg');
+    /* background-image: url('assets/download.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; */
 }
 
 /* components/GitCard/index.jsx */
 
 .remove-git-view {
-    bottom: 2vh;
-    right: 16vw;
+    /* bottom: 2vh; */
+    /* right: 16vw; */
 }
 
 .gitCard {
@@ -174,7 +174,7 @@ body {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    /* display: inline-block; */
     font-size: 16px;
 }
 
@@ -191,17 +191,31 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 100px;
+}
+
+.parent-container-git {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+
 }
 
 .stackContainer {
     max-height: 41vh;
     max-width: 30vw;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     border: solid azure 4px;
+    margin-top: 100px;
 }
 
+.gitcard-container{
+    margin-top: 100px;
+}
 .remove-stack-view {
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
 .stackCard {
@@ -217,6 +231,7 @@ body {
 
 .input-section {
     color: black;
+   
 }
 
 #view-button {
@@ -246,15 +261,18 @@ body {
     border-radius: 100%;
     width: 80px;
     height: 80px;
-    margin-left: -40px;
-    position: absolute;
-    top: 20px;
+    /* margin-left: 40px; */
+    margin: 100px 0 0 0;
+    
+    /* bottom:150px; */
+    position: absolute; 
     color: black;
     text-align: center;
     line-height: 80px;
     transform: translate3d(0, 0, 0);
     transition: transform ease-out 200ms;
-    opacity: .95;
+    opacity: .95;    
+    
 }
 
 .menu-open-button {
@@ -271,7 +289,7 @@ body {
     height: 3px;
     background: black;
     display: block;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     margin-left: -12.5px;
@@ -347,4 +365,12 @@ body {
 .menu-open:checked~.menu-item:nth-child(5) {
     transition-duration: 380ms;
     transform: translate3d(105px, 0px, 0);
+}
+
+.wrapper-hamburger{
+    display: flex;
+}
+
+.fancymenu-container{
+    margin-top: 50px;
 }

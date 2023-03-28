@@ -11,6 +11,8 @@ import {
   Settings,
   AllBoards,
   Ticket,
+  Registration_member,
+  Business,
 } from "./pages";
 
 import AISteps from "./components/AI";
@@ -20,8 +22,14 @@ function App() {
   return (
     <UserProvider>
       <Routes>
+        <Route path="/business" element={<Business />} />
+
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
+          <Route
+            path="/register/:supervisors"
+            element={<Registration_member />}
+          />
           <Route index path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
           <Route path="/board/:id" element={<Board />} />
@@ -30,7 +38,6 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/all-boards" element={<AllBoards />} />
           <Route path="/ticket" element={<Ticket />} />
-          <Route path="/ai-steps" element={<AISteps />} />
         </Route>
       </Routes>
     </UserProvider>
