@@ -48,12 +48,10 @@ const CreateTicketPopUp = (props) => {
         // correct
         const newItem = {
           id: `item-${data.ticket.ticket_id}`,
-          content: data.ticket.ticket_content
+          content: data.ticket.ticket_content,
         };
 
         //MODIFY BELOW
-        // console.log(data, 'created new ticket')
-        // console.log(props.headers)
         props.setHeaders((prevHeaders) => {
           console.log(prevHeaders)
           const newHeaders =  prevHeaders.map((header) => {
@@ -62,7 +60,7 @@ const CreateTicketPopUp = (props) => {
               console.log('inside if')
               return {
                 ...header,
-                items: [...header.items, newItem]
+                items: [...header.items, newItem],
               };
             } else {
               return header;
@@ -84,16 +82,14 @@ const CreateTicketPopUp = (props) => {
         }
       })
       .catch((error) => console.error(error));
-      // useEffect(() => {
-      //   props.updatePositions(props.headers);
-      // }, [props.headers]);
+    // useEffect(() => {
+    //   props.updatePositions(props.headers);
+    // }, [props.headers]);
   }
-
 
   // useEffect(() => {
   //   props.fetchData();
   // }, [props.setHeaders]);
-
 
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };
