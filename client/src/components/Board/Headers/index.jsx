@@ -132,7 +132,33 @@ const Headers = ({ board_id }) => {
         console.error("Error creating a new header:", error);
         alert("Failed to create a new header");
       });
-    // addSubItemToHeader()
+  };
+
+  const handleDeleteHeader = (headerId) => {
+    const headerIndex = headers.findIndex((header) => header.id === headerId);
+    const headerToDelete = headers[headerIndex];
+    const headerIdToDelete = headerToDelete.id.split("-")[1];
+
+    fetch(
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete the header");
+        }
+        return response.json();
+      })
+      .then(() => {
+        const newHeaders = headers.filter((_, index) => index !== headerIndex);
+        setHeaders(newHeaders);
+      })
+      .catch((error) => {
+        console.error("Error deleting the header:", error);
+        alert("Failed to delete the header");
+      });
   };
 
   useEffect(() => {
@@ -222,7 +248,15 @@ const Headers = ({ board_id }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <h2 className="mb-2 text-lg font-bold">{name}</h2>
+                      <div className="flex items-center justify-center">
+                        <h2 className="mb-2 text-lg font-bold">{name}</h2>
+                        <button
+                          className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white"
+                          onClick={() => handleDeleteHeader(id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div

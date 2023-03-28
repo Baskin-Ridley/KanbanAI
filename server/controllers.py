@@ -398,6 +398,17 @@ def get_kanban_headers_by_board(kanban_board_id):
     headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([header.serialize() for header in headers]), 200
 
+def update_kanban_headers_by_board(kanban_board_id, header_id):
+    header = Kanban_Header.query.get(header_id)
+    if not header:
+        return jsonify({'error': 'Kanban header not found'}), 404
+    data = request.get_json()
+    if 'name' in data:
+        header.name = data['name']
+    db.session.commit()
+    return jsonify({'success': f'Kanban header updated successfully with the new name: {header.name}.'})
+
+
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):
     header = Kanban_Header.query.get(header_id)
