@@ -138,7 +138,7 @@ const Headers = ({ board_id }) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const headerToDelete = headers[headerIndex];
     const headerIdToDelete = headerToDelete.id.split("-")[1];
-  
+
     fetch(
       `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
       {
@@ -322,7 +322,7 @@ const Headers = ({ board_id }) => {
                             </div>
                           )}
                         <button
-                          className="bg-red-500 text-white w-20-% h-8 px-2 py-1 rounded-md mb-2 ml-2"
+                          className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white"
                           onClick={() => handleDeleteHeader(id)}
                         >
                           Delete
@@ -343,7 +343,7 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white"
+                                    className={`mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white ${!content && 'hidden'}`}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
