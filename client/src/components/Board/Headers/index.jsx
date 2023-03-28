@@ -154,6 +154,7 @@ const Headers = ({ board_id }) => {
     updatePositions(headers);
   }, [headers]);
 
+
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
   }, [headers]);
