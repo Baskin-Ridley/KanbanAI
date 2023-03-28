@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.js';
+// import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+// import 'dhtmlx-gantt/codebase/dhtmlxgantt.js';
 
 const data = {
   data: [

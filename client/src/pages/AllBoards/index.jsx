@@ -54,7 +54,7 @@ function AllBoards() {
               key={kanbanBoard.board_id}
               className="flex items-center justify-center space-x-4 mb-4"
             >
-              <div>Board Id: {kanbanBoard.board_id}</div>
+              <div>{kanbanBoard.name}</div>
               <div>
                 <Link
                   to={`/board/${kanbanBoard.board_id}`}
