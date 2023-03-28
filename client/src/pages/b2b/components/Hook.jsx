@@ -9,6 +9,9 @@ const Hook = () => {
         would expect but with a little more magic... Each feature is powerful on
         its own but when supercharged by AI they become truly groundbreaking.
       </p>
+      <button className="bg-white text-pink-500 py-2 px-4 rounded-lg mt-6 hover:bg-pink-500 hover:text-white transition duration-300 ease-in-out">
+        Start Free!
+      </button>
     </div>
   );
 };
