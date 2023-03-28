@@ -13,6 +13,12 @@ const Headers = ({ board_id }) => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [responseData, setResponseData] = useState("");
 
+  if (isOpen || isOpenCreate) {
+    document.body.style.overflowY = "hidden";
+  } else {
+    document.body.style.overflowY = "auto";
+  }
+
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
@@ -50,7 +56,6 @@ const Headers = ({ board_id }) => {
         alert("Failed to update header positions");
       });
   };
-
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
@@ -134,7 +139,6 @@ const Headers = ({ board_id }) => {
     updatePositions(headers);
   }, [headers]);
 
-
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
   }, [headers]);
@@ -174,7 +178,6 @@ const Headers = ({ board_id }) => {
     }
   };
 
-
   return (
     <div>
       <CreateTicketPopUp
@@ -213,17 +216,17 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2 "
+                      className="m-2 w-64 rounded-lg border border-gray-400 bg-gray-200 px-2 py-3 "
                       // className="w-64 min-h-[50px] bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <h2 className="text-lg font-bold mb-2">{name}</h2>
+                      <h2 className="mb-2 text-lg font-bold">{name}</h2>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div
-                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
+                            className="min-h-20 rounded-lg border-dashed border-transparent bg-gray-100 p-2 transition-colors duration-150 hover:border-gray-400 hover:bg-gray-200"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -235,7 +238,7 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
+                                    className="mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-500 hover:text-white"
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -268,7 +271,7 @@ const Headers = ({ board_id }) => {
               >
                 {(provided) => (
                   <div
-                    className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                    className="m-2 w-64 rounded-lg border border-gray-400 bg-gray-200 px-2 py-3"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
