@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
+  // console.log(props)
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
   });
   const [responseData, setResponseData] = useState([]);
-  console.log(tickets);
+  // console.log(tickets);
 
   function closeModal() {
     props.setIsOpenCreate(false);
@@ -23,9 +24,9 @@ const CreateTicketPopUp = (props) => {
   }
 
   function handleAddItem(headerId, shouldCloseModal) {
-    // console.log(headerId);
-    // const number = parseInt(headerId.split("-")[1]);
-    console.log(shouldCloseModal);
+    // console.log(headerId)
+    const slicedId = headerId.id.slice(6).replace(/\D/g, "");
+    // console.log(shouldCloseModal);
 
     fetch("https://built-differently-backend.onrender.com//kanban-tickets", {
       method: "POST",
@@ -37,21 +38,54 @@ const CreateTicketPopUp = (props) => {
         content: tickets.content,
         user_id: 1,
         start_time: "Wed, 22 Mar 2023 17:06:24 GMT",
-        header_id: 3,
+        header_id: slicedId,
         ticket_status: "open",
-        kanban_board_id: 1,
+        kanban_board_id: props.board_id,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
+        // correct
+        const newItem = {
+          id: `item-${data.ticket.ticket_id}`,
+          content: data.ticket.ticket_content
+        };
+
+        //MODIFY BELOW
+         
+        props.setHeaders((prevHeaders) => {
+          return prevHeaders.map((header) => {
+            if (header.id === slicedId) {
+              return {
+                ...header,
+                items: [...header.items, newItem]
+              };
+            } else {
+              return header;
+            }
+          });
+        });
         console.log("Ticket created:", data);
-        props.fetchData();
+
+        // NEW CODE BELOW
+        // console.log(updatedHeaders)
+        // props.setHeaders(updatedHeaders);
+        // NEW CODE ABOVE
         if (shouldCloseModal) {
           closeModal();
         }
       })
       .catch((error) => console.error(error));
+      // useEffect(() => {
+      //   props.updatePositions(props.headers);
+      // }, [props.headers]);
   }
+
+
+  // useEffect(() => {
+  //   props.fetchData();
+  // }, [props.setHeaders]);
+
 
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };
@@ -81,7 +115,7 @@ const CreateTicketPopUp = (props) => {
 
   useEffect(() => {
     document.addEventListener("keydown", function (event) {
-      if (event.code === "KeyG") {
+      if (event.keyCode === 27) {
         closeModal();
       }
     });
@@ -89,7 +123,7 @@ const CreateTicketPopUp = (props) => {
     // cleanup function to remove the event listener
     return () => {
       document.removeEventListener("keydown", function (event) {
-        if (event.code === "KeyG") {
+        if (event.keyCode === 27) {
           closeModal();
         }
       });
@@ -101,7 +135,7 @@ const CreateTicketPopUp = (props) => {
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen">
             <div className="bg-white rounded-lg overflow-hidden shadow-xl">
-              <div className="p-4">
+              <div className="p-4" id="create-ticket">
                 <div className="flex flex-col	justify-between">
                   <h2 className="text-xl font-bold">Create New Task</h2>
                   <Form_Input
@@ -134,7 +168,7 @@ const CreateTicketPopUp = (props) => {
 
                   <Form_Button
                     buttonText="Save"
-                    onClick={() => handleAddItem(props.id, true)}
+                    onClick={() => handleAddItem(props, true)}
                     ariaLabel="Button for saving the data"
                   />
                   <Form_Button

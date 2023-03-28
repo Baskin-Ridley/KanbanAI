@@ -7,4 +7,5 @@ export { default as Board } from "./Board";
 export { default as AllBoards } from "./AllBoards";
 export { default as Settings } from "./Settings";
 export { default as Ticket } from "./Ticket";
+export { default as Registration_member } from './RegistrationLinked'
 
