@@ -134,6 +134,14 @@ body {
     background-attachment: fixed; */
 }
 
+body {
+    background-image: url('assets/beautiful-landscape.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 /* components/GitCard/index.jsx */
 
 .remove-git-view {

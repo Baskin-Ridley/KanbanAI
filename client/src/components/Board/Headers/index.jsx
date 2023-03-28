@@ -106,7 +106,7 @@ const Headers = ({ board_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: newHeaderName }),
-    })
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");

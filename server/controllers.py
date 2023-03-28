@@ -246,14 +246,14 @@ def delete_user(user_id):
 
 def create_kanban_board():
     data = request.get_json()
-    # user_id = request.json.get('user_id')
+    user_id = request.json.get('user_id')
     start_time = datetime.utcnow()
     end_time = None
-    # user = User.query.get(user_id)
-    # if not user:
-    #     return jsonify({'error': 'User not found'}), 404
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
     kanban_board = Kanban_Board(
-        user_id=1, name=data['name'], start_time=start_time, end_time=end_time)
+        user_id=user_id, name=data['name'], start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
     
