@@ -7,11 +7,11 @@ const Hook = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center align-middle bg-gradient-to-br from-indigo-500 to-[#86AFB1] shadow-lg p-8 max-w mx-auto text-center h-96">
-      <h2 className="flex text-3xl font-bold text-white mb-6 justify-center align-middle">
+    <div className="max-w mx-auto flex h-96 flex-col justify-center bg-gradient-to-br from-indigo-500 to-[#86AFB1] p-8 text-center align-middle shadow-lg">
+      <h2 className="mb-6 flex justify-center align-middle text-3xl font-bold text-white">
         What is Kanban AI?
       </h2>
-      <p className="text-white leading-8">
+      <p className="leading-8 text-white">
         Kanban AI is a project management solution with all the features you
         would expect but with a little more magic... Each feature is powerful on
         its own but when supercharged by AI they become truly groundbreaking.
@@ -19,7 +19,7 @@ const Hook = () => {
       <Link
         to="/register"
         onClick={handleClick}
-        className="bg-white w-36 text-blue-500 py-2 px-4 rounded-lg mt-6 hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out animate-shake mx-auto p-4"
+        className="animate-shake mx-auto mt-6 w-36 rounded-lg bg-white p-4 py-2 px-4 text-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white"
       >
         Start Free!
       </Link>

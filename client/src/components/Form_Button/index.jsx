@@ -2,9 +2,9 @@ import React from "react";
 
 const Form_Button = ({ buttonText, onClick, formElementId, ariaLabel }) => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="mt-2 mb-2 flex flex-col items-center justify-center">
       <button
-        className="color-bg-0 hover:color-bg-4 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        className="color-bg-0 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none"
         onClick={onClick}
         id={formElementId}
         aria-label={ariaLabel}
