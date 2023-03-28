@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import "./dashboard.css"
-import { Notification, UserWindow } from "../../components"
-import LinkGenerator from '../../components/LinkGenerator';
+import { Notification, UserWindow, LinkGenerator } from "../../components"
+
 
 
 const Dashboard = () => {

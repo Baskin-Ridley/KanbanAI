@@ -292,7 +292,7 @@ def update_kanban_board(kanban_board_id):
 
 
 def delete_kanban_board(kanban_board_id):
-    kanban_board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    kanban_board = Kanban_Board.query.get(kanban_board_id)
     if kanban_board is None:
         return jsonify({'error': 'Kanban board not found.'}), 404
     db.session.delete(kanban_board)
@@ -397,6 +397,17 @@ def create_kanban_header(kanban_board_id):
 def get_kanban_headers_by_board(kanban_board_id):
     headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([header.serialize() for header in headers]), 200
+
+def update_kanban_headers_by_board(kanban_board_id, header_id):
+    header = Kanban_Header.query.get(header_id)
+    if not header:
+        return jsonify({'error': 'Kanban header not found'}), 404
+    data = request.get_json()
+    if 'name' in data:
+        header.name = data['name']
+    db.session.commit()
+    return jsonify({'success': f'Kanban header updated successfully with the new name: {header.name}.'})
+
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):

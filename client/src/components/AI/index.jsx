@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Form_Button from "../Form_Button";
 import Form_Input from "../Form_Input";
-const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
+const AISteps = ({
+  responseData,
+  setTickets,
+  tickets,
+  handleAddItem,
+  headerId,
+}) => {
   const [renderedSteps, setRenderedSteps] = useState([]);
 
   useEffect(() => {
@@ -19,12 +25,13 @@ const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
     };
   }, [responseData]);
 
-  function handleClickForStep(step) {
+  function handleClickForStep(step, headerId) {
+    let newHeaderId = {
+      id: headerId,
+    };
     let cleanString = step.replace(/^[0-9]+\)\s+/, "");
-    console.log(cleanString);
     setTickets({ ...tickets, title: cleanString, content: cleanString });
-    console.log(tickets);
-    handleAddItem(3, false);
+    handleAddItem(newHeaderId, false);
   }
 
   return (
@@ -42,7 +49,7 @@ const AISteps = ({ responseData, setTickets, tickets, handleAddItem }) => {
                 </li>
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => handleClickForStep(step)}
+                  onClick={() => handleClickForStep(step, headerId)}
                 >
                   Add Ticket
                 </button>
