@@ -263,8 +263,11 @@ const Headers = ({ board_id }) => {
           <div className="">
             <TicketPopUp
               ticketContent={selectedTicket}
+              headers={headers}
+              setHeaders={setHeaders}
               setIsOpen={setIsOpen}
               isOpen={isOpen}
+              updatePositions={updatePositions}
               fetchData={fetchData}
             />
           </div>
