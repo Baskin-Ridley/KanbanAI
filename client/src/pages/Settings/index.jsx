@@ -39,8 +39,6 @@ const Settings = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(!submitted);
-    alert(message.message)
-
   };
 
   return (
