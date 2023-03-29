@@ -29,19 +29,15 @@ const Navigation = () => {
               <CustomLink to="/all-boards">All Kanban Boards</CustomLink>
             </li>
             <li>
-              <Form_Button
-                onClick={handleLogout}
-                buttonText={"Logout"}
-                formElementId="button-logout"
-                ariaLabel={"Logout button"}
-              />
+              <button onClick={handleLogout} className="inline-block align-baseline font-bold text-lg text-blue-500 hover:text-white">Log Out</button>
+                {/* // buttonText={"Logout"}
+                // formElementId="button-logout"
+                // ariaLabel={"Logout button"} */}
             </li>
           </>
         ) : (
           <>
-            <li>
-              <Form_Button buttonText={"Kanban AI"} />
-            </li>
+            {/* <Form_Button buttonText={"Kanban AI"} /> */}
             {/* <li>
               <CustomLink to="/">Home</CustomLink>
             </li> */}
