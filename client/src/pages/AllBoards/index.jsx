@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Form_Button from "../../components/Form_Button";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import "react-toastify/dist/ReactToastify.css";
 
 function AllBoards() {
   const { user } = useContext(UserContext);
@@ -22,17 +23,17 @@ function AllBoards() {
       .catch((error) => console.error(error));
   }, [user]);
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/users/${user.id}/kanban_boards`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch kanban boards");
-        }
-        return response.json();
-      })
-      .then((data) => setKanbanBoards(data))
-      .catch((error) => console.error(error));
-  }, [user, kanbanBoards]);
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/users/${user.id}/kanban_boards`)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch kanban boards");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => setKanbanBoards(data))
+  //     .catch((error) => console.error(error));
+  // }, [kanbanBoards]);
 
   const navigate = useNavigate();
 
@@ -42,7 +43,6 @@ function AllBoards() {
         if (!response.ok) {
           throw new Error("Failed to delete kanban board");
         }
-        return response.json();
       })
       .then(() => {
         setKanbanBoards(
@@ -50,7 +50,8 @@ function AllBoards() {
             (kanbanBoard) => kanbanBoard.board_id !== id
           )
         );
-        alert("Kanban board was deleted");
+        // alert("Kanban board was deleted");
+
       })
       .catch((error) => console.error(error));
   }
@@ -81,14 +82,19 @@ function AllBoards() {
           if (!response.ok) {
             throw new Error("Failed to create a new board");
           }
-          const newBoard = response.json();
-          // console.log(newBoard)
-          setKanbanBoards([...kanbanBoards, newBoard]);
+          return response.json();
+          // const newBoard = response.json();
+          // // console.log(newBoard)
+          // setKanbanBoards([...kanbanBoards, newBoard]);
           // return response.json();
         })
-        .then((data) => {
-          // console.log(data, 'data')
-        })
+        .then((newBoard) => {
+          setKanbanBoards([...kanbanBoards, newBoard]);
+          setNewBoardName("");
+          setShowInput(false);})
+        // .then((data) => {
+        //   // console.log(data, 'data')
+        // })
 
         
       }
@@ -111,10 +117,10 @@ function AllBoards() {
               key={kanbanBoard.board_id}
               className="flex items-center mb-4"
             >
-              <div className="w-full text-black-900 font-semibold text-lg p-2 rounded">
+              <div className="w-full m-2 text-black-900 font-semibold text-lg p-2 rounded">
                 {kanbanBoard.name}
               </div>
-              <div className="w-full text-center ml-0">
+              <div className="w-full text-center m-2">
                 <button className="bg-blue-300 text-black border border-transparent hover:bg-blue-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0">
                   <Link
                     to={`/board/${kanbanBoard.board_id}`}
@@ -126,9 +132,8 @@ function AllBoards() {
 
                 </button>
               </div>
-              <div className="w-full text-center">
+              <div className="w-full text-center m-2">
                 <button
-                  buttonText="Delete"
                   onClick={() => handleDelete(kanbanBoard.board_id)}
                   className="bg-rose-300 text-black border border-transparent hover:bg-rose-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
                 >
