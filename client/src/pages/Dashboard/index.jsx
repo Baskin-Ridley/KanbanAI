@@ -20,7 +20,7 @@ const Dashboard = () => {
                 <div className='Card w-full'>
                   {user && <Notification />}
                 </div>
-                <div className='Card'>
+                <div className='Card w-full'>
                   {user && <UserWindow />}
                 </div>
                 <div className='Card'>
