@@ -263,6 +263,11 @@ function TicketPopUp(props) {
                       />
                     </p>
                     </div>
+                    <Form_Button
+                  buttonText="Generate Tests"
+                  // onClick={closeModal}
+                  ariaLabel="Button for generating tests"
+                />
                     </div>
                     <Form_Button
                       buttonText="Save"
