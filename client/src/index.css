@@ -135,6 +135,7 @@ body {
 }
 
 body {
+    font-family: 'Barlow', sans-serif;
     background-image: url('assets/beautiful-landscape.jpg');
     background-size: cover;
     background-repeat: no-repeat;

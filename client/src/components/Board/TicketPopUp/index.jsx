@@ -303,6 +303,7 @@ function TicketPopUp(props) {
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
+                      additionalClasses="w-20"
                     />
                   </form>
                 ) : (
@@ -312,6 +313,7 @@ function TicketPopUp(props) {
                   buttonText="Close"
                   onClick={closeModal}
                   ariaLabel="Button for closing modal popup view"
+                  additionalClasses="w-20"
                 />
               </div>
             </div>
