@@ -7,7 +7,6 @@ import Message from "../Message";
 import FancyMenu from "../FancyMenu";
 import Footer from "../Footer";
 
-
 const PageWrapper = () => {
   const { user } = useContext(UserContext);
   return (
@@ -17,7 +16,7 @@ const PageWrapper = () => {
       <Message />
       <Outlet />
       {user && <FancyMenu />}
-      <Footer className="fixed bottom-0"/>
+      <Footer className="fixed bottom-0" />
     </>
   );
 };
