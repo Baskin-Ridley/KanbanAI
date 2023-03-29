@@ -20,15 +20,14 @@ with app.app_context():
     notification2 = Notification(
         user_name="user1",
         content="test content 2",
-          super_user_name=[["admin1"]]
+        super_user_name=[["admin1"]]
     )
     db.session.add(notification2)
     notification3 = Notification(
         user_name="user1",
         content="test content 3",
-         super_user_name=[["admin1"]]
+        super_user_name=[["admin1"]]
     )
-   
 
     # Commit the notifications
     db.session.commit()
@@ -90,7 +89,8 @@ with app.app_context():
     )
     db.session.add(board2)
 
-    board3 = Kanban_Board(user_id=user2.id, name='Third Project', start_time=datetime.utcnow())
+    board3 = Kanban_Board(
+        user_id=user2.id, name='Third Project', start_time=datetime.utcnow())
     db.session.add(board3)
 
     # Commmit the boards
