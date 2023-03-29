@@ -15,18 +15,20 @@ function TicketPopUp(props) {
   const [technologies, setTechnologies] = useState();
   const [testFramework, setTestFramework] = useState();
   const [functionToTest, setFunctionToTest] = useState();
-  const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
+  const [testsForFunction, setTestsForFunction] = useState(
+    "Your tests will appear here"
+  );
 
   // Test functionality
   const sanitizeInput = (input) => {
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
     // Replace any tabs with two spaces
-    sanitizedInput = sanitizedInput.replace(/\t/g, '  ');
+    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
     // Replace any consecutive spaces with two spaces
-    sanitizedInput = sanitizedInput.replace(/ +/g, ' ');
+    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
     // Replace any line breaks with a '\n' character
-    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
     return sanitizedInput;
   };
 
@@ -36,18 +38,23 @@ function TicketPopUp(props) {
     const sanitizedTechnologies = sanitizeInput(technologies);
     const sanitizedTestFramework = sanitizeInput(testFramework);
     const sanitizedFunctionToTest = sanitizeInput(functionToTest);
-    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
+    const sanitisedGeneratedTest = sanitizeInput(
+      editedTicket.test_generated_test
+    );
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         technologies: sanitizedTechnologies,
         test_framework: sanitizedTestFramework,
         function_to_test: sanitizedFunctionToTest,
-        test_generated_test: sanitisedGeneratedTest
+        test_generated_test: sanitisedGeneratedTest,
       }),
     };
-    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const response = await fetch(
+      "http://localhost:5000/ai-test",
+      requestOptions
+    );
     const data = await response.json();
     setTestsForFunction(data.tests_for_function);
   };
@@ -105,9 +112,13 @@ function TicketPopUp(props) {
     event.preventDefault();
     // Test functionality
     const sanitisedTechnologies = sanitizeInput(editedTicket.test_technologies);
-    const sanitisedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
+    const sanitisedTestFramework = sanitizeInput(
+      editedTicket.test_testing_framework
+    );
     const sanitisedFunctionToTest = sanitizeInput(editedTicket.test_function);
-    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
+    const sanitisedGeneratedTest = sanitizeInput(
+      editedTicket.test_generated_test
+    );
 
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
@@ -138,7 +149,7 @@ function TicketPopUp(props) {
       .catch((error) => console.error(error));
   };
 
-  console.log(props.headers)
+  console.log(props.headers);
 
   function deleteTicket() {
     console.log(matchingTicket);
@@ -149,8 +160,10 @@ function TicketPopUp(props) {
       .then((data) => {
         props.setHeaders((prevHeaders) => {
           const newHeaders = prevHeaders.map((header) => {
-            const newItems = header.items.filter((item) => item.id !== `item-${matchingTicket.ticket_id}`);
-            console.log(newItems)
+            const newItems = header.items.filter(
+              (item) => item.id !== `item-${matchingTicket.ticket_id}`
+            );
+            console.log(newItems);
             return {
               ...header,
               items: newItems,
