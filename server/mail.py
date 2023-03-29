@@ -21,12 +21,14 @@ mail = Mail(app)
 
 
 
-def sendMail(receiver, title, state, user_name):
+def sendMail(receiver, title, state, user_name,body):
     msg = Message('Hello', sender='shorizon1234@gmail.com', recipients=[receiver])
     if(state == "closed"):
         msg.body = f'Hi Supervisor, \nthe ticket "{title}" has been succefully closed by user: {user_name}'
     if(state == "blocked"):
         msg.body = f'Hi Scram Master, \nthe ticket "{title}" has been flagged as blocked by user: {user_name}'
+    else:
+        msg.body = body
     try:
         mail.send(msg)
         print('SENT!')
