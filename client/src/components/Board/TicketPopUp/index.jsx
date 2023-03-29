@@ -10,11 +10,6 @@ function TicketPopUp(props) {
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
-
-  // Test functionality
-  const [technologies, setTechnologies] = useState();
-  const [testFramework, setTestFramework] = useState();
-  const [functionToTest, setFunctionToTest] = useState();
   const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
 
   // Test functionality
@@ -28,28 +23,6 @@ function TicketPopUp(props) {
     // Replace any line breaks with a '\n' character
     sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
     return sanitizedInput;
-  };
-
-  // Test functionality
-  const handleGenerateTests = async (event) => {
-    event.preventDefault();
-    const sanitizedTechnologies = sanitizeInput(technologies);
-    const sanitizedTestFramework = sanitizeInput(testFramework);
-    const sanitizedFunctionToTest = sanitizeInput(functionToTest);
-    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        technologies: sanitizedTechnologies,
-        test_framework: sanitizedTestFramework,
-        function_to_test: sanitizedFunctionToTest,
-        test_generated_test: sanitisedGeneratedTest
-      }),
-    };
-    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
-    const data = await response.json();
-    setTestsForFunction(data.tests_for_function);
   };
 
   function openGenerate() {
@@ -103,11 +76,23 @@ function TicketPopUp(props) {
   const handleSubmit = async (event) => {
     console.log(matchingTicket);
     event.preventDefault();
+
     // Test functionality
-    const sanitisedTechnologies = sanitizeInput(editedTicket.test_technologies);
-    const sanitisedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
-    const sanitisedFunctionToTest = sanitizeInput(editedTicket.test_function);
-    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
+    const sanitizedTechnologies = sanitizeInput(editedTicket.test_technologies);
+    const sanitizedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
+    const sanitizedFunctionToTest = sanitizeInput(editedTicket.test_function);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        technologies: sanitizedTechnologies,
+        test_framework: sanitizedTestFramework,
+        function_to_test: sanitizedFunctionToTest,
+      }),
+    };
+    const responseTest = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const dataTest = await responseTest.json();
+    setTestsForFunction(dataTest.tests_for_function);
 
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
@@ -120,11 +105,10 @@ function TicketPopUp(props) {
           title: editedTicket.ticket_title,
           content: editedTicket.ticket_content,
           ticket_status: editedTicket.ticket_status,
-          // Test functionality
-          test_technologies: sanitisedTechnologies,
-          test_testing_framework: sanitisedTestFramework,
-          test_function: sanitisedFunctionToTest,
-          test_generated_test: sanitisedGeneratedTest,
+          test_technologies: editedTicket.test_technologies,
+          test_testing_framework: editedTicket.test_testing_framework,
+          test_function: editedTicket.test_function,
+          test_generated_test: editedTicket.test_generated_test
         }),
       }
     )
@@ -248,7 +232,7 @@ function TicketPopUp(props) {
                       onClick={openGenerate}
                     />
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
-                      <div className={`flex flex-row p-2 gap-2`}>
+                      <div className={`flex flex-row p-2 gap-2 justify-center`}>
                         <p>
                           <Form_Input
                             label="Technologies:"
@@ -263,20 +247,18 @@ function TicketPopUp(props) {
                           <Form_Input
                             label="Test Framework:"
                             type="text"
-                            value={editedTicket.test_framework}
+                            value={editedTicket.test_testing_framework}
                             onChange={handleInputChange}
                             formElementId="test_testing_framework"
                             ariaLabel="Field for input of test framework"
                           />
                         </p>
                       </div>
-                      <div className="flex flex-row p-2 gap-2">
+                      <div className="flex flex-row p-2 gap-2 justify-center">
                         <p>
                           <Form_Textarea
                             label="Function to Test:"
                             value={editedTicket.test_function}
-                            // value={functionToTest}
-                            // onChange={(e) => setFunctionToTest(e.target.value)}
                             onChange={handleInputChange}
                             formElementId="test_function"
                             ariaLabel="Textarea in which to write the function to test"
@@ -285,20 +267,20 @@ function TicketPopUp(props) {
                         <p>
                           <Form_Textarea
                             label="Tests for Function:"
-                            value={editedTicket.test_generated_test}
-                            // value={testsForFunction}
-                            // onChange={(e) => setTestsForFunction(e.target.value)}
+                            // value={editedTicket.test_generated_test}
+                            value={testsForFunction}
                             onChange={handleInputChange}
                             formElementId="test_generated_test"
                             ariaLabel="Textarea in which generated tests are displayed"
                           />
                         </p>
                       </div>
-                      <Form_Button
+                      {/* <Form_Button
                         buttonText="Generate Tests"
-                        onChange={handleGenerateTests}
+                        // onClick={handleGenerateTest}
+                        formElementId="button-generate-test"
                         ariaLabel="Button for generating tests"
-                      />
+                      /> */}
                     </div>
                     <Form_Button
                       buttonText="Save"
