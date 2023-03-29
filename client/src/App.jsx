@@ -23,7 +23,7 @@ function App() {
   return (
     <UserProvider>
       <Routes>
-        <Route path="/business" element={<Business />} />
+        <Route path="/" element={<Business />} />
 
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
@@ -32,7 +32,6 @@ function App() {
             element={<Registration_member />}
           />
           <Route index path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
           <Route path="/board/:id" element={<Board />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -45,8 +45,8 @@ const Settings = () => {
 
   return (
     <>
-      <main className="flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-bold mb-8 m-12 text-center">Settings</h2>
+      <main className="flex flex-col items-center justify-center mx-auto m-2 w-1/5 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
+        <h2 className="text-3xl font-bold m-2 text-center">Settings</h2>
         {message && <Message>{message}</Message>}
         <form className="w-full max-w-md" onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-4">

@@ -134,6 +134,14 @@ body {
     background-attachment: fixed; */
 }
 
+body {
+    background-image: url('assets/beautiful-landscape.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 /* components/GitCard/index.jsx */
 
 .remove-git-view {
@@ -203,6 +211,13 @@ body {
 
 }
 
+.chartCardContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
 .stackContainer {
     max-height: 41vh;
     max-width: 30vw;
@@ -373,4 +388,21 @@ body {
 
 .fancymenu-container{
     margin-top: 50px;
+}
+
+/* from the chartt component */
+.gantt_container {
+    margin-left: 0 !important;
+  }
+  
+  .gantt_scale_line {
+    margin-left: 0 !important;
+  }
+  
+  .gantt_add, .gantt_grid_head_add  {
+    display: none !important;
+  }
+  
+.gantt_tree_content{ 
+    pointer-events: none;
 }

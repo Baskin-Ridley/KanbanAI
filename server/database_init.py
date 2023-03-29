@@ -77,19 +77,20 @@ with app.app_context():
     # Add some Kanban boards
 
     board1 = Kanban_Board(
-        user_id=user1.id, start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
+        user_id=user1.id, name='First Project', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
 
     db.session.add(board1)
 
     board2 = Kanban_Board(
         user_id=user1.id,
+        name='Second Project',
         start_time=datetime.utcnow() - timedelta(days=5),
         end_time=datetime.utcnow() - timedelta(days=1),
         board_users=[1, 2, 3, 4]
     )
     db.session.add(board2)
 
-    board3 = Kanban_Board(user_id=user2.id, start_time=datetime.utcnow())
+    board3 = Kanban_Board(user_id=user2.id, name='Third Project', start_time=datetime.utcnow())
     db.session.add(board3)
 
     # Commmit the boards
@@ -128,7 +129,7 @@ with app.app_context():
         content="Content for ticket 1",
         user_id=user1.id,
         start_time=datetime.utcnow(),
-        ticket_status="open",
+        ticket_status="closed",
         kanban_board_id=board1.id,
         header_id=header1.id,
         assigned=user1.id,
@@ -175,7 +176,7 @@ with app.app_context():
         content="Content for ticket 4",
         user_id=user2.id,
         start_time=datetime.utcnow(),
-        ticket_status="open",
+        ticket_status="closed",
         kanban_board_id=board1.id,
         header_id=header2.id,
         assigned=user2.id,
@@ -191,7 +192,7 @@ with app.app_context():
         content="Content for ticket 5",
         user_id=user1.id,
         start_time=datetime.utcnow(),
-        ticket_status="open",
+        ticket_status="closed",
         kanban_board_id=board1.id,
         header_id=header1.id,
         assigned=user1.id,
@@ -207,7 +208,7 @@ with app.app_context():
         content="Content for ticket 6",
         user_id=user1.id,
         start_time=datetime.utcnow(),
-        ticket_status="open",
+        ticket_status="closed",
         kanban_board_id=board1.id,
         header_id=header1.id,
         assigned=user1.id,
@@ -255,7 +256,7 @@ with app.app_context():
         content="Content for ticket 9",
         user_id=user2.id,
         start_time=datetime.utcnow(),
-        ticket_status="open",
+        ticket_status="closed",
         kanban_board_id=board1.id,
         header_id=header3.id,
         assigned=user2.id,

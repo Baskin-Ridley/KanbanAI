@@ -1,7 +1,7 @@
 import React from "react";
 import Form_Label from "../Form_Label";
 
-const Form_Input = ({ label, type, value, onChange, formElementId, ariaLabel }) => {
+const Form_Input = ({ label, type, value, onChange, formElementId, ariaLabel, onBlur, onKeyDown }) => {
 
   return (
     <div className="mb-4">
@@ -15,6 +15,8 @@ const Form_Input = ({ label, type, value, onChange, formElementId, ariaLabel }) 
         id={formElementId}
         aria-label={ariaLabel}
         name={formElementId}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
       />
 
     </div>
