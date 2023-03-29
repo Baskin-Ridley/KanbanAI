@@ -28,7 +28,7 @@ const CreateTicketPopUp = (props) => {
     const slicedId = headerId.id.slice(6).replace(/\D/g, "");
     // console.log(shouldCloseModal);
 
-    fetch("http://localhost:5000/kanban-tickets", {
+    fetch("https://built-differently-backend.onrender.com/kanban-tickets", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,12 +83,11 @@ const CreateTicketPopUp = (props) => {
       .catch((error) => console.error(error));
   }
 
-
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };
     console.log("Sending data:", data);
 
-    fetch("http://localhost:5000/ai-steps", {
+    fetch("https://built-differently-backend.onrender.com/ai-steps", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

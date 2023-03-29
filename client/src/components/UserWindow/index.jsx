@@ -11,7 +11,7 @@ const UserWindow = () => {
   useEffect(() => {
     const getDataMembers = async () => {
       const response = await fetch(
-        `http://localhost:5000/super_user/member/${user.username}`
+        `https://built-differently-backend.onrender.com/super_user/member/${user.username}`
       );
       const data = await response.json();
       setUserData(data);
