@@ -14,6 +14,10 @@ const Landing = () => {
         <p className="text-2xl text-white text-center">
           Whether you want ease of use, increased collaboration, or integrated
           testing, Kanban AI has a solution for you!
+          <br />
+          <br />
+          <br />
+          <br />
         </p>
       </div>
     </div>

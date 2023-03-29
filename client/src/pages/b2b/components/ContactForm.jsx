@@ -6,10 +6,10 @@ const ContactForm = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-
+  const [submitted, setSubmitted] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted");
+    setSubmitted(true);
   };
 
   return (
@@ -80,12 +80,16 @@ const ContactForm = () => {
           ></textarea>
         </div>
         <div className="flex items-center justify-center">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-          >
-            Submit
-          </button>
+          {submitted ? (
+            <p className="text-white">Thanks for submitting!</p>
+          ) : (
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>
