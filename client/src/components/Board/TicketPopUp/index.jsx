@@ -106,9 +106,8 @@ function TicketPopUp(props) {
       [name]: value,
     });
   };
-
   const handleSubmit = async (event) => {
-    console.log(matchingTicket);
+    console.log("matchingTicket:", matchingTicket);
     event.preventDefault();
     // Test functionality
     const sanitisedTechnologies = sanitizeInput(editedTicket.test_technologies);
@@ -119,7 +118,13 @@ function TicketPopUp(props) {
     const sanitisedGeneratedTest = sanitizeInput(
       editedTicket.test_generated_test
     );
-
+    console.log(
+      "Sanitized inputs:",
+      sanitisedTechnologies,
+      sanitisedTestFramework,
+      sanitisedFunctionToTest,
+      sanitisedGeneratedTest
+    );
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
       {
@@ -141,8 +146,8 @@ function TicketPopUp(props) {
     )
       .then((response) => response.json())
       .then((data) => {
-        setEditedTicket(data);
         console.log("Ticket updated:", data);
+        setEditedTicket(data);
         closeModal();
         props.fetchData();
       })
