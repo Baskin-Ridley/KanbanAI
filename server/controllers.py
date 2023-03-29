@@ -25,7 +25,6 @@ email.config['MAIL_USE_SSL'] = True
 
 
 def get_Notifications(super_user_name):
-    print("i am in")
     list = []
     data = Notification.query.filter_by(super_user_name=[[super_user_name]])
 
@@ -243,6 +242,24 @@ def delete_user(user_id):
 
 # Kanban_Board controller
 
+def get_kanban_boards_with_super(super_user_name):
+    list = []
+    user = User.query.filter_by(supervisors=[super_user_name])
+
+    for item in user:
+        print(item)
+        new_user= {
+           "user_id" : item.id,
+           "user_name": item.name,
+           "user_avatar": item.avatar,
+           "user_email": item.email
+        } 
+
+        list.append(new_user)
+
+
+    return jsonify(list),200
+   
 
 def create_kanban_board():
     data = request.get_json()
@@ -367,10 +384,10 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_admin, ticket.title, "closed", user_name)
+        sendMail(kanban_admin, ticket.title, "closed", user_name, "")
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_scram_master, ticket.title, "blocked", user_name)
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "")
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -468,3 +485,13 @@ def log_changes(username,body):
     db.session.add(notification)
     db.session.commit()
     return jsonify({"message":"changes added"})
+
+def email_from_form():
+    data = request.get_json()
+    body = data["body"]
+
+    try:
+        sendMail("app.builtdifferent.info@gmail.com", " ", " "," ", body)
+        return 'Sent'
+    except Exception as e:
+        return jsonify(e)
