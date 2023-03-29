@@ -376,6 +376,7 @@ const Headers = ({ board_id }) => {
                 key="new-header"
                 draggableId="new-header"
                 index={headers.length}
+                style={{ position: "fixed" }}
               >
                 {(provided) => (
                   <div

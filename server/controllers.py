@@ -243,22 +243,33 @@ def delete_user(user_id):
 # Kanban_Board controller
 
 def get_kanban_boards_with_super(super_user_name):
-    list = []
-    user = User.query.filter_by(supervisors=[super_user_name])
+    user_list = []
+    users = User.query.filter(User.supervisors.any(super_user_name)).all()
 
-    for item in user:
-        print(item)
-        new_user= {
-           "user_id" : item.id,
-           "user_name": item.name,
-           "user_avatar": item.avatar,
-           "user_email": item.email
-        } 
+    for user in users:
+        new_user = {
+            "user_id": user.id,
+            "user_name": user.name,
+            "user_avatar": user.avatar,
+            "user_email": user.email,
+            "kanban_boards": []
+        }
 
-        list.append(new_user)
+        user_boards = Kanban_Board.query.filter_by(user_id=user.id).all()
 
+        for board in user_boards:
+            new_board = {
+                "board_id": board.id,
+                "board_name": board.name,
+                "board_start": board.start_time
+                # add any other relevant fields for the board here
+            }
+            new_user["kanban_boards"].append(new_board)
 
-    return jsonify(list),200
+        user_list.append(new_user)
+
+    return jsonify(user_list), 200
+
    
 
 def create_kanban_board():
@@ -384,10 +395,10 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_admin, ticket.title, "closed", user_name, "")
+        sendMail(kanban_admin, ticket.title, "closed", user_name, "","","")
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "")
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "","","")
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -488,10 +499,15 @@ def log_changes(username,body):
 
 def email_from_form():
     data = request.get_json()
-    body = data["body"]
+    body = data.get("body")
+    customer = data.get("email")
+    person = data.get("person")
+    company = data.get("company")
 
+    print(customer,person,company)
     try:
-        sendMail("app.builtdifferent.info@gmail.com", " ", " "," ", body)
-        return 'Sent'
+        sendMail("app.builtdifferent.info@gmail.com", " ", ""," ", body, "","")
+        sendMail(customer, " ", "customer","", "", person,company)
+        return 'Sent', 200
     except Exception as e:
-        return jsonify(e)
+        return jsonify(e), 400

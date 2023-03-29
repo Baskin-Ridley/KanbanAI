@@ -10,6 +10,7 @@ function TicketPopUp(props) {
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
+  const [testing, setTesting] = useState(false)
   const [testsForFunction, setTestsForFunction] = useState(
     "Your tests will appear here"
   );
@@ -48,6 +49,7 @@ function TicketPopUp(props) {
 
   const closeModal = () => {
     props.setIsOpen(false);
+    setTestsForFunction("");
   };
 
   useEffect(() => {
@@ -93,13 +95,14 @@ function TicketPopUp(props) {
         function_to_test: sanitizedFunctionToTest,
       }),
     };
-    const responseTest = await fetch(
-      "http://localhost:5000/ai-test",
-      requestOptions
-    );
-    const dataTest = await responseTest.json();
-    setTestsForFunction(dataTest.tests_for_function);
-
+    if (testing) {
+      const responseTest = await fetch(
+        "http://localhost:5000/ai-test",
+        requestOptions
+      );
+      const dataTest = await responseTest.json();
+      setTestsForFunction(dataTest.tests_for_function);
+    }
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
       {
@@ -122,7 +125,6 @@ function TicketPopUp(props) {
       .then((data) => {
         console.log("Ticket updated:", data);
         setEditedTicket(data);
-        closeModal();
         props.fetchData();
       })
       .catch((error) => console.error(error));
@@ -239,6 +241,7 @@ function TicketPopUp(props) {
                         className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-200 max-w-max flex justify-center items-center`}
                         onClick={() => {
                           setIsGenerateOpen(!isGenerateOpen);
+                          setTesting(!testing);
                         }}
                       >
                         <div className="mt-2 mb-2 flex flex-col items-center justify-center">
@@ -250,7 +253,9 @@ function TicketPopUp(props) {
                     </div>
 
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
-                      <div className={`flex flex-row p-2 gap-2 justify-center`}>
+                      <div
+                        className={` flex flex-row p-2 gap-2 justify-center`}
+                      >
                         <p>
                           <Form_Input
                             label="Technologies:"
@@ -303,7 +308,7 @@ function TicketPopUp(props) {
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
-                      additionalClasses="w-20"
+                      additionalClasses="w-20 m-1"
                     />
                   </form>
                 ) : (
@@ -313,7 +318,7 @@ function TicketPopUp(props) {
                   buttonText="Close"
                   onClick={closeModal}
                   ariaLabel="Button for closing modal popup view"
-                  additionalClasses="w-20"
+                  additionalClasses="w-20 m-1"
                 />
               </div>
             </div>
