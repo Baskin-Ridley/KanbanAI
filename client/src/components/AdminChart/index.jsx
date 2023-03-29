@@ -38,70 +38,65 @@ const AdminChart = () => {
 
     // data should be ticket.id:,  ticket.content:, ticket.start_time:, duration( if ticket.status == closed ticket.start_time compare ticket.end_time) (else ticket.start_time compare Date.now())
 
+    const handleTasks = async (id) => {
+
+
+        let ticketsArray = []
+        let response = await fetch(`http://localhost:5000/kanban-boards/${id}/tickets`);
+        let data = await response.json()
+        console.log(data)
+        let filteredData = data.filter(ticket => ticket.user_assigned === user.id);
 
 
 
-
-    // const handleTasks = async (id) => {
-
-
-    //     let ticketsArray = []
-    //     let response = await fetch(`http://localhost:5000/kanban-boards/${id}/tickets`);
-    //     let data = await response.json()
-    //     console.log(data)
-    //     let filteredData = data.filter(ticket => ticket.user_assigned === user.id);
-
-
-
-    //     for (let task of filteredData) {
-    //         let deltaDate;
-    //         if (task.ticket_status == "closed") {
-    //             if (task.end_time != null) {
-    //                 deltaDate = changeDate(task, "end") - changeDate(task, "start")
-    //             }
-    //             else {
-    //                 const currentDate = new Date(Date.now()).toISOString().slice(0, 10)
-    //                 deltaDate = currentDate - changeDate(task, "start")
-    //             }
-    //         }
+        for (let task of filteredData) {
+            let deltaDate;
+            if (task.ticket_status == "closed") {
+                if (task.end_time != null) {
+                    deltaDate = changeDate(task, "end") - changeDate(task, "start")
+                }
+                else {
+                    const currentDate = new Date(Date.now()).toISOString().slice(0, 10)
+                    deltaDate = currentDate - changeDate(task, "start")
+                }
+            }
 
 
 
-    //         let new_ticket = {
-    //             id: task.id,
-    //             text: task.ticket_content,
-    //             start_date: changeDate(task, "start"),
-    //             duration: deltaDate,
-    //             status: task.ticket_status
+            let new_ticket = {
+                id: task.id,
+                text: task.ticket_content,
+                start_date: changeDate(task, "start"),
+                duration: deltaDate,
+                status: task.ticket_status
 
-    //         }
+            }
 
 
-    //         ticketsArray.push(new_ticket)
+            ticketsArray.push(new_ticket)
 
-    //     }
-    //     console.log(ticketsArray)
-    //     setBoardTasks(ticketsArray)
+        }
+        console.log(ticketsArray)
+        setBoardTasks(ticketsArray)
 
-    // }
+    }
 
-    // const changeDate = (date, check) => {
-    //     let dateObj;
+    const changeDate = (date, check) => {
+        let dateObj;
 
-    //     if (check == "start") {
-    //         dateObj = new Date(date.start_time);
-    //     }
-    //     if (check == "end") {
-    //         dateObj = new Date(date.end_time);
-    //     }
+        if (check == "start") {
+            dateObj = new Date(date.start_time);
+        }
+        if (check == "end") {
+            dateObj = new Date(date.end_time);
+        }
 
-    //     let year = dateObj.getUTCFullYear();
-    //     let month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
-    //     let day = ('0' + dateObj.getUTCDate()).slice(-2);
-    //     let formattedDate = `${year}-${month}-${day}`;
-    //     return formattedDate
-    // }
-
+        let year = dateObj.getUTCFullYear();
+        let month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+        let day = ('0' + dateObj.getUTCDate()).slice(-2);
+        let formattedDate = `${year}-${month}-${day}`;
+        return formattedDate
+    }
 
 
     const handleNameClick = async (user_id) => {
@@ -113,17 +108,17 @@ const AdminChart = () => {
     }
 
     useEffect(() => {
-        // gantt.templates.task_class = (start, end, task) => {
-        //     if (task.status === "closed") {
-        //         return "closed-task";
-        //     }
-        //     return "";
-        // };
+        gantt.templates.task_class = (start, end, task) => {
+            if (task.status === "closed") {
+                return "closed-task";
+            }
+            return "";
+        };
 
         gantt.clearAll();
         gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
         gantt.init('gantt-chart');
-        gantt.parse(tasks);
+        gantt.parse({ data: boardTasks });
         gantt.attachEvent('onReady', () => {
             gantt.config.editable = false;
         });
@@ -141,7 +136,7 @@ const AdminChart = () => {
                         <ul className="flex flex-col items-center justify-center text-center">
                             {userBoard && userBoard.map((e, i) => (<> <button onClick={() => handleNameClick(e.user_id)}><li>user: {e.user_name}</li></button></>))}
                             <br />
-                            {ganttBoard && ganttBoard.map((e, i) => <> <button onClick={() => { }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
+                            {ganttBoard && ganttBoard.map((e, i) => <> <button onClick={() => { handleTasks(e.board_id) }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
                         </ul>
                     </div>
                 </div>

@@ -27,7 +27,7 @@ const NotificationCard = () => {
                         <ul className="wrapper-notifications">
                             {notification.map((e, i) => (
                                 <div className="wrap border flex  justify-center mx-auto m-2 rounded-lg border-gray-400 bg-blue-50 mb-2 rounded-md bg-blue-50 py-2 px-4 text-sm text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white false" key={i}>
-                                    <li className="w-full">Content: {e.content}</li>
+                                    <li className="w-full"> {e.content}</li>
                                     <li className="w-full">By User: {e.member}</li>
                                 </div>
                             ))}

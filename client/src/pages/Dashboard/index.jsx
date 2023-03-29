@@ -14,9 +14,8 @@ const Dashboard = () => {
       {user.isSuper ? <>
         <div className='wrapper'>
           <div className='row flex justify-between'>
-            <div className='col-4 w-1/2 p-4'>
+            <div className='col-4 w-1/3 p-4'>
               <div className='left-container'>
-                <h3>Notifications:</h3>
                 <div className='Card w-full'>
                   {user && <Notification />}
                 </div>
@@ -28,9 +27,8 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className='col-8 w-1/2 p-4'>
+            <div className='col-8 w-2/3 p-4'>
               <div className='right-container'>
-                <h3>Gantt Chart:</h3>
                 {user.isSuper && <AdminChart />}
               </div>
             </div>

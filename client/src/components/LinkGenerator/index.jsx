@@ -26,7 +26,7 @@ function LinkGenerator() {
     };
 
     return (
-        <div>
+        <div className='link-generator-wrapper'>
             <button onClick={handleClick}>Generate Link</button>
             {link && (
                 <div>
