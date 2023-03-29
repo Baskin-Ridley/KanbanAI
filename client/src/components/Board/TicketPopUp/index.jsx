@@ -9,7 +9,12 @@ function TicketPopUp(props) {
   const [user, setUser] = useState(null);
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
-  console.log(props.ticketContent);
+  const [isGenerateOpen, setIsGenerateOpen] = useState(false);
+
+  function openGenerate() {
+    setIsGenerateOpen(!isGenerateOpen);
+    clg("openGenerate");
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/kanban-tickets")
@@ -155,14 +160,32 @@ function TicketPopUp(props) {
                         onClick={deleteTicket}
                       />
                     </h2>
-                    <p className="text-gray-700 mb-2">
-                      <Form_Textarea
-                        value={editedTicket.ticket_content}
-                        onChange={handleInputChange}
-                        formElementId="ticket_content"
-                        ariaLabel="Textarea for inputting the ticket content"
-                      />
-                    </p>{" "}
+                    <div className="flex flex-row gap-2">
+                      <p className="text-gray-700 mb-2">
+                        <Form_Textarea
+                          value={editedTicket.ticket_content}
+                          onChange={handleInputChange}
+                          formElementId="ticket_content"
+                          ariaLabel="Textarea for inputting the ticket content"
+                          label="Content:"
+                        />
+                        <p className="text-gray-700 mb-2">
+                          <Form_DropDown
+                            label="Status:"
+                            value={editedTicket.ticket_status}
+                            onChange={handleInputChange}
+                            formElementId="ticket_status"
+                            ariaLabel="List to select the task status from"
+                            listOptions={[
+                              "To do",
+                              "In Progress",
+                              "Done",
+                              "Blocked",
+                            ]}
+                          />
+                        </p>
+                      </p>
+                    </div>
                     <div className="flex flex-row justify-center">
                       {matchingTicket && (
                         <AssignUserContainer
@@ -170,36 +193,7 @@ function TicketPopUp(props) {
                         />
                       )}
                     </div>
-                    <p className="text-gray-700 mb-2">
-                      <Form_DropDown
-                        label="Status:"
-                        value={editedTicket.ticket_status}
-                        onChange={handleInputChange}
-                        formElementId="ticket_status"
-                        ariaLabel="List to select the task status from"
-                        listOptions={[
-                          "To do",
-                          "In Progress",
-                          "Done",
-                          "Blocked",
-                        ]}
-                      />
-                    </p>
-                    <p className="text-gray-700 mb-2">
-                      <Form_DropDown
-                        label="Status:"
-                        value={editedTicket.ticket_status}
-                        onChange={handleInputChange}
-                        formElementId="ticket_status"
-                        ariaLabel="List to select the task status from"
-                        listOptions={[
-                          "To do",
-                          "In Progress",
-                          "Done",
-                          "Blocked",
-                        ]}
-                      />
-                    </p>
+
                     {user && (
                       <p className="text-gray-700 mb-2">
                         {/* If this text below is a label for the field, 
@@ -215,48 +209,64 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
-                    <p>
-                      <Form_Input
-                        label="Technologies:"
-                        type="text"
-                        value={editedTicket.test_technologies}
-                        onChange={handleInputChange}
-                        formElementId="test_technologies"
-                        ariaLabel="Field for input of technologies"
+                    <Form_Button
+                      buttonText="Open AI Testing"
+                      ariaLabel="Button for saving the ticket changes"
+                      onClick={openGenerate}
+                    />
+                    <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
+                      <div className={`flex flex-row p-2 gap-2`}>
+                        <p>
+                          <Form_Input
+                            label="Technologies:"
+                            type="text"
+                            value={editedTicket.test_technologies}
+                            onChange={handleInputChange}
+                            formElementId="test_technologies"
+                            ariaLabel="Field for input of technologies"
+                          />
+                        </p>
+                        <p>
+                          <Form_Input
+                            label="Test Framework:"
+                            type="text"
+                            value={editedTicket.test_framework}
+                            onChange={handleInputChange}
+                            formElementId="test_testing_framework"
+                            ariaLabel="Field for input of test framework"
+                          />
+                        </p>
+                      </div>
+                      <div className="flex flex-row p-2 gap-2">
+                        <p>
+                          <Form_Textarea
+                            label="Function to Test:"
+                            value={editedTicket.test_function}
+                            // value={functionToTest}
+                            // onChange={(e) => setFunctionToTest(e.target.value)}
+                            onChange={handleInputChange}
+                            formElementId="test_function"
+                            ariaLabel="Textarea in which to write the function to test"
+                          />
+                        </p>
+                        <p>
+                          <Form_Textarea
+                            label="Tests for Function:"
+                            value={editedTicket.test_generated_test}
+                            // value={testsForFunction}
+                            // onChange={(e) => setTestsForFunction(e.target.value)}
+                            onChange={handleInputChange}
+                            formElementId="test_generated_test"
+                            ariaLabel="Textarea in which generated tests are displayed"
+                          />
+                        </p>
+                      </div>
+                      <Form_Button
+                        buttonText="Generate Tests"
+                        // onClick={closeModal}
+                        ariaLabel="Button for generating tests"
                       />
-                    </p>
-                    <p>
-                      <Form_Input
-                        label="Test Framework:"
-                        type="text"
-                        value={editedTicket.test_framework}
-                        onChange={handleInputChange}
-                        formElementId="test_testing_framework"
-                        ariaLabel="Field for input of test framework"
-                      />
-                    </p>
-                    <p>
-                      <Form_Textarea
-                        label="Function to Test:"
-                        value={editedTicket.test_function}
-                        // value={functionToTest}
-                        // onChange={(e) => setFunctionToTest(e.target.value)}
-                        onChange={handleInputChange}
-                        formElementId="test_function"
-                        ariaLabel="Textarea in which to write the function to test"
-                      />
-                    </p>
-                    <p>
-                      <Form_Textarea
-                        label="Tests for Function:"
-                        value={editedTicket.test_generated_test}
-                        // value={testsForFunction}
-                        // onChange={(e) => setTestsForFunction(e.target.value)}
-                        onChange={handleInputChange}
-                        formElementId="test_generated_test"
-                        ariaLabel="Textarea in which generated tests are displayed"
-                      />
-                    </p>
+                    </div>
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
