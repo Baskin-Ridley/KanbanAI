@@ -106,30 +106,35 @@ function AllBoards() {
 
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
-          <div key={kanbanBoard.board_id} className=" mx-auto">
+          <div key={kanbanBoard.board_id} className="">
             <li
               key={kanbanBoard.board_id}
-              className="flex items-center justify-between space-x-4 mb-4"
+              className="flex items-center mb-4"
             >
-              <div className="w-1/3 text-black-900 font-semibold text-lg p-2 rounded">
+              <div className="w-full text-black-900 font-semibold text-lg p-2 rounded">
                 {kanbanBoard.name}
               </div>
-              <div className="w-1/3 text-center">
-                <Link
-                  to={`/board/${kanbanBoard.board_id}`}
-                  key={`view-${kanbanBoard.board_id}`}
-                  className="bg-green-500 text-white border border-transparent hover:bg-white hover:text-green-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
-                >
-                  View
-                </Link>
+              <div className="w-full text-center ml-0">
+                <button className="bg-green-300 text-black border border-transparent hover:bg-green-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200">
+                  <Link
+                    to={`/board/${kanbanBoard.board_id}`}
+                    key={`view-${kanbanBoard.board_id}`}
+                    // className="bg-green-500 text-white border border-transparent hover:bg-white hover:text-green-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
+                  >
+                    View
+                  </Link>
+
+                </button>
               </div>
-              <div className="w-1/3 text-center">
-                <Form_Button
+              <div className="w-full text-center">
+                <button
                   buttonText="Delete"
                   onClick={() => handleDelete(kanbanBoard.board_id)}
                   ariaLabel="Button for deleting a Kanban board"
-                  additionalClasses="bg-red-500 hover:bg-red-700"
-                />
+                  className="bg-rose-300 text-black border border-transparent hover:bg-rose-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
+                >
+                Delete
+                </button>
               </div>
             </li>
           </div>
