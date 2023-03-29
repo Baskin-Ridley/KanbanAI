@@ -134,7 +134,8 @@ const Headers = ({ board_id }) => {
       });
   };
 
-  const handleDeleteHeader = (headerId) => {
+  const handleDeleteHeader = (event, headerId) => {
+    event.stopPropagation();
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const headerToDelete = headers[headerIndex];
     const headerIdToDelete = headerToDelete.id.split("-")[1];
@@ -319,16 +320,16 @@ const Headers = ({ board_id }) => {
                               }}
                             />
                           ) : (
-                            <div onClick={() => setEditingHeaderName(id)} tabIndex="0">
+                            <div onClick={() => setEditingHeaderName(id)} tabIndex="0" className="flex items-center">
                               <h2 className="text-lg font-bold text-blue-700 mb-2 hover:cursor-pointer">{name}</h2>
+                              <button
+                                className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-rose-300 px-2 py-1 text-white hover:bg-rose-600 hover:text-white"
+                                onClick={(event) => handleDeleteHeader(event,id)}
+                              >
+                                X
+                              </button>
                             </div>
                           )}
-                        <button
-                          className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-red-500 px-2 py-1 text-white hover:bg-black hover:text-white"
-                          onClick={() => handleDeleteHeader(id)}
-                        >
-                          X
-                        </button>
                       </div>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
