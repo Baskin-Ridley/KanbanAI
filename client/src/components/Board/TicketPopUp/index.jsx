@@ -234,11 +234,21 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
-                    <Form_Button
-                      buttonText="Open AI Testing"
-                      ariaLabel="Button for saving the ticket changes"
-                      onClick={openGenerate}
-                    />
+                    <div className="flex justify-center items-center">
+                      <div
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-200 max-w-max flex justify-center items-center`}
+                        onClick={() => {
+                          setIsGenerateOpen(!isGenerateOpen);
+                        }}
+                      >
+                        <div className="mt-2 mb-2 flex flex-col items-center justify-center">
+                          {isGenerateOpen
+                            ? "Close AI Testing"
+                            : "Open AI Testing"}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
                       <div className={`flex flex-row p-2 gap-2 justify-center`}>
                         <p>
