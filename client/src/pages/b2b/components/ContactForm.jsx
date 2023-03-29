@@ -10,6 +10,19 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    fetch("http://localhost:5000/email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        person: name,
+        company: company,
+        email: email,
+        body: message,
+      }),
+    });
   };
 
   return (
