@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => (
   <footer className="p-2 text-center text-xs w-full bg-gray-800 text-white">
