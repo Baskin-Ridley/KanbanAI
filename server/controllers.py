@@ -384,10 +384,10 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_admin, ticket.title, "closed", user_name, "")
+        sendMail(kanban_admin, ticket.title, "closed", user_name, "","","")
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "")
+        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "","","")
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -488,10 +488,15 @@ def log_changes(username,body):
 
 def email_from_form():
     data = request.get_json()
-    body = data["body"]
+    body = data.get("body")
+    customer = data.get("email")
+    person = data.get("person")
+    company = data.get("company")
 
+    print(customer,person,company)
     try:
-        sendMail("app.builtdifferent.info@gmail.com", " ", " "," ", body)
-        return 'Sent'
+        sendMail("app.builtdifferent.info@gmail.com", " ", ""," ", body, "","")
+        sendMail(customer, " ", "customer","", "", person,company)
+        return 'Sent', 200
     except Exception as e:
-        return jsonify(e)
+        return jsonify(e), 400
