@@ -11,6 +11,47 @@ function TicketPopUp(props) {
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
 
+  // Test functionality
+  const [technologies, setTechnologies] = useState('Python');
+  const [testFramework, setTestFramework] = useState('pytest');
+  const [functionToTest, setFunctionToTest] = useState('function add(a, b) {\n  return a + b;\n}');
+  const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
+
+    // Test functionality
+  const sanitizeInput = (input) => {
+    // Remove any leading/trailing white space
+    let sanitizedInput = input.trim();
+    // Replace any tabs with two spaces
+    sanitizedInput = sanitizedInput.replace(/\t/g, '  ');
+    // Replace any consecutive spaces with two spaces
+    sanitizedInput = sanitizedInput.replace(/ +/g, ' ');
+    // Replace any line breaks with a '\n' character
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
+    return sanitizedInput;
+  };
+
+    // Test functionality
+  const handleGenerateTests = async (event) => {
+    event.preventDefault();
+    const sanitizedTechnologies = sanitizeInput(technologies);
+    const sanitizedTestFramework = sanitizeInput(testFramework);
+    const sanitizedFunctionToTest = sanitizeInput(functionToTest);
+    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        technologies: sanitizedTechnologies,
+        test_framework: sanitizedTestFramework,
+        function_to_test: sanitizedFunctionToTest,
+        test_generated_test: sanitisedGeneratedTest
+      }),
+    };
+    const response = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const data = await response.json();
+    setTestsForFunction(data.tests_for_function);
+  };
+
   function openGenerate() {
     setIsGenerateOpen(!isGenerateOpen);
     clg("openGenerate");
@@ -59,39 +100,38 @@ function TicketPopUp(props) {
     });
   };
 
-  // Test functionality
-  const sanitiseInput = (input) => {
-    let sanitizedInput = input.trim();
-    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
-    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
-    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
-    return sanitizedInput;
-  };
+  // // Test functionality
+  // const sanitiseInput = (input) => {
+  //   let sanitizedInput = input.trim();
+  //   sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
+  //   sanitizedInput = sanitizedInput.replace(/ +/g, " ");
+  //   sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
+  //   return sanitizedInput;
+  // };
 
   const handleSubmit = async (event) => {
     console.log(matchingTicket);
     event.preventDefault();
     // Test functionality
-    const sanitisedTechnologies = sanitiseInput(editedTicket.test_technologies);
-    const sanitisedTestFramework = sanitiseInput(
-      editedTicket.test_testing_framework
-    );
-    const sanitisedFunctionToTest = sanitiseInput(editedTicket.test_function);
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        technologies: sanitisedTechnologies,
-        test_framework: sanitisedTestFramework,
-        function_to_test: sanitisedFunctionToTest,
-      }),
-    };
-    const response = await fetch(
-      "http://localhost:5000/ai-test",
-      requestOptions
-    );
-    const data = await response.json();
-    const newlyGeneatedTest = data.tests_for_function;
+    const sanitisedTechnologies = sanitizeInput(editedTicket.test_technologies);
+    const sanitisedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
+    const sanitisedFunctionToTest = sanitizeInput(editedTicket.test_function);
+    const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     technologies: sanitisedTechnologies,
+    //     test_framework: sanitisedTestFramework,
+    //     function_to_test: sanitisedFunctionToTest,
+    //   }),
+    // };
+    // const response = await fetch(
+    //   "http://localhost:5000/ai-test",
+    //   requestOptions
+    // );
+    // const data = await response.json();
+    // const newlyGeneatedTest = data.tests_for_function;
     // Add await before fetch
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
@@ -108,7 +148,7 @@ function TicketPopUp(props) {
           test_technologies: sanitisedTechnologies,
           test_testing_framework: sanitisedTestFramework,
           test_function: sanitisedFunctionToTest,
-          test_generated_test: newlyGeneatedTest,
+          test_generated_test: sanitisedGeneratedTest,
         }),
       }
     )
@@ -263,7 +303,7 @@ function TicketPopUp(props) {
                       </div>
                       <Form_Button
                         buttonText="Generate Tests"
-                        // onClick={closeModal}
+                        onChange={handleGenerateTests}
                         ariaLabel="Button for generating tests"
                       />
                     </div>
