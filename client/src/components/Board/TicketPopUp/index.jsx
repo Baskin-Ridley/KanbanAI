@@ -49,6 +49,7 @@ function TicketPopUp(props) {
 
   const closeModal = () => {
     props.setIsOpen(false);
+    setTestsForFunction("");
   };
 
   useEffect(() => {
