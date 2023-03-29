@@ -258,8 +258,8 @@ def update_positions_by_board_route(kanban_board_id):
 
 @app.route("/email", methods=['GET'])
 def index():
-    msg = Message('Hello', sender='shorizon1234@gmail.com',
-                  recipients=['shodeb123@gmail.com'])
+    msg = Message('Thanks for your interest in Kanban AI!', sender='shorizon1234@gmail.com',
+                  recipients='gabrielbaskinridley@gmail.com')
     msg.body = 'Hello Flask message sent from Flask-Mail'
 
     try:
