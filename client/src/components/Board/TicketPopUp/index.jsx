@@ -10,6 +10,22 @@ function TicketPopUp(props) {
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
+  const [testsForFunction, setTestsForFunction] = useState(
+    "Your tests will appear here"
+  );
+
+  // Test functionality
+  const sanitizeInput = (input) => {
+    // Remove any leading/trailing white space
+    let sanitizedInput = input.trim();
+    // Replace any tabs with two spaces
+    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
+    // Replace any consecutive spaces with two spaces
+    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
+    // Replace any line breaks with a '\n' character
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
+    return sanitizedInput;
+  };
 
   function openGenerate() {
     setIsGenerateOpen(!isGenerateOpen);
@@ -58,41 +74,37 @@ function TicketPopUp(props) {
       [name]: value,
     });
   };
-
-  // Test functionality
-  const sanitiseInput = (input) => {
-    let sanitizedInput = input.trim();
-    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
-    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
-    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
-    return sanitizedInput;
-  };
-
   const handleSubmit = async (event) => {
-    console.log(matchingTicket);
+    console.log("matchingTicket:", matchingTicket);
     event.preventDefault();
+
     // Test functionality
-    const sanitisedTechnologies = sanitiseInput(editedTicket.test_technologies);
-    const sanitisedTestFramework = sanitiseInput(
+    const sanitizedTechnologies = sanitizeInput(editedTicket.test_technologies);
+    const sanitizedTestFramework = sanitizeInput(
       editedTicket.test_testing_framework
     );
-    const sanitisedFunctionToTest = sanitiseInput(editedTicket.test_function);
+    const sanitizedFunctionToTest = sanitizeInput(editedTicket.test_function);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        technologies: sanitisedTechnologies,
-        test_framework: sanitisedTestFramework,
-        function_to_test: sanitisedFunctionToTest,
+        technologies: sanitizedTechnologies,
+        test_framework: sanitizedTestFramework,
+        function_to_test: sanitizedFunctionToTest,
       }),
     };
+<<<<<<< HEAD
     const response = await fetch(
       "https://built-differently-backend.onrender.com/ai-test",
+=======
+    const responseTest = await fetch(
+      "http://localhost:5000/ai-test",
+>>>>>>> fa7124a889278baea7753ad3b6cb6a91e42cd9a9
       requestOptions
     );
-    const data = await response.json();
-    const newlyGeneatedTest = data.tests_for_function;
-    // Add await before fetch
+    const dataTest = await responseTest.json();
+    setTestsForFunction(dataTest.tests_for_function);
+
     await fetch(
       `https://built-differently-backend.onrender.com/kanban-tickets/${matchingTicket.ticket_id}`,
       {
@@ -104,23 +116,24 @@ function TicketPopUp(props) {
           title: editedTicket.ticket_title,
           content: editedTicket.ticket_content,
           ticket_status: editedTicket.ticket_status,
-          // Test functionality
-          test_technologies: sanitisedTechnologies,
-          test_testing_framework: sanitisedTestFramework,
-          test_function: sanitisedFunctionToTest,
-          test_generated_test: newlyGeneatedTest,
+          test_technologies: editedTicket.test_technologies,
+          test_testing_framework: editedTicket.test_testing_framework,
+          test_function: editedTicket.test_function,
+          test_generated_test: editedTicket.test_generated_test,
         }),
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        setEditedTicket(data);
         console.log("Ticket updated:", data);
+        setEditedTicket(data);
         closeModal();
         props.fetchData();
       })
       .catch((error) => console.error(error));
   };
+
+  console.log(props.headers);
 
   function deleteTicket() {
     console.log(matchingTicket);
@@ -129,9 +142,25 @@ function TicketPopUp(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        props.setHeaders((prevHeaders) => {
+          const newHeaders = prevHeaders.map((header) => {
+            const newItems = header.items.filter(
+              (item) => item.id !== `item-${matchingTicket.ticket_id}`
+            );
+            console.log(newItems);
+            return {
+              ...header,
+              items: newItems,
+            };
+          });
+          props.updatePositions(newHeaders);
+          return newHeaders;
+        });
         console.log("Ticket deleted:", data);
         closeModal();
-        props.fetchData();
+      })
+      .catch((error) => {
+        console.error("Error deleting ticket: ", error);
       });
   }
 
@@ -160,30 +189,31 @@ function TicketPopUp(props) {
                         onClick={deleteTicket}
                       />
                     </h2>
-                    <div className="flex flex-row gap-2">
-                      <p className="text-gray-700 mb-2">
-                        <Form_Textarea
+                    <div className="flex flex-row gap-2 justify-center">
+                      <p className="text-gray-700 mb-2 w-full">
+                        <Form_Input
+                          type="text"
                           value={editedTicket.ticket_content}
                           onChange={handleInputChange}
                           formElementId="ticket_content"
                           ariaLabel="Textarea for inputting the ticket content"
                           label="Content:"
                         />
-                        <p className="text-gray-700 mb-2">
-                          <Form_DropDown
-                            label="Status:"
-                            value={editedTicket.ticket_status}
-                            onChange={handleInputChange}
-                            formElementId="ticket_status"
-                            ariaLabel="List to select the task status from"
-                            listOptions={[
-                              "To do",
-                              "In Progress",
-                              "Done",
-                              "Blocked",
-                            ]}
-                          />
-                        </p>
+                      </p>
+                      <p className="text-gray-700 mb-2 w-full">
+                        <Form_DropDown
+                          label="Status:"
+                          value={editedTicket.ticket_status}
+                          onChange={handleInputChange}
+                          formElementId="ticket_status"
+                          ariaLabel="List to select the task status from"
+                          listOptions={[
+                            "To do",
+                            "In Progress",
+                            "Done",
+                            "Blocked",
+                          ]}
+                        />
                       </p>
                     </div>
                     <div className="flex flex-row justify-center">
@@ -209,13 +239,25 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
-                    <Form_Button
-                      buttonText="Open AI Testing"
-                      ariaLabel="Button for saving the ticket changes"
-                      onClick={openGenerate}
-                    />
+                    <div className="flex justify-center items-center">
+                      <div
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-200 max-w-max flex justify-center items-center`}
+                        onClick={() => {
+                          setIsGenerateOpen(!isGenerateOpen);
+                        }}
+                      >
+                        <div className="mt-2 mb-2 flex flex-col items-center justify-center">
+                          {isGenerateOpen
+                            ? "Close AI Testing"
+                            : "Open AI Testing"}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
-                      <div className={`flex flex-row p-2 gap-2`}>
+                      <div
+                        className={`m-2 w-20 flex flex-row p-2 gap-2 justify-center`}
+                      >
                         <p>
                           <Form_Input
                             label="Technologies:"
@@ -230,20 +272,18 @@ function TicketPopUp(props) {
                           <Form_Input
                             label="Test Framework:"
                             type="text"
-                            value={editedTicket.test_framework}
+                            value={editedTicket.test_testing_framework}
                             onChange={handleInputChange}
                             formElementId="test_testing_framework"
                             ariaLabel="Field for input of test framework"
                           />
                         </p>
                       </div>
-                      <div className="flex flex-row p-2 gap-2">
+                      <div className="flex flex-row p-2 gap-2 justify-center">
                         <p>
                           <Form_Textarea
                             label="Function to Test:"
                             value={editedTicket.test_function}
-                            // value={functionToTest}
-                            // onChange={(e) => setFunctionToTest(e.target.value)}
                             onChange={handleInputChange}
                             formElementId="test_function"
                             ariaLabel="Textarea in which to write the function to test"
@@ -252,24 +292,25 @@ function TicketPopUp(props) {
                         <p>
                           <Form_Textarea
                             label="Tests for Function:"
-                            value={editedTicket.test_generated_test}
-                            // value={testsForFunction}
-                            // onChange={(e) => setTestsForFunction(e.target.value)}
+                            // value={editedTicket.test_generated_test}
+                            value={testsForFunction}
                             onChange={handleInputChange}
                             formElementId="test_generated_test"
                             ariaLabel="Textarea in which generated tests are displayed"
                           />
                         </p>
                       </div>
-                      <Form_Button
+                      {/* <Form_Button
                         buttonText="Generate Tests"
-                        // onClick={closeModal}
+                        // onClick={handleGenerateTest}
+                        formElementId="button-generate-test"
                         ariaLabel="Button for generating tests"
-                      />
+                      /> */}
                     </div>
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
+                      additionalClasses="w-20 m-1"
                     />
                   </form>
                 ) : (
@@ -279,6 +320,7 @@ function TicketPopUp(props) {
                   buttonText="Close"
                   onClick={closeModal}
                   ariaLabel="Button for closing modal popup view"
+                  additionalClasses="w-20 m-1"
                 />
               </div>
             </div>

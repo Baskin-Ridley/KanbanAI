@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board, get_kanban_boards_with_super, email_from_form
 # create_user
 
 
@@ -69,6 +69,7 @@ def ai_test():
         temperature=1,
         # temperature=0.5,
     )
+
     tests_for_function = response.choices[0].text.strip()
     print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
@@ -167,9 +168,15 @@ def get_kanban_boards_route(user_id):
     return get_kanban_boards(user_id)
 
 
+@app.route('/users/<string:super_user_name>/kanban_boards', methods=['GET'])
+def get_kanban_boards_route_with_super(super_user_name):
+    return get_kanban_boards_with_super(super_user_name)
+
+
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
 def get_kanban_board_route(kanban_board_id):
     return get_kanban_board(kanban_board_id)
+
 
 @ app.route('/kanban-boards/', methods=['POST'])
 def create_kanban_board_route():
@@ -240,12 +247,10 @@ def delete_kanban_header_by_board_route(kanban_board_id, header_id):
     return delete_kanban_header_by_board(kanban_board_id, header_id)
 
 
-#Gantt chart fetch for kanban tasks
+# Gantt chart fetch for kanban tasks
 
 @app.route('/kanban-board/')
-
 # POSITIONS
-
 @ app.route('/kanban-board/<int:kanban_board_id>/positions', methods=['GET'])
 def get_positions_by_board_route(kanban_board_id):
     return get_positions_by_board(kanban_board_id)
@@ -255,18 +260,19 @@ def get_positions_by_board_route(kanban_board_id):
 def update_positions_by_board_route(kanban_board_id):
     return update_positions_by_board(kanban_board_id)
 
+<<<<<<< HEAD
 
 @app.route("/email", methods=['GET'])
 def index():
     msg = Message('Hello', sender='shorizon1234@gmail.com',
                   recipients=['shodeb123@gmail.com'])
     msg.body = 'Hello Flask message sent from Flask-Mail'
+=======
+>>>>>>> fa7124a889278baea7753ad3b6cb6a91e42cd9a9
 
-    try:
-        mail.send(msg)
-        return 'Sent'
-    except Exception as e:
-        return jsonify(e)
+@app.route("/email", methods=['POST'])
+def send_email():
+    return email_from_form()
 
 
 if __name__ == '__main__':

@@ -18,7 +18,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login({ username, password });
-      navigate("/dashboard");
+      navigate("/all-boards");
     } catch (err) {
       setError("Invalid username or password");
     }
@@ -27,8 +27,8 @@ const LoginPage = () => {
   return (
     <main className="flex flex-col items-center justify-center">
       <Message message={error} type="error" />
-      <form onSubmit={handleLogin}>
-        <h2 className="text-3xl font-bold mb-8 m-12 text-center">Login</h2>
+        <h2 className="text-3xl font-bold m-2 text-center">Login</h2>
+      <form onSubmit={handleLogin} className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
         <Form_Input
           label="Username:"
           type="text"
@@ -45,16 +45,11 @@ const LoginPage = () => {
           formElementId="login-field-password"
           ariaLabel="Field in which to input the password"
         />
-        <Form_Button buttonText="Login" formElementId="login-page-button-login" ariaLabel="Button for logging in" />
-        <div className="mb-4 text-center">
-          <br />
-          <p className="text-sm text-gray-600 mr-2">
-            Don't have an account?
-          </p>
-          <CustomLink to="/register">
-            <Form_Button buttonText="Register" formElementId="login-page-button-register" ariaLogin="Button for registering" />
-          </CustomLink>
-        </div>
+        <Form_Button
+          buttonText="Login"
+          formElementId="login-page-button-login"
+          ariaLabel="Button for logging in"
+        />
       </form>
     </main>
   );

@@ -12,22 +12,6 @@ const tasks = {
   ],
 };
 
-gantt.config.priority = {
-  low: "#C6EFCE",
-  medium: "#FFEB9C",
-  high: "#F2B1AE",
-};
-
-gantt.attachEvent("onTaskLoading", function (task) {
-  if (task.priority == "high") {
-    task.color = gantt.config.priority.high;
-  } else if (task.priority == "medium") {
-    task.color = gantt.config.priority.medium;
-  } else {
-    task.color = gantt.config.priority.low;
-  }
-});
-
 const Chart = () => {
   const [ganttBoard, setGanttBoard] = useState();
   const [ganttData, setGanttData] = useState([]);
@@ -62,6 +46,14 @@ const Chart = () => {
     );
 
     let ticketsArray = [];
+    let response = await fetch(
+      `http://localhost:5000/kanban-boards/${id}/tickets`
+    );
+    let data = await response.json();
+    console.log(data);
+    let filteredData = data.filter(
+      (ticket) => ticket.user_assigned === user.id
+    );
 
     for (let task of filteredData) {
       let deltaDate;
@@ -79,11 +71,14 @@ const Chart = () => {
         text: task.ticket_content,
         start_date: changeDate(task, "start"),
         duration: deltaDate,
+        status: task.ticket_status,
       };
 
       ticketsArray.push(new_ticket);
-    }
 
+      ticketsArray.push(new_ticket);
+    }
+    console.log(ticketsArray);
     setBoardTasks(ticketsArray);
   };
 
@@ -104,22 +99,23 @@ const Chart = () => {
     return formattedDate;
   };
 
-  // { data: boardTasks }
+  //
   useEffect(() => {
-    // gantt.templates.task_class = (start, end, task) => {
-    //   if (task.data.status === 'closed') {
-    //     return 'closed-task';
-    //   }
-    //   return '';
-    // };
+    gantt.templates.task_class = (start, end, task) => {
+      if (task.status === "closed") {
+        return "closed-task";
+      }
+      return "";
+    };
 
+    gantt.clearAll();
     gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
     gantt.init("gantt-chart");
     gantt.parse({ data: boardTasks });
     gantt.attachEvent("onReady", () => {
       gantt.config.editable = false;
     });
-  }, [handleTasks]);
+  }, [boardTasks]);
 
   return (
     <>
