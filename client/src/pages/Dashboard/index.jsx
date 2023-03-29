@@ -21,7 +21,7 @@ const Dashboard = () => {
             <div className='col-4 w-1/2 p-4'>
               <div className='left-container'>
                 <h3>Notifications:</h3>
-                <div className='Card'>
+                <div className='Card w-full'>
                   {user && <Notification />}
                 </div>
                 <div className='Card'>
