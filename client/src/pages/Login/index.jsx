@@ -18,7 +18,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login({ username, password });
-      navigate("/dashboard");
+      navigate("/all-boards");
     } catch (err) {
       setError("Invalid username or password");
     }
@@ -45,14 +45,20 @@ const LoginPage = () => {
           formElementId="login-field-password"
           ariaLabel="Field in which to input the password"
         />
-        <Form_Button buttonText="Login" formElementId="login-page-button-login" ariaLabel="Button for logging in" />
+        <Form_Button
+          buttonText="Login"
+          formElementId="login-page-button-login"
+          ariaLabel="Button for logging in"
+        />
         <div className="mb-4 text-center">
           <br />
-          <p className="text-sm text-gray-600 mr-2">
-            Don't have an account?
-          </p>
+          <p className="text-sm text-gray-600 mr-2">Don't have an account?</p>
           <CustomLink to="/register">
-            <Form_Button buttonText="Register" formElementId="login-page-button-register" ariaLogin="Button for registering" />
+            <Form_Button
+              buttonText="Register"
+              formElementId="login-page-button-register"
+              ariaLogin="Button for registering"
+            />
           </CustomLink>
         </div>
       </form>
