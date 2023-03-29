@@ -90,19 +90,21 @@ class Kanban_Header(db.Model):
 class Kanban_Board(db.Model):
     __tablename__ = 'kanban_board'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(
         'user.id'), name='kanban_board_user_id', nullable=False)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
     board_users = db.Column(db.JSON, nullable=True)
     positions = db.relationship(
-        "Positions", back_populates="kanban_board", uselist=False)
-    headers = relationship("Kanban_Header", back_populates="kanban_board")
-    tickets = relationship("Kanban_Ticket", back_populates="kanban_board")
+        "Positions", back_populates="kanban_board", uselist=False, cascade="all, delete-orphan")
+    headers = relationship("Kanban_Header", back_populates="kanban_board", cascade="all, delete-orphan")
+    tickets = relationship("Kanban_Ticket", back_populates="kanban_board", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
             "board_id": self.id,
+            "name": self.name,
             "board_creator_id": self.user_id,
             "start_time": self.start_time,
             "board_users": self.board_users,

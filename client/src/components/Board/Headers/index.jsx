@@ -13,6 +13,12 @@ const Headers = ({ board_id }) => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [responseData, setResponseData] = useState("");
 
+  if (isOpen || isOpenCreate) {
+    document.body.style.overflowY = "hidden";
+  } else {
+    document.body.style.overflowY = "auto";
+  }
+
   function handleTicketClick(ticketContent) {
     setSelectedTicket(ticketContent.content);
     setIsOpen(true);
@@ -43,14 +49,13 @@ const Headers = ({ board_id }) => {
         return response.json();
       })
       .then((data) => {
-        console.log("Header positions updated successfully", data);
+        // console.log("Header positions updated successfully", data);
       })
       .catch((error) => {
         console.error("Error updating header positions:", error);
         alert("Failed to update header positions");
       });
   };
-
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
@@ -101,7 +106,7 @@ const Headers = ({ board_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: newHeaderName }),
-    })
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
@@ -127,13 +132,38 @@ const Headers = ({ board_id }) => {
         console.error("Error creating a new header:", error);
         alert("Failed to create a new header");
       });
-    // addSubItemToHeader()
+  };
+
+  const handleDeleteHeader = (headerId) => {
+    const headerIndex = headers.findIndex((header) => header.id === headerId);
+    const headerToDelete = headers[headerIndex];
+    const headerIdToDelete = headerToDelete.id.split("-")[1];
+
+    fetch(
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete the header");
+        }
+        return response.json();
+      })
+      .then(() => {
+        const newHeaders = headers.filter((_, index) => index !== headerIndex);
+        setHeaders(newHeaders);
+      })
+      .catch((error) => {
+        console.error("Error deleting the header:", error);
+        alert("Failed to delete the header");
+      });
   };
 
   useEffect(() => {
     updatePositions(headers);
   }, [headers]);
-
 
   useEffect(() => {
     setNewItemNames(headers.map(() => ""));
@@ -174,6 +204,45 @@ const Headers = ({ board_id }) => {
     }
   };
 
+  const [editingHeaderName, setEditingHeaderName] = useState(null);
+
+  const handleHeaderNameEdit = (headerId, newName) => {
+    const headerIndex = headers.findIndex((header) => header.id === headerId);
+    const headerToEdit = headers[headerIndex];
+    const headerIdToEdit = headerToEdit.id.split("-")[1];
+  
+    fetch(
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToEdit}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: newName }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update the header name");
+        }
+        return response.json();
+      })
+      .then(() => {
+        const newHeaders = [...headers];
+        newHeaders[headerIndex] = {
+          ...headerToEdit,
+          name: newName,
+        };
+        setHeaders(newHeaders);
+      })
+      .catch((error) => {
+        console.error("Error updating the header name:", error);
+        alert("Failed to update the header name");
+      })
+      .finally(() => {
+        setEditingHeaderName(null);
+      });
+  };
 
   return (
     <div>
@@ -213,17 +282,58 @@ const Headers = ({ board_id }) => {
                 <Draggable key={id} draggableId={id} index={index}>
                   {(provided) => (
                     <div
-                      className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2 "
+                      className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 "
                       // className="w-64 min-h-[50px] bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <h2 className="text-lg font-bold mb-2">{name}</h2>
+                      <div className="flex justify-center items-center">
+                      {/* <div className="flex flex-grow-1 justify-between items-center"> */}
+                      {editingHeaderName === id ? (
+                            <Form_Input
+                              type="text"
+                              value={name}
+                              tabIndex={0}
+                              onChange={(e) =>
+                                setHeaders((prevState) =>
+                                  prevState.map((header) =>
+                                    header.id === id ? { ...header, name: e.target.value } : header
+                                  )
+                                )
+                              }
+                              onBlur={(e) => {
+                                setTimeout(() => handleHeaderNameEdit(id, e.target.value), 100);
+                              }}
+                              onKeyDown={(e) => {
+                                console.log(e.key)
+                                if (e.key === "Escape") {
+                                  setEditingHeaderName(null);
+                                  e.target.blur();
+                                } else if (e.key === "Enter") {
+                                  handleHeaderNameEdit(id, e.target.value);
+                                  e.preventDefault();
+                                  e.target.blur();
+                                }
+                              }}
+                            />
+                          ) : (
+                            <div onClick={() => setEditingHeaderName(id)} tabIndex="0">
+                              <h2 className="text-lg font-bold mb-2 hover:cursor-pointer">{name}</h2>
+                            </div>
+                          )}
+                        <button
+                          className="w-20-% mb-2 ml-2 h-8 rounded-md bg-red-500 px-2 py-1 text-white hover:bg-black hover:text-white"
+                          onClick={() => handleDeleteHeader(id)}
+                        >
+                          Delete
+                        </button>
+                      {/* </div> */}
+                      </div>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
                           <div
-                            className="min-h-20 p-2 bg-gray-100 rounded-lg border-dashed border-transparent hover:border-gray-400 hover:bg-gray-200 transition-colors duration-150"
+                            className="min-h-20 rounded-lg border-dashed border-transparent bg-gray-100 p-2 transition-colors duration-150 hover:border-gray-400 hover:bg-blue-200"
                             ref={provided.innerRef}
                             {...provided.droppableProps}
                           >
@@ -235,7 +345,7 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className="bg-white rounded-md py-2 px-4 mb-2 text-sm shadow-md hover:bg-blue-500 hover:text-white transition-colors duration-150"
+                                    className={`mb-2 rounded-md bg-white py-2 px-4 text-sm shadow-md transition-colors duration-150 hover:bg-blue-300 hover:text-white ${!content && 'hidden'}`}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
@@ -268,7 +378,7 @@ const Headers = ({ board_id }) => {
               >
                 {(provided) => (
                   <div
-                    className="w-64 bg-gray-200 border border-gray-400 rounded-lg px-2 py-3 m-2"
+                    className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}

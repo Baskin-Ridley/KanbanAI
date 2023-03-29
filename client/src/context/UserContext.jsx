@@ -6,6 +6,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [stackView, setStackView] = useState(false);
   const [gitView, setGitView] = useState(false);
+  const [ganttView, setGanttView] = useState(false);
 
   const login = async (userData) => {
     const url = "http://localhost:5000/login";
@@ -74,7 +75,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, register, register_member, stackView, setStackView, gitView, setGitView }}>
+    <UserContext.Provider value={{ user, login, logout, register, register_member, stackView, setStackView, gitView, setGitView, ganttView, setGanttView }}>
       {children}
     </UserContext.Provider>
   );

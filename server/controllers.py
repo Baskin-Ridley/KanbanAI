@@ -6,7 +6,7 @@ from datetime import datetime
 from mail import *
 from flask_mail import Mail, Message
 from flask import Flask
-import datetime
+from datetime import datetime
 
 
 email = Flask(__name__)
@@ -171,7 +171,7 @@ def login():
             'isSuper': False
         }
 
-    body = f"logged in at time: {datetime.datetime.now().replace(microsecond=0)}"
+    body = f"logged in at time: {datetime.utcnow().replace(microsecond=0)}"
     log_changes(user.username, body)
     return jsonify(user_data), 200
 
@@ -245,6 +245,7 @@ def delete_user(user_id):
 
 
 def create_kanban_board():
+    data = request.get_json()
     user_id = request.json.get('user_id')
     start_time = datetime.utcnow()
     end_time = None
@@ -252,12 +253,12 @@ def create_kanban_board():
     if not user:
         return jsonify({'error': 'User not found'}), 404
     kanban_board = Kanban_Board(
-        user_id=user_id, start_time=start_time, end_time=end_time)
+        user_id=user_id, name=data['name'], start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
     
-    body = f"created a kanban board at time: {datetime.datetime.now().replace(microsecond=0)}"
-    log_changes(user.username, body)
+    body = f"created a kanban board at time: {datetime.utcnow().replace(microsecond=0)}"
+    # log_changes(user.username, body)
 
     return jsonify(kanban_board.serialize()), 201
 
@@ -292,7 +293,7 @@ def update_kanban_board(kanban_board_id):
 
 
 def delete_kanban_board(kanban_board_id):
-    kanban_board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
+    kanban_board = Kanban_Board.query.get(kanban_board_id)
     if kanban_board is None:
         return jsonify({'error': 'Kanban board not found.'}), 404
     db.session.delete(kanban_board)
@@ -397,6 +398,17 @@ def create_kanban_header(kanban_board_id):
 def get_kanban_headers_by_board(kanban_board_id):
     headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([header.serialize() for header in headers]), 200
+
+def update_kanban_headers_by_board(kanban_board_id, header_id):
+    header = Kanban_Header.query.get(header_id)
+    if not header:
+        return jsonify({'error': 'Kanban header not found'}), 404
+    data = request.get_json()
+    if 'name' in data:
+        header.name = data['name']
+    db.session.commit()
+    return jsonify({'success': f'Kanban header updated successfully with the new name: {header.name}.'})
+
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):

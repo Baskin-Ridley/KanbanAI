@@ -15,8 +15,8 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-gray-800">
-      <ul className="flex items-center justify-between max-w-6xl mx-auto px-4 py-2 w-1/3">
+    <nav className="bg-gray-800" >
+      <ul className="flex items-center justify-between space-x-4 max-w-screen-xl mx-auto px-4 py-2 w-1/3">
         {user ? (
           <>
             <li>
@@ -40,6 +40,11 @@ const Navigation = () => {
         ) : (
           <>
             <li>
+              <Form_Button
+                buttonText={"Kanban AI"}
+              />
+            </li>
+            <li>
               <CustomLink to="/">Home</CustomLink>
             </li>
             <li>
@@ -48,6 +53,7 @@ const Navigation = () => {
             <li>
               <CustomLink to="/login">Login</CustomLink>
             </li>
+
           </>
         )}
       </ul>
