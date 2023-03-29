@@ -12,12 +12,12 @@ function TicketPopUp(props) {
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
 
   // Test functionality
-  const [technologies, setTechnologies] = useState('Python');
-  const [testFramework, setTestFramework] = useState('pytest');
-  const [functionToTest, setFunctionToTest] = useState('function add(a, b) {\n  return a + b;\n}');
+  const [technologies, setTechnologies] = useState();
+  const [testFramework, setTestFramework] = useState();
+  const [functionToTest, setFunctionToTest] = useState();
   const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
 
-    // Test functionality
+  // Test functionality
   const sanitizeInput = (input) => {
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
@@ -30,7 +30,7 @@ function TicketPopUp(props) {
     return sanitizedInput;
   };
 
-    // Test functionality
+  // Test functionality
   const handleGenerateTests = async (event) => {
     event.preventDefault();
     const sanitizedTechnologies = sanitizeInput(technologies);
@@ -100,15 +100,6 @@ function TicketPopUp(props) {
     });
   };
 
-  // // Test functionality
-  // const sanitiseInput = (input) => {
-  //   let sanitizedInput = input.trim();
-  //   sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
-  //   sanitizedInput = sanitizedInput.replace(/ +/g, " ");
-  //   sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
-  //   return sanitizedInput;
-  // };
-
   const handleSubmit = async (event) => {
     console.log(matchingTicket);
     event.preventDefault();
@@ -117,22 +108,7 @@ function TicketPopUp(props) {
     const sanitisedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
     const sanitisedFunctionToTest = sanitizeInput(editedTicket.test_function);
     const sanitisedGeneratedTest = sanitizeInput(editedTicket.test_generated_test);
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     technologies: sanitisedTechnologies,
-    //     test_framework: sanitisedTestFramework,
-    //     function_to_test: sanitisedFunctionToTest,
-    //   }),
-    // };
-    // const response = await fetch(
-    //   "http://localhost:5000/ai-test",
-    //   requestOptions
-    // );
-    // const data = await response.json();
-    // const newlyGeneatedTest = data.tests_for_function;
-    // Add await before fetch
+
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
       {
@@ -216,30 +192,31 @@ function TicketPopUp(props) {
                         onClick={deleteTicket}
                       />
                     </h2>
-                    <div className="flex flex-row gap-2">
-                      <p className="text-gray-700 mb-2">
-                        <Form_Textarea
+                    <div className="flex flex-row gap-2 justify-center">
+                      <p className="text-gray-700 mb-2 w-full">
+                        <Form_Input
+                          type="text"
                           value={editedTicket.ticket_content}
                           onChange={handleInputChange}
                           formElementId="ticket_content"
                           ariaLabel="Textarea for inputting the ticket content"
                           label="Content:"
                         />
-                        <p className="text-gray-700 mb-2">
-                          <Form_DropDown
-                            label="Status:"
-                            value={editedTicket.ticket_status}
-                            onChange={handleInputChange}
-                            formElementId="ticket_status"
-                            ariaLabel="List to select the task status from"
-                            listOptions={[
-                              "To do",
-                              "In Progress",
-                              "Done",
-                              "Blocked",
-                            ]}
-                          />
-                        </p>
+                      </p>
+                      <p className="text-gray-700 mb-2 w-full">
+                        <Form_DropDown
+                          label="Status:"
+                          value={editedTicket.ticket_status}
+                          onChange={handleInputChange}
+                          formElementId="ticket_status"
+                          ariaLabel="List to select the task status from"
+                          listOptions={[
+                            "To do",
+                            "In Progress",
+                            "Done",
+                            "Blocked",
+                          ]}
+                        />
                       </p>
                     </div>
                     <div className="flex flex-row justify-center">
