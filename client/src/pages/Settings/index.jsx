@@ -45,10 +45,10 @@ const Settings = () => {
 
   return (
     <>
-      <main className="flex flex-col items-center justify-center mx-auto m-2 w-1/5 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
+      <main className="flex flex-col items-center justify-center mx-auto">
         <h2 className="text-3xl font-bold m-2 text-center">Settings</h2>
         {message && <Message>{message}</Message>}
-        <form className="w-full max-w-md" onSubmit={(e) => handleSubmit(e)}>
+        <form className="max-w-md m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 " onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-4">
             <Form_Input label="New Password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} formElementId="password" ariaLabel="Field for inputting the password" />
           </div>

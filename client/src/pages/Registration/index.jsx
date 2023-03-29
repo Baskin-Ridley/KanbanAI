@@ -38,7 +38,7 @@ const Registration = () => {
     <main className="flex flex-col items-center justify-center">
       <Message message={errorMessage} type="error" />
       <h2 className="text-3xl font-bold m-2 text-center">Register</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 ">
         <Form_Input
           label="Username:"
           type="text"
