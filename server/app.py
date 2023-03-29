@@ -42,11 +42,13 @@ db.init_app(app)
 def notification(super_user_name):
     return get_Notifications(super_user_name)
 
+
 @app.route("/log", methods=['POST'])
 def log():
     username = request.get_json()['username']
-    body= request.get_json()['body']
-    return log_changes(username,body)
+    body = request.get_json()['body']
+    return log_changes(username, body)
+
 
 @app.route('/ai-test', methods=['POST'])
 def ai_test():
@@ -67,6 +69,7 @@ def ai_test():
         temperature=1,
         # temperature=0.5,
     )
+
     tests_for_function = response.choices[0].text.strip()
     print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
@@ -157,8 +160,6 @@ def delete_user_route(user_id):
     return delete_user(user_id)
 
 
-
-
 # Kanban Board routes
 
 
@@ -174,6 +175,7 @@ def get_kanban_boards_route_with_super(super_user_name):
 @ app.route('/kanban-boards/<int:kanban_board_id>', methods=['GET'])
 def get_kanban_board_route(kanban_board_id):
     return get_kanban_board(kanban_board_id)
+
 
 @ app.route('/kanban-boards/', methods=['POST'])
 def create_kanban_board_route():
@@ -233,6 +235,7 @@ def create_kanban_header_route(kanban_board_id):
 def get_kanban_headers_by_board_route(kanban_board_id):
     return get_kanban_headers_by_board(kanban_board_id)
 
+
 @ app.route('/kanban-board/<int:kanban_board_id>/kanban-headers/<int:header_id>', methods=['PUT'])
 def update_kanban_headers_by_board_route(kanban_board_id, header_id):
     return update_kanban_headers_by_board(kanban_board_id, header_id)
@@ -243,15 +246,14 @@ def delete_kanban_header_by_board_route(kanban_board_id, header_id):
     return delete_kanban_header_by_board(kanban_board_id, header_id)
 
 
-#Gantt chart fetch for kanban tasks
+# Gantt chart fetch for kanban tasks
 
 @app.route('/kanban-board/')
-
 # POSITIONS
-
 @ app.route('/kanban-board/<int:kanban_board_id>/positions', methods=['GET'])
 def get_positions_by_board_route(kanban_board_id):
     return get_positions_by_board(kanban_board_id)
+
 
 @ app.route('/kanban-board/<int:kanban_board_id>/positions', methods=['PUT'])
 def update_positions_by_board_route(kanban_board_id):

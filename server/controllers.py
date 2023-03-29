@@ -372,6 +372,15 @@ def update_kanban_ticket(kanban_ticket_id):
         ticket.start_time = data['start_time']
     if 'end_time' in data:
         ticket.end_time = data['end_time']
+    # Test functionality
+    if 'test_technologies' in data:
+        ticket.test_technologies = data['test_technologies']
+    if 'test_testing_framework' in data:
+        ticket.test_testing_framework = data['test_testing_framework']
+    if 'test_function' in data:
+        ticket.test_function = data['test_function']
+    if 'test_generated_test' in data:
+        ticket.test_generated_test = data['test_generated_test']
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
