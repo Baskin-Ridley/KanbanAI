@@ -26,29 +26,15 @@ const AdminChart = () => {
 
             const response = await fetch(`http://localhost:5000/users/${user.username}/kanban_boards`);
             const data = await response.json()
-            console.log(data)
             setUserBoard(data)
+
 
         }
 
         fetchUsers()
     }, [user.username])
 
-    useEffect(() => {
 
-        const fetchAllKanban = async () => {
-            let allKanbans = []
-            for (let item of userBoard) {
-                const response = await fetch(`http://localhost:5000/users/${item.id}/kanban_boards`);
-                const data = await response.json()
-                console.log(data)
-                allKanbans.append(data)
-
-            }
-        }
-
-        fetchAllKanban()
-    }, [user.id])
 
     // data should be ticket.id:,  ticket.content:, ticket.start_time:, duration( if ticket.status == closed ticket.start_time compare ticket.end_time) (else ticket.start_time compare Date.now())
 
@@ -117,40 +103,50 @@ const AdminChart = () => {
     // }
 
 
-    // //
-    // useEffect(() => {
-    //     gantt.templates.task_class = (start, end, task) => {
-    //         if (task.status === "closed") {
-    //             return "closed-task";
-    //         }
-    //         return "";
-    //     };
 
-    //     gantt.clearAll();
-    //     gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
-    //     gantt.init('gantt-chart');
-    //     gantt.parse({ data: boardTasks });
-    //     gantt.attachEvent('onReady', () => {
-    //         gantt.config.editable = false;
-    //     });
-    // }, [boardTasks]);
+    const handleNameClick = async (user_id) => {
+        console.log(user_id)
+        const response = await fetch(`http://localhost:5000/users/${user.id}/kanban_boards`);
+        const data = await response.json()
+        console.log(data)
+        setGanttBoard(data)
+    }
+
+    useEffect(() => {
+        // gantt.templates.task_class = (start, end, task) => {
+        //     if (task.status === "closed") {
+        //         return "closed-task";
+        //     }
+        //     return "";
+        // };
+
+        gantt.clearAll();
+        gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
+        gantt.init('gantt-chart');
+        gantt.parse(tasks);
+        gantt.attachEvent('onReady', () => {
+            gantt.config.editable = false;
+        });
+    }, [boardTasks]);
 
 
 
 
     return (
         <>
-            {/* <div className='chartCardContainer p-4 max-w-1/2'>
+            <div className='chartCardContainer p-4 max-w-1/2'>
                 <div className='w-full mx-auto justify-center text-center'>
                     <div className='wrapper-kanban-board text-black-900 font-semibold text-lg p-2 rounded'>
-                        <h3>Select the board:</h3>
+                        <h3>Select the user:</h3>
                         <ul className="flex flex-col items-center justify-center text-center">
-                            {ganttBoard && ganttBoard.map((e, i) => <> <button onClick={() => { handleTasks(e.board_id) }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
+                            {userBoard && userBoard.map((e, i) => (<> <button onClick={() => handleNameClick(e.user_id)}><li>user: {e.user_name}</li></button></>))}
+                            <br />
+                            {ganttBoard && ganttBoard.map((e, i) => <> <button onClick={() => { }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
                         </ul>
                     </div>
                 </div>
                 <div className="min-h-1/2 max-h-screen max-w-1/2 scroll-container overflow-x-auto" id="gantt-chart" style={{ width: '100%', height: '250px' }}></div>;
-            </div> */}
+            </div>
 
 
         </>
