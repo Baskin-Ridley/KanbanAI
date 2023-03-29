@@ -150,8 +150,8 @@ function AllBoards() {
               type="text"
               value={newBoardName}
               onChange={handleInputChange}
-              placeholder="Enter board name"
-              className="border rounded py-2 px-4 focus:outline-none focus:border-blue-500"
+              placeholder="Enter board name and hit Enter"
+              className="border bg-blue-100 rounded py-2 px-4 focus:outline-none focus:border-blue-500"
               autoFocus
             />
           </form>
