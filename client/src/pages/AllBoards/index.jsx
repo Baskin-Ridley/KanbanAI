@@ -99,8 +99,8 @@ function AllBoards() {
   
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-bold mb-3 m-2 text-center">
+    <main className="flex flex-col items-center justify-center mx-auto m-2 w-2/5 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
+      <h2 className="text-3xl font-bold m-2 text-center">
         All Kanban Boards
       </h2>
       <ul>
