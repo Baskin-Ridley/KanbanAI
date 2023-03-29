@@ -25,7 +25,6 @@ email.config['MAIL_USE_SSL'] = True
 
 
 def get_Notifications(super_user_name):
-    print("i am in")
     list = []
     data = Notification.query.filter_by(super_user_name=[[super_user_name]])
 
@@ -243,6 +242,24 @@ def delete_user(user_id):
 
 # Kanban_Board controller
 
+def get_kanban_boards_with_super(super_user_name):
+    list = []
+    user = User.query.filter_by(supervisors=[super_user_name])
+
+    for item in user:
+        print(item)
+        new_user= {
+           "user_id" : item.id,
+           "user_name": item.name,
+           "user_avatar": item.avatar,
+           "user_email": item.email
+        } 
+
+        list.append(new_user)
+
+
+    return jsonify(list),200
+   
 
 def create_kanban_board():
     data = request.get_json()

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import "./dashboard.css"
-import { Notification, UserWindow, LinkGenerator, Chart } from "../../components"
+import { Notification, UserWindow, LinkGenerator, AdminChart } from "../../components"
 import { Gantt } from 'dhtmlx-gantt/codebase/dhtmlxgantt';
 
 
@@ -35,7 +35,7 @@ const Dashboard = () => {
             <div className='col-8 w-1/2 p-4'>
               <div className='right-container'>
                 <h3>Gantt Chart:</h3>
-                {user.isSuper && <Chart />}
+                {user.isSuper && <AdminChart />}
               </div>
             </div>
           </div>
