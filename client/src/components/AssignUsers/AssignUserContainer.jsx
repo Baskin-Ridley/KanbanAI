@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import AssignUsers from "./AssignUsers";
+import imageOne from "./photos/1.png";
+import imageTwo from "./photos/2.png";
+import imageThree from "./photos/3.jpeg";
+import imageFour from "./photos/4.png";
 
 function AssignUsersContainer(matchingTicketId) {
   const [grayedOutMap, setGrayedOutMap] = useState(new Map());
@@ -14,18 +18,23 @@ function AssignUsersContainer(matchingTicketId) {
 
   const images = [
     {
-      imageSrc: "https://picsum.photos/id/237/200/200",
-      username: "User1",
+      imageSrc: imageOne,
+      username: "Sho",
       ticketId: matchingTicketId,
     },
     {
-      imageSrc: "https://picsum.photos/id/238/200/200",
-      username: "User2",
+      imageSrc: imageTwo,
+      username: "Kay",
       ticketId: matchingTicketId,
     },
     {
-      imageSrc: "https://picsum.photos/id/239/200/200",
-      username: "User3",
+      imageSrc: imageThree,
+      username: "Gabriel",
+      ticketId: matchingTicketId,
+    },
+    {
+      imageSrc: imageFour,
+      username: "Gabrielle",
       ticketId: matchingTicketId,
     },
   ];

@@ -250,7 +250,7 @@ function TicketPopUp(props) {
 
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
                       <div
-                        className={`m-2 w-20 flex flex-row p-2 gap-2 justify-center`}
+                        className={` flex flex-row p-2 gap-2 justify-center`}
                       >
                         <p>
                           <Form_Input
