@@ -250,7 +250,9 @@ function TicketPopUp(props) {
                     </div>
 
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
-                      <div className={`flex flex-row p-2 gap-2 justify-center`}>
+                      <div
+                        className={`m-2 w-20 flex flex-row p-2 gap-2 justify-center`}
+                      >
                         <p>
                           <Form_Input
                             label="Technologies:"
@@ -303,7 +305,7 @@ function TicketPopUp(props) {
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
-                      additionalClasses="w-20"
+                      additionalClasses="w-20 m-1"
                     />
                   </form>
                 ) : (
@@ -313,7 +315,7 @@ function TicketPopUp(props) {
                   buttonText="Close"
                   onClick={closeModal}
                   ariaLabel="Button for closing modal popup view"
-                  additionalClasses="w-20"
+                  additionalClasses="w-20 m-1"
                 />
               </div>
             </div>

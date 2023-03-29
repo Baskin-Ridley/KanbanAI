@@ -407,3 +407,8 @@ body {
 .gantt_tree_content{ 
     pointer-events: none;
 }
+
+  .closed-task .gantt_task_progress,
+  .closed-task .gantt_task_content {
+    background-color: red !important;
+  }
