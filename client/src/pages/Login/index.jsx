@@ -28,7 +28,7 @@ const LoginPage = () => {
     <main className="flex flex-col items-center justify-center">
       <Message message={error} type="error" />
       <form onSubmit={handleLogin}>
-        <h2 className="text-3xl font-bold mb-8 m-12 text-center">Login</h2>
+        <h2 className="text-3xl font-bold m-2 text-center">Login</h2>
         <Form_Input
           label="Username:"
           type="text"

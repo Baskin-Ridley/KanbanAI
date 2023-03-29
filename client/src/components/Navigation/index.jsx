@@ -11,11 +11,11 @@ const Navigation = () => {
   const handleLogout = (e) => {
     e.preventDefault();
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
-    <nav className="bg-gray-800" >
+    <nav className="bg-gray-800">
       <ul className="flex items-center justify-between space-x-4 max-w-screen-xl mx-auto px-4 py-2 w-1/3">
         {user ? (
           <>
@@ -40,20 +40,17 @@ const Navigation = () => {
         ) : (
           <>
             <li>
-              <Form_Button
-                buttonText={"Kanban AI"}
-              />
+              <Form_Button buttonText={"Kanban AI"} />
             </li>
-            <li>
+            {/* <li>
               <CustomLink to="/">Home</CustomLink>
-            </li>
+            </li> */}
             <li>
               <CustomLink to="/register">Register</CustomLink>
             </li>
             <li>
               <CustomLink to="/login">Login</CustomLink>
             </li>
-
           </>
         )}
       </ul>

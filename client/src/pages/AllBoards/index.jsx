@@ -37,7 +37,6 @@ function AllBoards() {
   const navigate = useNavigate();
 
   function handleDelete(id) {
-    console.log(id)
     fetch(`http://localhost:5000/kanban-boards/${id}`, { method: "DELETE" })
       .then((response) => {
         if (!response.ok) {
@@ -99,13 +98,15 @@ function AllBoards() {
   
 
   return (
-    <main className="flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-bold mb-3 m-2 text-center">
+    <div className="w-full mx-auto text-center">
+      <main className="flex flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
+
+      <h2 className="text-3xl font-bold m-2 text-center">
         All Kanban Boards
       </h2>
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
-          <div key={kanbanBoard.board_id} className="w-full mx-auto">
+          <div key={kanbanBoard.board_id} className=" mx-auto">
             <li
               key={kanbanBoard.board_id}
               className="flex items-center justify-between space-x-4 mb-4"
@@ -149,8 +150,8 @@ function AllBoards() {
               type="text"
               value={newBoardName}
               onChange={handleInputChange}
-              placeholder="Enter board name"
-              className="border rounded py-2 px-4 focus:outline-none focus:border-blue-500"
+              placeholder="Enter board name and hit Enter"
+              className="border bg-blue-100 rounded py-2 px-4 focus:outline-none focus:border-blue-500"
               autoFocus
             />
           </form>
@@ -162,7 +163,8 @@ function AllBoards() {
             Create New Board
           </button>
         )}
-    </main>
+      </main>
+    </div>
   );
 }
 
