@@ -12,6 +12,22 @@ const tasks = {
   ]
 };
 
+gantt.config.priority = {
+  "low": "#C6EFCE",
+  "medium": "#FFEB9C",
+  "high": "#F2B1AE"
+};
+
+gantt.attachEvent("onTaskLoading", function (task) {
+  if (task.priority == "high") {
+    task.color = gantt.config.priority.high;
+  } else if (task.priority == "medium") {
+    task.color = gantt.config.priority.medium;
+  } else {
+    task.color = gantt.config.priority.low;
+  }
+});
+
 const Chart = () => {
 
   const [ganttBoard, setGanttBoard] = useState()
@@ -37,25 +53,81 @@ const Chart = () => {
 
 
 
-  useEffect(() => {
-    gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
-    gantt.init('gantt-chart');
-    gantt.parse(tasks);
-    gantt.attachEvent('onReady', () => {
-      gantt.config.editable = false;
-    });
-
-  }, []);
 
 
   const handleTasks = async (id) => {
 
-    const response = await fetch(`http://localhost:5000/users/${user.id}/kanban_boards`);
-    const data = await response.json()
+    let response = await fetch(`http://localhost:5000/kanban-boards/${id}/tickets`);
+    let data = await response.json()
     console.log(data)
+    let filteredData = data.filter(ticket => ticket.user_assigned === user.id);
+
+    let ticketsArray = []
+
+    for (let task of filteredData) {
+      let deltaDate;
+      if (task.ticket_status == "closed") {
+        if (task.end_time != null) {
+          deltaDate = changeDate(task, "end") - changeDate(task, "start")
+        }
+        else {
+          const currentDate = new Date(Date.now()).toISOString().slice(0, 10)
+          deltaDate = currentDate - changeDate(task, "start")
+        }
+      }
+
+      let new_ticket = {
+        id: task.id,
+        text: task.ticket_content,
+        start_date: changeDate(task, "start"),
+        duration: deltaDate
+
+      }
+
+      ticketsArray.push(new_ticket)
+
+    }
+
+    setBoardTasks(ticketsArray)
 
   }
 
+  const changeDate = (date, check) => {
+    let dateObj;
+
+    if (check == "start") {
+      dateObj = new Date(date.start_time);
+    }
+    if (check == "end") {
+      dateObj = new Date(date.end_time);
+    }
+
+    let year = dateObj.getUTCFullYear();
+    let month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2);
+    let day = ('0' + dateObj.getUTCDate()).slice(-2);
+    let formattedDate = `${year}-${month}-${day}`;
+    return formattedDate
+  }
+
+
+  // { data: boardTasks }
+  useEffect(() => {
+
+    // gantt.templates.task_class = (start, end, task) => {
+    //   if (task.data.status === 'closed') {
+    //     return 'closed-task';
+    //   }
+    //   return '';
+    // };
+
+    gantt.config.date_format = "%Y-%m-%d %H:%i:%s";
+    gantt.init('gantt-chart');
+    gantt.parse({ data: boardTasks });
+    gantt.attachEvent('onReady', () => {
+      gantt.config.editable = false;
+    });
+
+  }, [handleTasks]);
 
 
   return (
