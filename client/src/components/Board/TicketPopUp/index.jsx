@@ -155,14 +155,32 @@ function TicketPopUp(props) {
                         onClick={deleteTicket}
                       />
                     </h2>
+                    <div className="flex flex-row gap-2">
                     <p className="text-gray-700 mb-2">
                       <Form_Textarea
                         value={editedTicket.ticket_content}
                         onChange={handleInputChange}
                         formElementId="ticket_content"
                         ariaLabel="Textarea for inputting the ticket content"
+                        label="Content:"
                       />
-                    </p>{" "}
+                      <p className="text-gray-700 mb-2">
+                      <Form_DropDown
+                        label="Status:"
+                        value={editedTicket.ticket_status}
+                        onChange={handleInputChange}
+                        formElementId="ticket_status"
+                        ariaLabel="List to select the task status from"
+                        listOptions={[
+                          "To do",
+                          "In Progress",
+                          "Done",
+                          "Blocked",
+                        ]}
+                      /> 
+                    </p>
+                    </p>
+                    </div>
                     <div className="flex flex-row justify-center">
                       {matchingTicket && (
                         <AssignUserContainer
@@ -170,36 +188,7 @@ function TicketPopUp(props) {
                         />
                       )}
                     </div>
-                    <p className="text-gray-700 mb-2">
-                      <Form_DropDown
-                        label="Status:"
-                        value={editedTicket.ticket_status}
-                        onChange={handleInputChange}
-                        formElementId="ticket_status"
-                        ariaLabel="List to select the task status from"
-                        listOptions={[
-                          "To do",
-                          "In Progress",
-                          "Done",
-                          "Blocked",
-                        ]}
-                      />
-                    </p>
-                    <p className="text-gray-700 mb-2">
-                      <Form_DropDown
-                        label="Status:"
-                        value={editedTicket.ticket_status}
-                        onChange={handleInputChange}
-                        formElementId="ticket_status"
-                        ariaLabel="List to select the task status from"
-                        listOptions={[
-                          "To do",
-                          "In Progress",
-                          "Done",
-                          "Blocked",
-                        ]}
-                      />
-                    </p>
+
                     {user && (
                       <p className="text-gray-700 mb-2">
                         {/* If this text below is a label for the field, 
@@ -215,6 +204,7 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
+                    <div className="flex flex-row p-2 gap-2">
                     <p>
                       <Form_Input
                         label="Technologies:"
@@ -235,6 +225,8 @@ function TicketPopUp(props) {
                         ariaLabel="Field for input of test framework"
                       />
                     </p>
+                    </div>
+                    <div className="flex flex-row p-2 gap-2">
                     <p>
                       <Form_Textarea
                         label="Function to Test:"
@@ -257,6 +249,7 @@ function TicketPopUp(props) {
                         ariaLabel="Textarea in which generated tests are displayed"
                       />
                     </p>
+                    </div>
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"

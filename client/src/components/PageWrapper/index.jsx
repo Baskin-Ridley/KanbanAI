@@ -17,7 +17,7 @@ const PageWrapper = () => {
       <Message />
       <Outlet />
       {user && <FancyMenu />}
-      <Footer />
+      <Footer className="fixed bottom-0"/>
     </>
   );
 };
