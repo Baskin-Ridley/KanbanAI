@@ -48,7 +48,7 @@ const Ticket = () => {
     };
     console.log("Sending request...", requestOptions);
     const response = await fetch(
-      "http://localhost:5000/ai-test",
+      "https://built-differently-backend.onrender.com/ai-test",
       requestOptions
     );
     console.log("Response received:", response);

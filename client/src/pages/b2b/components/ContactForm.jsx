@@ -11,7 +11,7 @@ const ContactForm = () => {
     e.preventDefault();
     setSubmitted(true);
 
-    fetch("http://localhost:5000/email", {
+    fetch("https://built-differently-backend.onrender.com/email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
