@@ -129,20 +129,24 @@ const AdminChart = () => {
 
     return (
         <>
-            <div className='chartCardContainer p-4 max-w-1/2'>
-                <div className='w-full mx-auto justify-center text-center'>
-                    <div className='wrapper-kanban-board text-black-900 font-semibold text-lg p-2 rounded'>
-                        <h3>Select the user:</h3>
-                        <ul className="flex flex-col items-center justify-center text-center">
-                            {userBoard && userBoard.map((e, i) => (<> <button onClick={() => handleNameClick(e.user_id)}><li>user: {e.user_name}</li></button></>))}
-                            <br />
-                            {ganttBoard && ganttBoard.map((e, i) => <> <button onClick={() => { handleTasks(e.board_id) }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
-                        </ul>
+            <div className='Card w-full  mt-10 h-full'>
+                <div className='class="flex items-center justify-center mx-auto m-2 rounded-lg border border-gray-400 bg-blue-50" '>
+                    <div className='w-full mx-auto justify-center text-center'>
+                        <div className='wrapper-kanban-board text-black-900 font-semibold text-lg p-2 rounded'>
+                            <h3>Select the user:</h3>
+                            <ul className="flex flex-col items-center justify-center text-center">
+                                {userBoard && userBoard.map((e, i) => (<> <button class="wrap border flex  justify-center mx-auto m-2 rounded-lg border-gray-400 bg-blue-50 mb-2 rounded-md bg-blue-50 py-2 px-4 text-sm text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white false w-full" onClick={() => handleNameClick(e.user_id)}><li>user: {e.user_name}</li></button></>))}
+                                <br />
+                                {ganttBoard && ganttBoard.map((e, i) => <> <button class="wrap border flex  justify-center mx-auto m-2 rounded-lg border-gray-400 bg-blue-50 mb-2 rounded-md bg-blue-50 py-2 px-4 text-sm text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white false w-full" onClick={() => { handleTasks(e.board_id) }}> <li key={i} className="flex items-center justify-between space-x-4 mb-4">{e.name}</li></button></>)}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div className="min-h-1/2 max-h-screen max-w-1/2 scroll-container overflow-x-auto" id="gantt-chart" style={{ width: '100%', height: '250px' }}></div>;
             </div>
-
+            <div className='Card w-full  mt-10 h-full'>
+                <div className="min-h-1/2 max-h-screen max-w-1/2 scroll-container overflow-x-auto" id="gantt-chart" style={{ width: '100%', height: '250px' }}>
+                </div>
+            </div>;
 
         </>
     )

@@ -8,7 +8,7 @@ function LinkGenerator() {
 
     const handleClick = () => {
         // Generate your link here, e.g.:
-        const generatedLink = `https://localhost:5000/register/${user.username}`;
+        const generatedLink = `http://localhost:5173/register/${user.username}`;
 
         // Set the link in state
         setLink(generatedLink);
@@ -16,7 +16,7 @@ function LinkGenerator() {
 
     const handleCopy = () => {
         // Copy the link to the clipboard
-        navigator.clipboard.writeText(link);
+        navigator.clipboard.writeText(string(link));
 
         // Set copied state to true and reset after 2 seconds
         setCopied(true);
@@ -26,7 +26,7 @@ function LinkGenerator() {
     };
 
     return (
-        <div className='link-generator-wrapper'>
+        <div className=''>
             <button onClick={handleClick}>Generate Link</button>
             {link && (
                 <div>
