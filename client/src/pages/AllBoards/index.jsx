@@ -108,7 +108,7 @@ function AllBoards() {
       <h2 className="text-3xl font-bold m-2 text-center">
         All Kanban Boards
       </h2>
-      <main className="flex flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
+      <main className="flex w-1/3 flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
 
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
@@ -117,10 +117,10 @@ function AllBoards() {
               key={kanbanBoard.board_id}
               className="flex items-center mb-4"
             >
-              <div className="w-full m-2 text-black-900 font-semibold text-lg p-2 rounded">
+              <div className="w-1/3 m-2 text-black-900 font-semibold text-lg p-2 ml-10 rounded">
                 {kanbanBoard.name}
               </div>
-              <div className="w-full text-center m-2">
+              <div className="w-auto text-center m-2">
                 <button className="bg-blue-300 text-black border border-transparent hover:bg-blue-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0">
                   <Link
                     to={`/board/${kanbanBoard.board_id}`}
@@ -132,7 +132,7 @@ function AllBoards() {
 
                 </button>
               </div>
-              <div className="w-full text-center m-2">
+              <div className="w-auto text-center m-2">
                 <button
                   onClick={() => handleDelete(kanbanBoard.board_id)}
                   className="bg-rose-300 text-black border border-transparent hover:bg-rose-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
