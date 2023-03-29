@@ -99,11 +99,11 @@ function AllBoards() {
 
   return (
     <div className="w-full mx-auto text-center">
-      <main className="flex flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
-
       <h2 className="text-3xl font-bold m-2 text-center">
         All Kanban Boards
       </h2>
+      <main className="flex flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
+
       <ul>
         {kanbanBoards.map((kanbanBoard) => (
           <div key={kanbanBoard.board_id} className=" mx-auto">
@@ -121,15 +121,6 @@ function AllBoards() {
                   className="bg-green-500 text-white border border-transparent hover:bg-white hover:text-green-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
                 >
                   View
-                </Link>
-              </div>
-              <div>
-                <Link
-                  to={`/kanban/${kanbanBoard.board_id}/edit`}
-                  key={`edit-${kanbanBoard.board_id}`}
-                  className="bg-blue-500 text-white border border-transparent hover:bg-white hover:text-blue-500 rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200"
-                  >
-                  Edit
                 </Link>
               </div>
               <div className="w-1/3 text-center">

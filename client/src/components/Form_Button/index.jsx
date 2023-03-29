@@ -3,7 +3,7 @@ import React from "react";
 const Form_Button = ({ buttonText, onClick, formElementId, ariaLabel, additionalClasses }) => {
   let classes=`bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none hover:bg-blue-200 hover:text-black ${additionalClasses}`
   return (
-    <div className="mt-2 flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <button
         className={classes}
         onClick={onClick}
