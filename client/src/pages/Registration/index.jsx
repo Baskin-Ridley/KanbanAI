@@ -37,7 +37,7 @@ const Registration = () => {
   return (
     <main className="flex flex-col items-center justify-center">
       <Message message={errorMessage} type="error" />
-      <h2 className="text-3xl font-bold mb-8 m-12 text-center">Register</h2>
+      <h2 className="text-3xl font-bold m-2 text-center">Register</h2>
       <form onSubmit={handleSubmit}>
         <Form_Input
           label="Username:"

@@ -81,14 +81,8 @@ const CreateTicketPopUp = (props) => {
         }
       })
       .catch((error) => console.error(error));
-    // useEffect(() => {
-    //   props.updatePositions(props.headers);
-    // }, [props.headers]);
   }
 
-  // useEffect(() => {
-  //   props.fetchData();
-  // }, [props.setHeaders]);
 
   function handleAiClick() {
     const data = { task: tickets.title, steps: "currently not used" };

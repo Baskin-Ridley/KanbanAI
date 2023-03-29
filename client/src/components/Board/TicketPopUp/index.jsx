@@ -138,6 +138,8 @@ function TicketPopUp(props) {
       .catch((error) => console.error(error));
   };
 
+  console.log(props.headers)
+
   function deleteTicket() {
     console.log(matchingTicket);
     fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
@@ -145,9 +147,23 @@ function TicketPopUp(props) {
     })
       .then((response) => response.json())
       .then((data) => {
+        props.setHeaders((prevHeaders) => {
+          const newHeaders = prevHeaders.map((header) => {
+            const newItems = header.items.filter((item) => item.id !== `item-${matchingTicket.ticket_id}`);
+            console.log(newItems)
+            return {
+              ...header,
+              items: newItems,
+            };
+          });
+          props.updatePositions(newHeaders);
+          return newHeaders;
+        });
         console.log("Ticket deleted:", data);
         closeModal();
-        props.fetchData();
+      })
+      .catch((error) => {
+        console.error("Error deleting ticket: ", error);
       });
   }
 
