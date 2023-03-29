@@ -65,11 +65,7 @@ const ContactForm = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-white font-bold mb-2" htmlFor="phone">
-            Phone
-          </label>
-        </div>
+
         <div className="mb-4">
           <label className="block text-white font-bold mb-2" htmlFor="message">
             Message
