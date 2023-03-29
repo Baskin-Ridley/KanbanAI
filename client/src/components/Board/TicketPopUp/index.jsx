@@ -10,18 +10,20 @@ function TicketPopUp(props) {
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
-  const [testsForFunction, setTestsForFunction] = useState('Your tests will appear here');
+  const [testsForFunction, setTestsForFunction] = useState(
+    "Your tests will appear here"
+  );
 
   // Test functionality
   const sanitizeInput = (input) => {
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
     // Replace any tabs with two spaces
-    sanitizedInput = sanitizedInput.replace(/\t/g, '  ');
+    sanitizedInput = sanitizedInput.replace(/\t/g, "  ");
     // Replace any consecutive spaces with two spaces
-    sanitizedInput = sanitizedInput.replace(/ +/g, ' ');
+    sanitizedInput = sanitizedInput.replace(/ +/g, " ");
     // Replace any line breaks with a '\n' character
-    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, '\n');
+    sanitizedInput = sanitizedInput.replace(/(\r\n|\n|\r)/gm, "\n");
     return sanitizedInput;
   };
 
@@ -72,25 +74,29 @@ function TicketPopUp(props) {
       [name]: value,
     });
   };
-
   const handleSubmit = async (event) => {
-    console.log(matchingTicket);
+    console.log("matchingTicket:", matchingTicket);
     event.preventDefault();
 
     // Test functionality
     const sanitizedTechnologies = sanitizeInput(editedTicket.test_technologies);
-    const sanitizedTestFramework = sanitizeInput(editedTicket.test_testing_framework);
+    const sanitizedTestFramework = sanitizeInput(
+      editedTicket.test_testing_framework
+    );
     const sanitizedFunctionToTest = sanitizeInput(editedTicket.test_function);
     const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         technologies: sanitizedTechnologies,
         test_framework: sanitizedTestFramework,
         function_to_test: sanitizedFunctionToTest,
       }),
     };
-    const responseTest = await fetch('http://localhost:5000/ai-test', requestOptions);
+    const responseTest = await fetch(
+      "http://localhost:5000/ai-test",
+      requestOptions
+    );
     const dataTest = await responseTest.json();
     setTestsForFunction(dataTest.tests_for_function);
 
@@ -108,21 +114,21 @@ function TicketPopUp(props) {
           test_technologies: editedTicket.test_technologies,
           test_testing_framework: editedTicket.test_testing_framework,
           test_function: editedTicket.test_function,
-          test_generated_test: editedTicket.test_generated_test
+          test_generated_test: editedTicket.test_generated_test,
         }),
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        setEditedTicket(data);
         console.log("Ticket updated:", data);
+        setEditedTicket(data);
         closeModal();
         props.fetchData();
       })
       .catch((error) => console.error(error));
   };
 
-  console.log(props.headers)
+  console.log(props.headers);
 
   function deleteTicket() {
     console.log(matchingTicket);
@@ -133,8 +139,10 @@ function TicketPopUp(props) {
       .then((data) => {
         props.setHeaders((prevHeaders) => {
           const newHeaders = prevHeaders.map((header) => {
-            const newItems = header.items.filter((item) => item.id !== `item-${matchingTicket.ticket_id}`);
-            console.log(newItems)
+            const newItems = header.items.filter(
+              (item) => item.id !== `item-${matchingTicket.ticket_id}`
+            );
+            console.log(newItems);
             return {
               ...header,
               items: newItems,
@@ -226,11 +234,21 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
-                    <Form_Button
-                      buttonText="Open AI Testing"
-                      ariaLabel="Button for saving the ticket changes"
-                      onClick={openGenerate}
-                    />
+                    <div className="flex justify-center items-center">
+                      <div
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-200 max-w-max flex justify-center items-center`}
+                        onClick={() => {
+                          setIsGenerateOpen(!isGenerateOpen);
+                        }}
+                      >
+                        <div className="mt-2 mb-2 flex flex-col items-center justify-center">
+                          {isGenerateOpen
+                            ? "Close AI Testing"
+                            : "Open AI Testing"}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
                       <div className={`flex flex-row p-2 gap-2 justify-center`}>
                         <p>
@@ -285,6 +303,7 @@ function TicketPopUp(props) {
                     <Form_Button
                       buttonText="Save"
                       ariaLabel="Button for saving the ticket changes"
+                      additionalClasses="w-20"
                     />
                   </form>
                 ) : (
@@ -294,6 +313,7 @@ function TicketPopUp(props) {
                   buttonText="Close"
                   onClick={closeModal}
                   ariaLabel="Button for closing modal popup view"
+                  additionalClasses="w-20"
                 />
               </div>
             </div>

@@ -24,7 +24,7 @@ const Board = () => {
     fetchBoardData();
   }, [id]);
   return (
-    <main className="flex flex-col items-center justify-center ml-3 mr-3">
+    <main className="flex flex-col items-center justify-center ml-3 mr-3 ">
       <div className="w-full flex justify-center">
       {boardData ? (
           <h2 className="text-3xl font-bold m-2 text-center">
