@@ -65,19 +65,7 @@ const ContactForm = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-4">
-          <label className="block text-white font-bold mb-2" htmlFor="phone">
-            Phone
-          </label>
-          <input
-            className="appearance-none bg-gray-700 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-            id="phone"
-            type="tel"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
+
         <div className="mb-4">
           <label className="block text-white font-bold mb-2" htmlFor="message">
             Message
