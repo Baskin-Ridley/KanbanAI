@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Headers } from "../../components/Board/index.jsx";
+
 
 const Board = () => {
   const { id } = useParams();
@@ -10,14 +11,14 @@ const Board = () => {
     const fetchBoardData = async () => {
       try {
         const response = await fetch(
-          `https://built-differently-backend.onrender.com/kanban-boards/${id}`
+          `http://localhost:5000/kanban-boards/${id}`
         );
         const data = await response.json();
         setBoardData(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
-      console.log(boardData);
+      console.log(boardData)
     };
 
     fetchBoardData();
@@ -25,7 +26,7 @@ const Board = () => {
   return (
     <main className="flex flex-col items-center justify-center ml-3 mr-3 ">
       <div className="w-full flex justify-center">
-        {boardData ? (
+      {boardData ? (
           <h2 className="text-3xl font-bold m-2 text-center">
             {boardData.name}
           </h2>
@@ -35,7 +36,7 @@ const Board = () => {
       </div>
       <Headers board_id={id} />
     </main>
-  );
-};
+  )
+}
 
-export default Board;
+export default Board

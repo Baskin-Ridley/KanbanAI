@@ -260,15 +260,6 @@ def get_positions_by_board_route(kanban_board_id):
 def update_positions_by_board_route(kanban_board_id):
     return update_positions_by_board(kanban_board_id)
 
-<<<<<<< HEAD
-
-@app.route("/email", methods=['GET'])
-def index():
-    msg = Message('Hello', sender='shorizon1234@gmail.com',
-                  recipients=['shodeb123@gmail.com'])
-    msg.body = 'Hello Flask message sent from Flask-Mail'
-=======
->>>>>>> fa7124a889278baea7753ad3b6cb6a91e42cd9a9
 
 @app.route("/email", methods=['POST'])
 def send_email():

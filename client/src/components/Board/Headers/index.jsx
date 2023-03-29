@@ -35,16 +35,13 @@ const Headers = ({ board_id }) => {
   }, []);
 
   const updatePositions = (items) => {
-    fetch(
-      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/positions`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ positions: items }),
-      }
-    )
+    fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ positions: items }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to update header positions");
@@ -103,16 +100,13 @@ const Headers = ({ board_id }) => {
       return;
     }
 
-    fetch(
-      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: newHeaderName }),
-      }
-    )
+    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newHeaderName }),
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
@@ -147,7 +141,7 @@ const Headers = ({ board_id }) => {
     const headerIdToDelete = headerToDelete.id.split("-")[1];
 
     fetch(
-      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToDelete}`,
       {
         method: "DELETE",
       }
@@ -217,9 +211,9 @@ const Headers = ({ board_id }) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const headerToEdit = headers[headerIndex];
     const headerIdToEdit = headerToEdit.id.split("-")[1];
-
+  
     fetch(
-      `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers/${headerIdToEdit}`,
+      `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToEdit}`,
       {
         method: "PUT",
         headers: {
@@ -298,35 +292,17 @@ const Headers = ({ board_id }) => {
                       {...provided.dragHandleProps}
                     >
                       <div className="flex justify-center items-center">
-                        {editingHeaderName === id ? (
-                          <Form_Input
-                            type="text"
-                            value={name}
-                            tabIndex={0}
-                            onChange={(e) =>
-                              setHeaders((prevState) =>
-                                prevState.map((header) =>
-                                  header.id === id
-                                    ? { ...header, name: e.target.value }
-                                    : header
+                      {editingHeaderName === id ? (
+                            <Form_Input
+                              type="text"
+                              value={name}
+                              tabIndex={0}
+                              onChange={(e) =>
+                                setHeaders((prevState) =>
+                                  prevState.map((header) =>
+                                    header.id === id ? { ...header, name: e.target.value } : header
+                                  )
                                 )
-                              )
-                            }
-                            onBlur={(e) => {
-                              setTimeout(
-                                () => handleHeaderNameEdit(id, e.target.value),
-                                100
-                              );
-                            }}
-                            onKeyDown={(e) => {
-                              console.log(e.key);
-                              if (e.key === "Escape") {
-                                setEditingHeaderName(null);
-                                e.target.blur();
-                              } else if (e.key === "Enter") {
-                                handleHeaderNameEdit(id, e.target.value);
-                                e.preventDefault();
-                                e.target.blur();
                               }
                               onBlur={(e) => {
                                 setTimeout(() => handleHeaderNameEdit(id, e.target.value), 100);
