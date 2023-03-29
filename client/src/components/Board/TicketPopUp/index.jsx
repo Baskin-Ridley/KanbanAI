@@ -9,7 +9,12 @@ function TicketPopUp(props) {
   const [user, setUser] = useState(null);
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
-  console.log(props.ticketContent);
+  const [isGenerateOpen, setIsGenerateOpen] = useState(false);
+
+  function openGenerate() {
+    setIsGenerateOpen(!isGenerateOpen);
+    clg("openGenerate");
+  }
 
   useEffect(() => {
     fetch("http://localhost:5000/kanban-tickets")
@@ -204,7 +209,15 @@ function TicketPopUp(props) {
                         />
                       </p>
                     )}
-                    <div className="flex flex-row p-2 gap-2">
+                      <Form_Button 
+                      buttonText="Open AI Testing"
+                      ariaLabel="Button for saving the ticket changes" 
+                      onClick={openGenerate}
+                     
+                      />
+                      <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
+                    <div className={`flex flex-row p-2 gap-2`} >
+
                     <p>
                       <Form_Input
                         label="Technologies:"
@@ -249,6 +262,7 @@ function TicketPopUp(props) {
                         ariaLabel="Textarea in which generated tests are displayed"
                       />
                     </p>
+                    </div>
                     </div>
                     <Form_Button
                       buttonText="Save"
