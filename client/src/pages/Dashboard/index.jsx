@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import "./dashboard.css"
-import { Notification, UserWindow } from "../../components"
+import { Notification, UserWindow, LinkGenerator, Chart } from "../../components"
+import { Gantt } from 'dhtmlx-gantt/codebase/dhtmlxgantt';
+
 
 
 const Dashboard = () => {
@@ -15,20 +17,25 @@ const Dashboard = () => {
 
       {user.isSuper ? <>
         <div className='wrapper'>
-          <div className='row'>
-            <div className='col-4'>
+          <div className='row flex justify-between'>
+            <div className='col-4 w-1/2 p-4'>
               <div className='left-container'>
+                <h3>Notifications:</h3>
                 <div className='Card'>
                   {user && <Notification />}
                 </div>
                 <div className='Card'>
                   {user && <UserWindow />}
                 </div>
+                <div className='Card'>
+                  {user && <LinkGenerator />}
+                </div>
               </div>
             </div>
-            <div className='col-8'>
+            <div className='col-8 w-1/2 p-4'>
               <div className='right-container'>
-                <p>peppe</p>
+                <h3>Gantt Chart:</h3>
+                {user.isSuper && <Chart />}
               </div>
             </div>
           </div>

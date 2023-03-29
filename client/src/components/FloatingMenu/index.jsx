@@ -4,18 +4,33 @@ import "../../index.css"
 
 export const FloatingMenu = () => {
 
-    const { stackView, setStackView, gitView, setGitView } = useView()
+    const { stackView, setStackView, gitView, setGitView, ganttView, setGanttView } = useView()
 
     const stackHandler = () => {
         setStackView(!stackView)
         if (gitView) {
             setGitView(!gitView)
         }
+        if (ganttView) {
+            setGanttView(!ganttView)
+        }
     }
     const gitHandler = () => {
         setGitView(!gitView)
         if (stackView) {
             setStackView(!stackView)
+        }
+        if (ganttView) {
+            setGanttView(!ganttView)
+        }
+    }
+    const ganttHandler = () => {
+        setGanttView(!ganttView)
+        if (stackView) {
+            setStackView(!stackView)
+        }
+        if (gitView) {
+            setGitView(!gitView)
         }
     }
 
@@ -36,7 +51,7 @@ export const FloatingMenu = () => {
                     </label>
                     <a href="#" className="menu-item" onClick={() => stackHandler()}> <i className="fa fa-stack-overflow"></i> </a>
                     <a href="#" className="menu-item" onClick={() => gitHandler()}> <i className="fa fa-git"></i> </a>
-                    <a href="#" className="menu-item"> <i className="fa fa-bar-chart"></i> </a>
+                    <a href="#" className="menu-item" onClick={() => ganttHandler()}>  <i className="fa fa-bar-chart"></i> </a>
                 </div>
                 <svg>
                     <defs>
