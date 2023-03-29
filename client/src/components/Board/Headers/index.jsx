@@ -4,7 +4,7 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import TicketPopUp from "../TicketPopUp";
 import CreateTicketPopUp from "../CreateTicketPopUp";
-import { FetchKBD, FetchTickets } from "../index";
+import { AddTicketButton, FetchKBD, FetchTickets } from "../index";
 
 const Headers = ({ board_id }) => {
   const initialHeaders = [];
@@ -363,7 +363,7 @@ const Headers = ({ board_id }) => {
                           </div>
                         )}
                       </Droppable>
-                      <Form_Button
+                      <AddTicketButton
                         onClick={() => handleNewItemClick(id)}
                         buttonText="Add Ticket"
                       />
@@ -390,7 +390,7 @@ const Headers = ({ board_id }) => {
                       onChange={(e) => setNewHeaderName(e.target.value)}
                       ariaLabel="Field in which to type new header"
                     />
-                    <Form_Button
+                    <AddTicketButton
                       buttonText="Add Header"
                       onClick={handleAddHeader}
                       ariaLabel="Button for adding new header"
