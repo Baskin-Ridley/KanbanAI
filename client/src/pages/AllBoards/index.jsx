@@ -99,7 +99,7 @@ function AllBoards() {
 
   return (
     <div className="w-full mx-auto text-center">
-      <main className="flex flex-col items-center justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
+      <main className="flex flex-col items-center border-box justify-center m-2 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 text-center" style={{ display: "inline-block" }}>
 
       <h2 className="text-3xl font-bold m-2 text-center">
         All Kanban Boards
