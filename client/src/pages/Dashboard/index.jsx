@@ -13,12 +13,12 @@ const Dashboard = () => {
   const { user } = useContext(UserContext);
   return (
     <>
-      <main className="flex flex-col items-center justify-center mx-auto m-2 w-1/5 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
+      {/* <main className="flex flex-col items-center justify-center mx-auto m-2 w-1/5 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
         <h2 className="text-3xl font-bold m-2 text-center">
           Welcome, {user ? user.username : "Guest"}!
         </h2>
         <p>This is your dashboard.</p>
-      </main>
+      </main> */}
 
       {user.isSuper ? (
         <>
