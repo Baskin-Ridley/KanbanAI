@@ -3,138 +3,427 @@ from database import db
 from models import User, Kanban_Board, Kanban_Ticket, Kanban_Header, Super_User, Notification
 from datetime import datetime, timedelta
 
-# Drop all tables if they already exist
-db.drop_all()
-# Create the tables
-db.create_all()
+with app.app_context():
 
-gabriel = User(
-    username="gabriel",
-    name="Gabriel",
-    password="password1",
-    role="user",
-    email="gabriel@example.com",
-    avatar="avatar1.png",
-    supervisors=['admin1'],
-    isSuper=False
-)
-db.session.add(gabriel)
+    # Drop all tables if they already exist
+    db.drop_all()
+    # Create the tables
+    db.create_all()
 
-Sho = User(
-    username="sho",
-    name="Sho",
-    password="password1",
-    role="superuser",
-    email="sho@example.com",
-    avatar="avatar1.png",
-    supervisors=['admin1'],
-    isSuper=True
-)
+# creat notification
+    notification = Notification(
+        user_name="user1",
+        content="test content",
+        super_user_name=[["admin1"]]
+    )
+    db.session.add(notification)
+    notification2 = Notification(
+        user_name="user1",
+        content="test content 2",
+        super_user_name=[["admin1"]]
+    )
+    db.session.add(notification2)
+    notification3 = Notification(
+        user_name="user1",
+        content="test content 3",
+        super_user_name=[["admin1"]]
+    )
 
-db.session.add(Sho)
+    # Commit the notifications
+    db.session.commit()
 
-gabrielle = User(
-    username="gabrielle",
-    name="Gabrielle",
-    password="password1",
-    role="user",
-    email="gabrielle@example.com",
-    avatar="avatar1.png",
-    supervisors=['admin1'],
-    isSuper=False
-)
-db.session.add(gabrielle)
+    gabriel = User(
+        username="gabriel",
+        name="Gabriel",
+        password="password1",
+        role="user",
+        email="gabriel@example.com",
+        avatar="avatar1.png",
+        supervisors=['admin1'],
+        isSuper=False
+    )
+    db.session.add(gabriel)
 
-kay = User(
-    username="kay",
-    name="Kay",
-    password="password1",
-    role="user",
-    email="kay@example.com",
-    avatar="avatar2.png",
-    supervisors=['admin1'],
-    isSuper=False
-)
-db.session.add(kay)
+    Sho = User(
+        username="sho",
+        name="Sho",
+        password="password1",
+        role="superuser",
+        email="sho@example.com",
+        avatar="avatar1.png",
+        supervisors=['admin1'],
+        isSuper=True
+    )
 
-db.session.commit()
+    db.session.add(Sho)
 
-admin = Super_User(
-    username="admin1",
-    name="Admin 1",
-    password="password1",
-    members=["kay", "sho", "gabrile", "gabriel"],
-    email="admin1@example.com",
-    role="admin",
-    isSuper=True,
-)
-db.session.add(admin)
+    gabrielle = User(
+        username="gabrielle",
+        name="Gabrielle",
+        password="password1",
+        role="user",
+        email="gabrielle@example.com",
+        avatar="avatar1.png",
+        supervisors=['admin1'],
+        isSuper=False
+    )
+    db.session.add(gabrielle)
 
-db.session.commit()
+    kay = User(
+        username="kay",
+        name="Kay",
+        password="password1",
+        role="user",
+        email="kay@example.com",
+        avatar="avatar2.png",
+        supervisors=['admin1'],
+        isSuper=False
+    )
+    db.session.add(kay)
 
+    db.session.commit()
 
-# Create Boards
+    admin = Super_User(
+        username="admin1",
+        name="Admin 1",
+        password="password1",
+        members=["kay", "sho", "gabrile", "gabriel"],
+        email="admin1@example.com",
+        role="admin",
+        isSuper=True,
+    )
+    db.session.add(admin)
 
-kanbanai = Kanban_Board(
-    user_id=user1.id, name='KanbanAI', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
-db.session.add(kanbanai)
+    db.session.commit()
 
-# Commmit the boards
-db.session.commit()
+    # Create Boards
 
-# Add KanbanAI headers
+    kanbanai = Kanban_Board(
+        user_id=gabriel.id, name='KanbanAI', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
+    db.session.add(kanbanai)
 
-epic = Kanban_Header(
-    name="Epic",
-    kanban_board_id=kanbanai.id
-)
+    # Commmit the boards
+    db.session.commit()
 
-db.session.add(epic)
+    # Add KanbanAI headers
 
-todo = Kanban_Header(
-    name="To Do",
-    kanban_board_id=kanbanai.id
-)
+    epic = Kanban_Header(
+        name="Epic",
+        kanban_board_id=kanbanai.id
+    )
 
-db.session.add(todo)
+    db.session.add(epic)
 
-doing = Kanban_Header(
-    name="Doing",
-    kanban_board_id=kanbanai.id
-)
+    todo = Kanban_Header(
+        name="To Do",
+        kanban_board_id=kanbanai.id
+    )
 
-db.session.add(doing)
+    db.session.add(todo)
 
-testing = Kanban_Header(
-    name="Testing",
-    kanban_board_id=kanbanai.id
-)
+    doing = Kanban_Header(
+        name="Doing",
+        kanban_board_id=kanbanai.id
+    )
 
-db.session.add(testing)
+    db.session.add(doing)
 
-done = Kanban_Header(
-    name="Done",
-    kanban_board_id=kanbanai.id
-)
+    testing = Kanban_Header(
+        name="Testing",
+        kanban_board_id=kanbanai.id
+    )
 
-db.session.add(done)
+    db.session.add(testing)
 
-# Add tickets
+    done = Kanban_Header(
+        name="Done",
+        kanban_board_id=kanbanai.id
+    )
 
-new_ticket = Kanban_Ticket(
-    title="Allow simultaneous use of board",
-    content="Users should be able to use the board simultaneously",
-    user_id=1,  # replace with the user ID of the person assigned to this ticket
-    start_time=datetime.utcnow(),
-    ticket_status="open",
-    kanban_board_id=1,  # replace with the ID of the Kanban board to which this ticket belongs
-    # replace with the header under which this ticket is placed (e.g., ToDo, Doing, etc.)
-    header_id=doing.id,
-    assigned=1,  # replace with the user ID of the person assigned to work on this ticket
-    test_technologies="",
-    test_testing_framework="",
-    test_function="",
-    test_generated_test="",
-)
+    db.session.add(done)
 
-db.session.add(new_ticket)
+    db.session.commit()
+
+    # Add tickets
+
+    new_ticket = Kanban_Ticket(
+        title="Allow simultaneous use of board",
+        content="Users should be able to use the board simultaneously",
+        user_id=1,  # replace with the user ID of the person assigned to this ticket
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,  # replace with the ID of the Kanban board to which this ticket belongs
+        # replace with the header under which this ticket is placed (e.g., ToDo, Doing, etc.)
+        header_id=doing.id,
+        assigned=1,  # replace with the user ID of the person assigned to work on this ticket
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test="",
+    )
+
+    db.session.add(new_ticket)
+
+    # Create a new ticket object with the provided content
+    notification_ticket = Kanban_Ticket(
+        title="Notification System for Closed Tickets",
+        content="Backend - admin users should be able to receive notifications when a ticket has been closed",
+        user_id=3,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=todo.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+
+# Add the new ticket to the database session
+    db.session.add(notification_ticket)
+
+    # Create a new ticket object with the provided content
+    new_ticket2 = Kanban_Ticket(
+        title="Create Kanban Tasks",
+        content="Users should be able to create Kanban tasks",
+        user_id=2,  # Replace with the ID of the user who created the ticket
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,  # Replace with the ID of the Kanban board to which this ticket belongs
+        header_id=todo.id,  # Replace with the ID of the header under which this ticket is placed
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+
+    # Add the new ticket to the database session
+    db.session.add(new_ticket2)
+
+    new_ticket3 = Kanban_Ticket(
+        title="Create Kanban Tasks",
+        content="users should be able to be assigned to the board",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=doing.id,
+                assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket3)
+
+    new_ticket4 = Kanban_Ticket(
+        title="Go to kanban board",
+        content="users should be able to see the Main Kanban Board page",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=done.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket4)
+
+    new_ticket5 = Kanban_Ticket(
+        title="delete ticket",
+        content="users should be able to delete a ticket",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=testing.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket5)
+
+    new_ticket6 = Kanban_Ticket(
+        title="edit ticket",
+        content="users should be able to edit a ticket",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=testing.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket6)
+
+    new_ticket7 = Kanban_Ticket(
+        title="ai steps",
+        content="users should be able to use ai to break down the steps on the project board",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=done.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket7)
+
+    new_ticket7 = Kanban_Ticket(
+        title="logout",
+        content="users should be able to log out",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=epic.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket7)
+
+    new_ticket8 = Kanban_Ticket(
+        title="register",
+        content="users should be able to register",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=done.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket8)
+
+    new_ticket9 = Kanban_Ticket(
+        title="nabar",
+        content="users should be able to see navbar conditional upon login",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=doing.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket9)
+
+    new_ticket11 = Kanban_Ticket(
+        title="Kanban Headers",
+        content="users should be able to create kanban headers",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=epic.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket11)
+
+    new_ticket12 = Kanban_Ticket(
+        title="Scrum Notifications",
+        content="Scrum Master should be able to receive automatic notifications",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=epic.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket12)
+
+    new_ticket13 = Kanban_Ticket(
+        title="Admin Notifications",
+        content="admins should be able to receive notifications when a ticket has been closed",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=epic.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket13)
+
+    new_ticket14 = Kanban_Ticket(
+        title="StackOverFlow integration",
+        content="users should be able to access the stackoverflow menu",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=testing.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket14)
+
+    new_ticket15 = Kanban_Ticket(
+        title="github integration",
+        content="users should be able to access the github menu",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=testing.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket15)
+
+    new_ticket16 = Kanban_Ticket(
+        title="github/stackoverflow integration",
+        content="users should be able to access github/overstack within the same page",
+        user_id=2,
+        start_time=datetime.utcnow(),
+        ticket_status="open",
+        kanban_board_id=1,
+        header_id=epic.id,
+        assigned=None,
+        test_technologies="",
+        test_testing_framework="",
+        test_function="",
+        test_generated_test=""
+    )
+    db.session.add(new_ticket16)
+
+    db.session.commit()
