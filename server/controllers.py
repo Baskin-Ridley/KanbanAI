@@ -201,7 +201,9 @@ def change_email_add():
         user.email = email
 
     db.session.commit()
-    return jsonify({'message': "email changed!"}), 200
+
+
+# return jsonify({'message': "email changed!"}), 200
 
 
 def get_users():

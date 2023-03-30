@@ -17,7 +17,7 @@ const Hook = () => {
         its own but when supercharged by AI they become truly groundbreaking.
       </p>
       <Link
-        to="/register"
+        to="/login"
         onClick={handleClick}
         className="animate-shake mx-auto mt-6 w-36 rounded-lg bg-white p-4 py-2 px-4 text-blue-500 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white"
       >

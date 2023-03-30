@@ -99,7 +99,7 @@ with app.app_context():
     # Create Boards
 
     kanbanai = Kanban_Board(
-        user_id=gabriel.id, name='KanbanAI', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
+        user_id=kay.id, name='KanbanAI', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
     db.session.add(kanbanai)
 
     # Commmit the boards
@@ -156,9 +156,9 @@ with app.app_context():
         # replace with the header under which this ticket is placed (e.g., ToDo, Doing, etc.)
         header_id=doing.id,
         assigned=1,  # replace with the user ID of the person assigned to work on this ticket
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="JavaScript",
+        test_testing_framework="jest",
+        test_function="function my_javascript_function(x, y) { return x + y; }",
         test_generated_test="",
     )
 
@@ -174,9 +174,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=todo.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
 
@@ -193,9 +193,9 @@ with app.app_context():
         kanban_board_id=1,  # Replace with the ID of the Kanban board to which this ticket belongs
         header_id=todo.id,  # Replace with the ID of the header under which this ticket is placed
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
 
@@ -211,9 +211,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=doing.id,
                 assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket3)
@@ -227,9 +227,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=done.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket4)
@@ -243,9 +243,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=testing.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket5)
@@ -259,9 +259,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=testing.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket6)
@@ -275,9 +275,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=done.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket7)
@@ -291,9 +291,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=epic.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket7)
@@ -307,9 +307,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=done.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket8)
@@ -323,9 +323,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=doing.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket9)
@@ -339,9 +339,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=epic.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket11)
@@ -355,9 +355,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=epic.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket12)
@@ -371,9 +371,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=epic.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket13)
@@ -387,9 +387,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=testing.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket14)
@@ -403,9 +403,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=testing.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket15)
@@ -419,9 +419,9 @@ with app.app_context():
         kanban_board_id=1,
         header_id=epic.id,
         assigned=None,
-        test_technologies="",
-        test_testing_framework="",
-        test_function="",
+        test_technologies="test",
+        test_testing_framework="test",
+        test_function="test",
         test_generated_test=""
     )
     db.session.add(new_ticket16)

@@ -28,11 +28,12 @@ const LoginPage = () => {
     <main className="flex flex-col items-center justify-center">
       <Message message={error} type="error" />
         <h2 className="text-3xl font-bold m-2 text-center">Login</h2>
-      <form onSubmit={handleLogin} className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
+      <form onSubmit={handleLogin} autoComplete="off" className="m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3">
         <Form_Input
           label="Username:"
           type="text"
           value={username}
+          
           onChange={(e) => setUsername(e.target.value)}
           formElementId="login-field-username"
           ariaLabel="Field in which to input the username"
