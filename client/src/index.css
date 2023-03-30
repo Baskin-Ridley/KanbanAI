@@ -412,3 +412,18 @@ body {
   .closed-task .gantt_task_content {
     background-color: red !important;
   }
+
+  .input-box{
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+    height: 150px;
+    /* width: full - 300px; */
+  }
+
+  .wrapper-kanban-board{
+    margin-right: 100px;
+  }
+
+  
