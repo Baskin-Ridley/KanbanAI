@@ -13,7 +13,7 @@ const Settings = () => {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    if (submitted) {
+    if (submitted && data) {
       const sendMembers = async () => {
         const options = {
           method: "PUT",
@@ -23,6 +23,7 @@ const Settings = () => {
           body: JSON.stringify(data),
         };
         try {
+<<<<<<< HEAD
           console.log(options.body);
           const response = await fetch(
             "https://built-differently-backend.onrender.com/super_user/member",
@@ -31,18 +32,82 @@ const Settings = () => {
           const listen = await response.json();
           console.log(listen);
           setMessage(listen);
+=======
+          const response = await fetch("http://localhost:5000/super_user/member", options)
+          const listen = await response.json()
+          console.log(listen)
+          setMessage(listen)
+>>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
         } catch (error) {
           return { error: error };
         }
       };
       sendMembers();
     }
+<<<<<<< HEAD
   }, [submitted, data]);
+=======
+    if (submitted && password) {
+      const change_pass = async () => {
+
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "username": user.username,
+            "password": password
+          }),
+        };
+        try {
+          const response = await fetch("http://localhost:5000/user/password", options)
+          const listen = await response.json()
+          console.log(listen)
+          setMessage(listen)
+        } catch (error) {
+          return ({ "error": error })
+        }
+
+      }
+      change_pass();
+    }
+    if (submitted && email) {
+      const change_pass = async () => {
+
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            "username": user.username,
+            "email": email
+          }),
+        };
+        try {
+          const response = await fetch("http://localhost:5000/user/email", options)
+          const listen = await response.json()
+          console.log(listen)
+          setMessage(listen)
+        } catch (error) {
+          return ({ "error": error })
+        }
+
+      }
+      change_pass();
+    }
+
+  }, [submitted, data, password])
+>>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitted(!submitted);
+<<<<<<< HEAD
     alert(message.message);
+=======
+>>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
   };
 
   return (

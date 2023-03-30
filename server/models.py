@@ -98,8 +98,10 @@ class Kanban_Board(db.Model):
     board_users = db.Column(db.JSON, nullable=True)
     positions = db.relationship(
         "Positions", back_populates="kanban_board", uselist=False, cascade="all, delete-orphan")
-    headers = relationship("Kanban_Header", back_populates="kanban_board", cascade="all, delete-orphan")
-    tickets = relationship("Kanban_Ticket", back_populates="kanban_board", cascade="all, delete-orphan")
+    headers = relationship(
+        "Kanban_Header", back_populates="kanban_board", cascade="all, delete-orphan")
+    tickets = relationship(
+        "Kanban_Ticket", back_populates="kanban_board", cascade="all, delete-orphan")
 
     def serialize(self):
         return {

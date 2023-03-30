@@ -4,18 +4,21 @@ import Form_Input from "../../Form_Input";
 import Form_Textarea from "../../Form_Textarea";
 import Form_DropDown from "../../Form_DropDown";
 import AssignUserContainer from "../../AssignUsers/AssignUserContainer.jsx";
+
 function TicketPopUp(props) {
   const [tickets, setTickets] = useState([]);
   const [user, setUser] = useState(null);
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
+  const [testing, setTesting] = useState(false);
   const [testsForFunction, setTestsForFunction] = useState(
     "Your tests will appear here"
   );
 
   // Test functionality
   const sanitizeInput = (input) => {
+    console.log(input)
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
     // Replace any tabs with two spaces
@@ -48,6 +51,7 @@ function TicketPopUp(props) {
 
   const closeModal = () => {
     props.setIsOpen(false);
+    setTestsForFunction("");
   };
 
   useEffect(() => {
@@ -69,6 +73,7 @@ function TicketPopUp(props) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value)
     setEditedTicket({
       ...editedTicket,
       [name]: value,
@@ -93,13 +98,15 @@ function TicketPopUp(props) {
         function_to_test: sanitizedFunctionToTest,
       }),
     };
-    const responseTest = await fetch(
-      "http://localhost:5000/ai-test",
-      requestOptions
-    );
-    const dataTest = await responseTest.json();
-    setTestsForFunction(dataTest.tests_for_function);
-
+    if (testing) {
+      const responseTest = await fetch(
+        "http://localhost:5000/ai-test",
+        requestOptions
+      );
+      const dataTest = await responseTest.json();
+      setTestsForFunction(dataTest.tests_for_function);
+    }
+    console.log(editedTicket)
     await fetch(
       `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
       {
@@ -116,16 +123,43 @@ function TicketPopUp(props) {
           test_function: editedTicket.test_function,
           test_generated_test: editedTicket.test_generated_test,
         }),
-      }
-    )
+        
+      })
+
       .then((response) => response.json())
       .then((data) => {
-        console.log("Ticket updated:", data);
-        setEditedTicket(data);
-        props.fetchData();
-      })
-      .catch((error) => console.error(error));
-  };
+          console.log("Ticket updated:", data);
+          setEditedTicket(data);
+          // props.fetchData();
+          props.setHeaders((prevHeaders) => {
+
+            const newHeaders = prevHeaders.map((header) => {
+              if (header.id.slice(6).replace(/\D/g, "") == matchingTicket.header_id) {
+                
+                const newItems = header.items.map((item) => {
+                  if (item.id.slice(4).replace(/\D/g, "") == matchingTicket.ticket_id) {
+                    const updatedTicket = {...item, title: editedTicket.ticket_title, content: editedTicket.ticket_content, ticket_status: editedTicket.ticket_status, test_technologies: editedTicket.test_technologies, test_testing_framework: editedTicket.test_testing_framework, test_function: editedTicket.test_function, test_generated_test: editedTicket.test_generated_test};
+                    console.log(updatedTicket, 'edited')
+                    return updatedTicket;
+                  } else {
+                    return item;
+                  }
+                });
+                return {
+                  ...header,
+                  items: newItems,
+                };
+              } else {
+                return header;
+              }
+            });
+            props.updatePositions(newHeaders);
+            return newHeaders;
+          });})
+          .catch((error) => console.error(error));
+        closeModal();
+    };
+  
 
   console.log(props.headers);
 
@@ -238,6 +272,7 @@ function TicketPopUp(props) {
                         className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition duration-200 max-w-max flex justify-center items-center`}
                         onClick={() => {
                           setIsGenerateOpen(!isGenerateOpen);
+                          setTesting(!testing);
                         }}
                       >
                         <div className="mt-2 mb-2 flex flex-col items-center justify-center">
@@ -250,7 +285,7 @@ function TicketPopUp(props) {
 
                     <div className={` ${isGenerateOpen ? "block" : "hidden"}`}>
                       <div
-                        className={`m-2 w-20 flex flex-row p-2 gap-2 justify-center`}
+                        className={` flex flex-row p-2 gap-2 justify-center`}
                       >
                         <p>
                           <Form_Input

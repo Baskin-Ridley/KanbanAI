@@ -176,16 +176,14 @@ body {
     margin-bottom: 10px;
 }
 
-.access-btn {
+/* .access-btn {
     background-color: #4CAF50;
     border: none;
-    /* color: white; */
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    /* display: inline-block; */
     font-size: 16px;
-}
+} */
 
 .parent-container {
     display: flex;
@@ -198,9 +196,10 @@ body {
 .parent-container-stack {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: center; */
     margin-top: 100px;
+    
 }
 
 .parent-container-git {
@@ -222,9 +221,12 @@ body {
 .stackContainer {
     max-height: 41vh;
     max-width: 30vw;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
     border: solid azure 4px;
     margin-top: 100px;
+    bottom: 10vh;
+    right: 10vh;
+    position: absolute;
 }
 
 .gitcard-container{
@@ -242,11 +244,11 @@ body {
     margin-bottom: 0px;
     padding: 10px;
     color: black;
-    border: solid #038983;
+    /* border: solid #3B82F6; */
 }
 
-.input-section {
-    color: black;
+.input-line-stack{
+margin-top: 20px;
    
 }
 
@@ -273,14 +275,14 @@ body {
 
 .menu-item,
 .menu-open-button {
-    background: yellow;
+    background:  #DBEAFE;
     border-radius: 100%;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     /* margin-left: 40px; */
     margin: 100px 0 0 0;
     
-    /* bottom:150px; */
+    bottom:35px;
     position: absolute; 
     color: black;
     text-align: center;
@@ -290,10 +292,12 @@ body {
     opacity: .95;    
     
 }
-
+.menu-item{
+    
+}
 .menu-open-button {
     opacity: 1;
-    background: orange;
+    background: #DBEAFE;
 }
 
 .menu-open {
@@ -338,7 +342,7 @@ body {
 }
 
 .menu-item:hover {
-    background: orange;
+    background: #3B82F6;
     color: black;
     opacity: 1;
 }
@@ -360,12 +364,15 @@ body {
     transition-timing-function: linear;
     transition-duration: 200ms;
     transform: scale(0.8, 0.8) translate3d(0, 0, 0);
-    background: orange;
+    background:  #3B82F6;
     opacity: 1;
+    
 }
 
 .menu-open:checked~.menu-item {
     transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+    width: 80px;
+    height: 80px;
 }
 
 .menu-open:checked~.menu-item:nth-child(3) {
@@ -389,6 +396,7 @@ body {
 
 .fancymenu-container{
     margin-top: 50px;
+    bottom: 2px;
 }
 
 /* from the chartt component */
@@ -412,3 +420,21 @@ body {
   .closed-task .gantt_task_content {
     background-color: red !important;
   }
+
+  .input-box{
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: fill;
+    height: 240px;
+    /* width: full - 300px; */
+  }
+
+  .wrapper-kanban-board{
+    margin-right: 100px;
+  }
+
+  .wrapper-textbox{
+    width: fill;
+  }
+

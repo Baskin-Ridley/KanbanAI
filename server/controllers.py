@@ -22,23 +22,19 @@ email.config['MAIL_USE_SSL'] = True
 # notification Controller
 
 
-
-
 def get_Notifications(super_user_name):
     list = []
     data = Notification.query.filter_by(super_user_name=[[super_user_name]])
 
-    
     for item in data:
         print(item)
-        
+
         note = {
             "content": item.content,
             "member": item.user_name
         }
         list.append(note)
 
-   
     return list, 200
 
 # Super User Controller
@@ -82,12 +78,12 @@ def register_user(super_user_name):
 
     super_user = Super_User.query.filter_by(username=super_user_name).first()
     super_user.members = super_user.members + [user.username]
-    
+
     db.session.commit()
     return jsonify({'message': 'User created successfully'}), 201
 
 
-##add members to the admins
+# add members to the admins
 def add_member():
     data = request.get_json()
     new_members = data.get('new_member')
@@ -96,26 +92,27 @@ def add_member():
     if not new_members or not super_user:
         return jsonify({'error': 'super_user invalid'}), 404
 
-    ## add admin to members
+    # add admin to members
     for member in new_members:
         print(member)
         if check_user_name(member) == False:
-            return jsonify({'error': f'{member} does not exist' }), 404
+            return jsonify({'error': f'{member} does not exist'}), 404
         temp_user = User.query.filter_by(username=member).first()
-        temp_user.supervisors =  list(set(temp_user.supervisors + [super_user]))
+        temp_user.supervisors = list(set(temp_user.supervisors + [super_user]))
 
     user = Super_User.query.filter_by(username=super_user).first()
     if not user:
-         return jsonify({'error': f'{super_user} does not exist'}), 404
+        return jsonify({'error': f'{super_user} does not exist'}), 404
     if user.members is None:
-        user.members =  []
+        user.members = []
 
-    user.members = list(set(list(map(str,user.members) ) + list(map(str,new_members))))
+    user.members = list(
+        set(list(map(str, user.members)) + list(map(str, new_members))))
 
     db.session.commit()
 
     return jsonify({'message': 'members added to the database'}), 201
-   
+
 
 def get_members(super_user_name):
     list_members = []
@@ -124,20 +121,20 @@ def get_members(super_user_name):
     if not user:
         return ({'error': f"{super_user_name} not found"}), 404
 
-    for item in  user.members:
+    for item in user.members:
         member = User.query.filter_by(username=item).first()
-       
+
         member_data = {
             'username': member.username,
             'avatar': member.avatar,
             'email': member.email,
             'supervisors': member.supervisors
         }
-        
+
         list_members.append(member_data)
 
-    return jsonify(list_members), 200 
-    
+    return jsonify(list_members), 200
+
 
 def login():
     data = request.get_json()
@@ -173,6 +170,37 @@ def login():
     body = f"logged in at time: {datetime.utcnow().replace(microsecond=0)}"
     log_changes(user.username, body)
     return jsonify(user_data), 200
+
+def password():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    user = User.query.filter_by(username=username).first()
+    if user:
+        user.password = password
+    else :
+        user = Super_User.query.filter_by(username=username).first()
+        user.password = password
+    
+    db.session.commit()
+    return jsonify({'message': "password changed!"}),200
+
+def change_email_add():
+    data = request.get_json()
+    username = data.get("username")
+    email = data.get("email")
+
+    user = User.query.filter_by(username=username).first()
+    if user:
+        user.email = email
+    else :
+        user = Super_User.query.filter_by(username=username).first()
+        user.email = email
+    
+    db.session.commit()
+    return jsonify({'message': "email changed!"}),200
+
 
 def get_users():
     users = User.query.all()
@@ -242,24 +270,35 @@ def delete_user(user_id):
 
 # Kanban_Board controller
 
+
 def get_kanban_boards_with_super(super_user_name):
-    list = []
-    user = User.query.filter_by(supervisors=[super_user_name])
+    user_list = []
+    users = User.query.filter(User.supervisors.any(super_user_name)).all()
 
-    for item in user:
-        print(item)
-        new_user= {
-           "user_id" : item.id,
-           "user_name": item.name,
-           "user_avatar": item.avatar,
-           "user_email": item.email
-        } 
+    for user in users:
+        new_user = {
+            "user_id": user.id,
+            "user_name": user.name,
+            "user_avatar": user.avatar,
+            "user_email": user.email,
+            "kanban_boards": []
+        }
 
-        list.append(new_user)
+        user_boards = Kanban_Board.query.filter_by(user_id=user.id).all()
 
+        for board in user_boards:
+            new_board = {
+                "board_id": board.id,
+                "board_name": board.name,
+                "board_start": board.start_time
+                # add any other relevant fields for the board here
+            }
+            new_user["kanban_boards"].append(new_board)
 
-    return jsonify(list),200
-   
+        user_list.append(new_user)
+
+    return jsonify(user_list), 200
+
 
 def create_kanban_board():
     data = request.get_json()
@@ -273,7 +312,7 @@ def create_kanban_board():
         user_id=user_id, name=data['name'], start_time=start_time, end_time=end_time)
     db.session.add(kanban_board)
     db.session.commit()
-    
+
     body = f"created a kanban board at time: {datetime.utcnow().replace(microsecond=0)}"
     # log_changes(user.username, body)
 
@@ -329,6 +368,9 @@ def create_kanban_ticket():
         start_time=data['start_time'],
         header_id=data['header_id'],
         ticket_status=data['ticket_status'],
+        test_technologies=data['test_technologies'],
+        test_testing_framework=data['test_testing_framework'],
+        test_function=data['test_function'],
         kanban_board_id=data['kanban_board_id']
     )
     db.session.add(ticket)
@@ -384,10 +426,11 @@ def update_kanban_ticket(kanban_ticket_id):
 
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "closed"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_admin, ticket.title, "closed", user_name, "")
+        sendMail(kanban_admin, ticket.title, "closed", user_name, "", "", "")
     if (ticket.ticket_status != data['ticket_status'] and data['ticket_status'] == "blocked"):
         user_name = User.query.get(ticket.user_id)
-        sendMail(kanban_scram_master, ticket.title, "blocked", user_name, "")
+        sendMail(kanban_scram_master, ticket.title,
+                 "blocked", user_name, "", "", "")
 
     if 'ticket_status' in data:
         ticket.ticket_status = data['ticket_status']
@@ -425,6 +468,7 @@ def get_kanban_headers_by_board(kanban_board_id):
     headers = Kanban_Header.query.filter_by(kanban_board_id=kanban_board_id)
     return jsonify([header.serialize() for header in headers]), 200
 
+
 def update_kanban_headers_by_board(kanban_board_id, header_id):
     header = Kanban_Header.query.get(header_id)
     if not header:
@@ -434,7 +478,6 @@ def update_kanban_headers_by_board(kanban_board_id, header_id):
         header.name = data['name']
     db.session.commit()
     return jsonify({'success': f'Kanban header updated successfully with the new name: {header.name}.'})
-
 
 
 def delete_kanban_header_by_board(kanban_board_id, header_id):
@@ -447,10 +490,12 @@ def delete_kanban_header_by_board(kanban_board_id, header_id):
 
 # POSITIONS:
 
+
 def get_positions_by_board(kanban_board_id):
     positions = Positions.query.filter_by(board_id=kanban_board_id)
     # return jsonify({"positions": positions.position_data})
     return jsonify([position.serialize() for position in positions]), 200
+
 
 def update_positions_by_board(kanban_board_id):
     board = Kanban_Board.query.filter_by(id=kanban_board_id).first()
@@ -458,40 +503,61 @@ def update_positions_by_board(kanban_board_id):
     if board.positions:
         board.positions.position_data = positions_data
     else:
-        new_positions = Positions(kanban_board=board, position_data=positions_data)
+        new_positions = Positions(
+            kanban_board=board, position_data=positions_data)
         db.session.add(new_positions)
     db.session.commit()
     return jsonify({'success': 'Kanban board POSITIONS updated successfully.'})
 
 
-#checker functions:
+# checker functions:
 
 def check_user_name(username):
-        temp = User.query.filter_by(username=username).first()
-        if not temp:
-            return False
-        else:
-            return True
-
-def log_changes(username,body):
     temp = User.query.filter_by(username=username).first()
-    if not hasattr(temp,"supervisors"):
+    if not temp:
+        return False
+    else:
+        return True
+
+
+def log_changes(username, body):
+    temp = User.query.filter_by(username=username).first()
+    if not hasattr(temp, "supervisors"):
         return
-    notification =Notification(
+    notification = Notification(
         content=body,
-        user_name= username,
+        user_name=username,
         super_user_name=[temp.supervisors]
-    )  
+    )
     db.session.add(notification)
     db.session.commit()
-    return jsonify({"message":"changes added"})
+    return jsonify({"message": "changes added"})
+
 
 def email_from_form():
     data = request.get_json()
-    body = data["body"]
+    body = data.get("body")
+    customer = data.get("email")
+    person = data.get("person")
+    company = data.get("company")
+
+    print(customer, person, company)
+    try:
+        sendMail("app.builtdifferent.info@gmail.com",
+                 " ", "", " ", body, "", "")
+        sendMail(customer, " ", "customer", "", "", person, company)
+        return 'Sent', 200
+    except Exception as e:
+        return jsonify(e), 400
+
+
+def email_from_dashboard():
+    data = request.get_json()
+    body = data.get("body")
+    receiver = data.get("email")
 
     try:
-        sendMail("app.builtdifferent.info@gmail.com", " ", " "," ", body)
-        return 'Sent'
+        sendMail(receiver, " ", "", "", body, "", "")
+        return 'Sent', 200
     except Exception as e:
-        return jsonify(e)
+        return jsonify(e), 400

@@ -135,12 +135,17 @@ const Chart = () => {
             </ul>
           </div>
         </div>
+<<<<<<< HEAD
         <div
           className="min-h-1/2 max-h-screen max-w-1/2 scroll-container overflow-x-auto"
           id="gantt-chart"
           style={{ width: "100%", height: "250px" }}
         ></div>
         ;
+=======
+        <div className="min-h-1/2 max-h-screen max-w-1/2 scroll-container overflow-x-auto" id="gantt-chart" style={{ width: '100%', height: '250px' }}></div>
+
+>>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
       </div>
     </>
   );
