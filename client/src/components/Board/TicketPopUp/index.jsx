@@ -18,7 +18,7 @@ function TicketPopUp(props) {
 
   // Test functionality
   const sanitizeInput = (input) => {
-    console.log(input)
+    console.log(input);
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
     // Replace any tabs with two spaces
@@ -36,7 +36,7 @@ function TicketPopUp(props) {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/kanban-tickets")
+    fetch("https://built-differently-backend.onrender.com/kanban-tickets")
       .then((response) => response.json())
       .then((data) => {
         setTickets(data);
@@ -73,7 +73,7 @@ function TicketPopUp(props) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value)
+    console.log(name, value);
     setEditedTicket({
       ...editedTicket,
       [name]: value,
@@ -100,15 +100,15 @@ function TicketPopUp(props) {
     };
     if (testing) {
       const responseTest = await fetch(
-        "http://localhost:5000/ai-test",
+        "https://built-differently-backend.onrender.com/ai-test",
         requestOptions
       );
       const dataTest = await responseTest.json();
       setTestsForFunction(dataTest.tests_for_function);
     }
-    console.log(editedTicket)
+    console.log(editedTicket);
     await fetch(
-      `http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`,
+      `https://built-differently-backend.onrender.com/kanban-tickets/${matchingTicket.ticket_id}`,
       {
         method: "PUT",
         headers: {
@@ -123,51 +123,65 @@ function TicketPopUp(props) {
           test_function: editedTicket.test_function,
           test_generated_test: editedTicket.test_generated_test,
         }),
-        
-      })
-
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-          console.log("Ticket updated:", data);
-          setEditedTicket(data);
-          // props.fetchData();
-          props.setHeaders((prevHeaders) => {
-
-            const newHeaders = prevHeaders.map((header) => {
-              if (header.id.slice(6).replace(/\D/g, "") == matchingTicket.header_id) {
-                
-                const newItems = header.items.map((item) => {
-                  if (item.id.slice(4).replace(/\D/g, "") == matchingTicket.ticket_id) {
-                    const updatedTicket = {...item, title: editedTicket.ticket_title, content: editedTicket.ticket_content, ticket_status: editedTicket.ticket_status, test_technologies: editedTicket.test_technologies, test_testing_framework: editedTicket.test_testing_framework, test_function: editedTicket.test_function, test_generated_test: editedTicket.test_generated_test};
-                    console.log(updatedTicket, 'edited')
-                    return updatedTicket;
-                  } else {
-                    return item;
-                  }
-                });
-                return {
-                  ...header,
-                  items: newItems,
-                };
-              } else {
-                return header;
-              }
-            });
-            props.updatePositions(newHeaders);
-            return newHeaders;
-          });})
-          .catch((error) => console.error(error));
-        closeModal();
-    };
-  
+        console.log("Ticket updated:", data);
+        setEditedTicket(data);
+        // props.fetchData();
+        props.setHeaders((prevHeaders) => {
+          const newHeaders = prevHeaders.map((header) => {
+            if (
+              header.id.slice(6).replace(/\D/g, "") == matchingTicket.header_id
+            ) {
+              const newItems = header.items.map((item) => {
+                if (
+                  item.id.slice(4).replace(/\D/g, "") ==
+                  matchingTicket.ticket_id
+                ) {
+                  const updatedTicket = {
+                    ...item,
+                    title: editedTicket.ticket_title,
+                    content: editedTicket.ticket_content,
+                    ticket_status: editedTicket.ticket_status,
+                    test_technologies: editedTicket.test_technologies,
+                    test_testing_framework: editedTicket.test_testing_framework,
+                    test_function: editedTicket.test_function,
+                    test_generated_test: editedTicket.test_generated_test,
+                  };
+                  console.log(updatedTicket, "edited");
+                  return updatedTicket;
+                } else {
+                  return item;
+                }
+              });
+              return {
+                ...header,
+                items: newItems,
+              };
+            } else {
+              return header;
+            }
+          });
+          props.updatePositions(newHeaders);
+          return newHeaders;
+        });
+      })
+      .catch((error) => console.error(error));
+    closeModal();
+  };
 
   console.log(props.headers);
 
   function deleteTicket() {
     console.log(matchingTicket);
-    fetch(`http://localhost:5000/kanban-tickets/${matchingTicket.ticket_id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://built-differently-backend.onrender.com/kanban-tickets/${matchingTicket.ticket_id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         props.setHeaders((prevHeaders) => {

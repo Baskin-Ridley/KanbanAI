@@ -11,7 +11,7 @@ const NotificationCard = () => {
 <<<<<<< HEAD
         `https://built-differently-backend.onrender.com/notification/${user.username}`
 =======
-        `http://localhost:5000/notification/${user.username}`
+        `https://built-differently-backend.onrender.com/notification/${user.username}`
 >>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
       );
       const data = await response.json();

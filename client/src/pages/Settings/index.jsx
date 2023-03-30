@@ -33,7 +33,7 @@ const Settings = () => {
           console.log(listen);
           setMessage(listen);
 =======
-          const response = await fetch("http://localhost:5000/super_user/member", options)
+          const response = await fetch("https://built-differently-backend.onrender.com/super_user/member", options)
           const listen = await response.json()
           console.log(listen)
           setMessage(listen)
@@ -61,7 +61,7 @@ const Settings = () => {
           }),
         };
         try {
-          const response = await fetch("http://localhost:5000/user/password", options)
+          const response = await fetch("https://built-differently-backend.onrender.com/user/password", options)
           const listen = await response.json()
           console.log(listen)
           setMessage(listen)
@@ -86,7 +86,7 @@ const Settings = () => {
           }),
         };
         try {
-          const response = await fetch("http://localhost:5000/user/email", options)
+          const response = await fetch("https://built-differently-backend.onrender.com/user/email", options)
           const listen = await response.json()
           console.log(listen)
           setMessage(listen)

@@ -48,7 +48,7 @@ const Headers = ({ board_id }) => {
     )
 =======
     console.log(items)
-    fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/positions`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +127,7 @@ const Headers = ({ board_id }) => {
       }
     )
 =======
-    fetch(`http://localhost:5000/kanban-board/${board_id}/kanban-headers`, {
+    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
