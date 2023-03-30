@@ -37,7 +37,7 @@ pip install --upgrade --force-reinstall coverage
 ```
 To run the coverage
 ```
-coverage run -m pytest test_database_init.py test_controllers.py test_app.py test_database.py test_models.py
+coverage run -m pytest test_database_init.py test_controllers.py test_app.py test_database.py test_models.py test_mail.py
 ```
 and to see the coverage report
 ```
