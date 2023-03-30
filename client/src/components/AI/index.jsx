@@ -19,12 +19,10 @@ const AISteps = ({
 
       return { step, timeoutId };
     });
-
     return () => {
       steps.forEach(({ timeoutId }) => clearTimeout(timeoutId));
     };
   }, [responseData]);
-
   function handleClickForStep(step, headerId) {
     let newHeaderId = {
       id: headerId,
