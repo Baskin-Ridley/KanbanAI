@@ -89,6 +89,7 @@ function AllBoards() {
           // return response.json();
         })
         .then((newBoard) => {
+          console.log(newBoard)
           setKanbanBoards([...kanbanBoards, newBoard]);
           setNewBoardName("");
           setShowInput(false);})

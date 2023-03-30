@@ -29,8 +29,13 @@ const Navigation = () => {
               <CustomLink to="/all-boards">All Kanban Boards</CustomLink>
             </li>
             <li>
-              <button onClick={handleLogout} className="inline-block align-baseline font-bold text-lg text-blue-500 hover:text-white">Log Out</button>
-                {/* // buttonText={"Logout"}
+              <button
+                onClick={handleLogout}
+                className="inline-block align-baseline font-bold text-lg text-blue-500 hover:text-white"
+              >
+                Log Out
+              </button>
+              {/* // buttonText={"Logout"}
                 // formElementId="button-logout"
                 // ariaLabel={"Logout button"} */}
             </li>
