@@ -101,7 +101,7 @@ const AdminChart = () => {
 
     const handleNameClick = async (user_id) => {
         console.log(user_id)
-        const response = await fetch(`http://localhost:5000/users/${user.id}/kanban_boards`);
+        const response = await fetch(`http://localhost:5000/users/${user_id}/kanban_boards`);
         const data = await response.json()
         console.log(data)
         setGanttBoard(data)
