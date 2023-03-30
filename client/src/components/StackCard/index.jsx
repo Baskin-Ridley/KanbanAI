@@ -56,20 +56,20 @@ export const StackCard = () => {
         if (titleView) {
             return (
                 <label>
-                    <div className='input-section-stack'>
+                    <div className='input-section-stack block color-text-4 font-bold mb-4 text-center '>
                         Question to ask:
                         <br />
-                        <input className='input-line-stack' type="text" name="question" onChange={titleHandler} />
+                        <input className='input-line-stack block appearance-none w-full bg-blue-100 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 resize-none h-auto' type="text" name="question" onChange={titleHandler} />
                     </div>
                 </label>
             )
         } else {
             return (
                 <label>
-                    <div className='input-section-stack'>
+                    <div className='input-section-stack block color-text-4 font-bold mb-4 text-center '>
                         look for tag(s):
                         <br />
-                        <input className='input-line-stack' type="text" name="tag" onChange={tagHandler} />
+                        <input className='input-line-stack block appearance-none w-full bg-blue-100 border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 resize-none h-auto' type="text" name="tag" onChange={tagHandler} />
                     </div>
                 </label>)
         }
@@ -95,11 +95,12 @@ export const StackCard = () => {
     }
 
     return (
-        <div className='parent-container-stack'>
+        <div className='parent-container-stack m-2 w-64 rounded-lg border border-gray-400 bg-blue-50 px-2 py-3 absolute bottom-40 right-40'>
             {rendering(titleView)}
-            <button className='access-btn' id="view-button" onClick={() => { viewHandler(titleView) }}>{titleView == true ? "look for tags" : "look with title"}</button> <br />
-            <button className='access-btn' id="question-button" onClick={() => { clickHandler(states) }}>Click me to get the questions</button>
+            <button className='bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none hover:bg-blue-200 hover:text-black undefined' id="view-button" onClick={() => { viewHandler(titleView) }}>{titleView == true ? "look for tags" : "look with title"}</button> <br />
+            <button className='bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none hover:bg-blue-200 hover:text-black undefined' id="question-button" onClick={() => { clickHandler(states) }}>Click me to get the questions</button>
             {states ? <ul>{stack && stackCard(stack)}</ul> : null}
         </div>
+
     )
 }

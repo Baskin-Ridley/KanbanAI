@@ -38,7 +38,7 @@ function LinkGenerator() {
                 </div>
             )}
             {copied && (
-                <div className='asd content-end' style={{ color: 'blue' }}>Copied to clipboard!</div>
+                <div className='clipboard-copy-message' style={{ color: 'blue' }}>Copied to clipboard!</div>
             )}
         </div>
     );
