@@ -8,9 +8,6 @@ function AllBoards() {
   const { user } = useContext(UserContext);
   const [kanbanBoards, setKanbanBoards] = useState([]);
 
-
-  //user.id = 1;
-
   useEffect(() => {
     fetch(`http://localhost:5000/users/${user.id}/kanban_boards`)
       .then((response) => {
@@ -22,18 +19,6 @@ function AllBoards() {
       .then((data) => setKanbanBoards(data))
       .catch((error) => console.error(error));
   }, [user]);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/users/${user.id}/kanban_boards`)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch kanban boards");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => setKanbanBoards(data))
-  //     .catch((error) => console.error(error));
-  // }, [kanbanBoards]);
 
   const navigate = useNavigate();
 
@@ -125,7 +110,7 @@ function AllBoards() {
                   <Link
                     to={`/board/${kanbanBoard.board_id}`}
                     key={`view-${kanbanBoard.board_id}`}
-                  ><button className="bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none transition-colors hover:bg-blue-200 hover:text-black ">
+                  ><button className="bg-blue-500 w-15 h-10 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none transition-colors hover:bg-blue-200 hover:text-black ">
                     View
                     </button>
                   </Link>
@@ -133,7 +118,7 @@ function AllBoards() {
               <div className="w-auto text-center m-2">
                 <button
                   onClick={() => handleDelete(kanbanBoard.board_id)}
-                  className="bg-orange-500 text-white border border-transparent hover:bg-orange-200 hover:text-black rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
+                  className="bg-orange-500 w-15 h-10 text-white border border-transparent hover:bg-orange-200 hover:text-black rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
                 >
                 Delete
                 </button>

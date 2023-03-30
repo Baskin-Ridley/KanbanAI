@@ -28,7 +28,7 @@ const ContactForm = () => {
   return (
     <div className="">
       <div className="flex bg-gray-800 h-full p-8  ">
-        <div class="flex justify-center items-center">
+        <div className="flex justify-center items-center">
           <div className="flex-1 pr-8 ">
             <h2 className="text-3xl text-white font-bold mb-8">
               Improve with Kanban AI today!
