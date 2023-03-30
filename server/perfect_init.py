@@ -38,7 +38,7 @@ with app.app_context():
         password="password1",
         role="user",
         email="gabriel@example.com",
-        avatar="avatar1.png",
+        avatar="https://ca.slack-edge.com/THYP60S66-U04HNB0QR8R-ccb8ac6eb01a-512",
         supervisors=['admin1'],
         isSuper=False
     )
@@ -48,11 +48,11 @@ with app.app_context():
         username="sho",
         name="Sho",
         password="password1",
-        role="superuser",
+        role="user",
         email="sho@example.com",
-        avatar="avatar1.png",
+        avatar="https://ca.slack-edge.com/THYP60S66-U04APTQU7DW-406bbf06d915-512",
         supervisors=['admin1'],
-        isSuper=True
+        isSuper=False
     )
 
     db.session.add(Sho)
@@ -63,7 +63,7 @@ with app.app_context():
         password="password1",
         role="user",
         email="gabrielle@example.com",
-        avatar="avatar1.png",
+        avatar="https://ca.slack-edge.com/THYP60S66-U049W6N03LM-8450b330ee4d-512",
         supervisors=['admin1'],
         isSuper=False
     )
@@ -75,7 +75,7 @@ with app.app_context():
         password="password1",
         role="user",
         email="kay@example.com",
-        avatar="avatar2.png",
+        avatar="https://ca.slack-edge.com/THYP60S66-U04E8AUGYJ1-2b89ac7767a5-512",
         supervisors=['admin1'],
         isSuper=False
     )
@@ -87,7 +87,7 @@ with app.app_context():
         username="admin1",
         name="Admin 1",
         password="password1",
-        members=["kay", "sho", "gabrile", "gabriel"],
+        members=["kay", "sho", "gabrielle", "gabriel"],
         email="admin1@example.com",
         role="admin",
         isSuper=True,
