@@ -511,3 +511,14 @@ def email_from_form():
         return 'Sent', 200
     except Exception as e:
         return jsonify(e), 400
+
+def email_from_dashboard():
+    data = request.get_json()
+    body = data.get("body")
+    receiver = data.get("email")
+
+    try:
+        sendMail(receiver, " ", "","", body,"","")
+        return 'Sent', 200
+    except Exception as e:
+        return jsonify(e), 400
