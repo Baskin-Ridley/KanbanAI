@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../assets/logo.png";
+import Logo from "../../../assets/bg.png";
 const Header = () => {
   const handleContactSalesClick = () => {
     window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });

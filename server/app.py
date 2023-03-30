@@ -119,6 +119,16 @@ def login_route():
     return login()
 
 
+@ app.route('/user/password', methods=['PUT'])
+def change_pass():
+    return password()
+
+
+@ app.route('/user/email', methods=['PUT'])
+def change_email():
+    return change_email_add()
+
+
 @ app.route('/users', methods=['GET'])
 def get_users_route():
     return get_users()

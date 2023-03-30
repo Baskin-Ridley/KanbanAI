@@ -336,7 +336,7 @@ const Headers = ({ board_id }) => {
                               {name}
                             </h2>
                             <button
-                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-rose-300 px-2 py-1 text-white hover:bg-rose-600 hover:text-white"
+                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-orange-500 px-2 py-1 text-white hover:bg-orange-200 hover:text-black"
                               onClick={(event) => handleDeleteHeader(event, id)}
                             >
                               X
