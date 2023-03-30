@@ -10,7 +10,7 @@ function TicketPopUp(props) {
   const [matchingTicket, setMatchingTicket] = useState(null);
   const [editedTicket, setEditedTicket] = useState(null);
   const [isGenerateOpen, setIsGenerateOpen] = useState(false);
-  const [testing, setTesting] = useState(false)
+  const [testing, setTesting] = useState(false);
   const [testsForFunction, setTestsForFunction] = useState(
     "Your tests will appear here"
   );
