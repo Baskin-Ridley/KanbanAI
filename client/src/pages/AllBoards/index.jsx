@@ -122,7 +122,8 @@ function AllBoards() {
                 {kanbanBoard.name}
               </div>
               <div className="w-auto text-center m-2">
-                <button className="bg-blue-300 text-black border border-transparent hover:bg-blue-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0">
+                {/* <button className="bg-blue-300 text-black border border-transparent hover:bg-blue-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"> */}
+                <button className="bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none hover:bg-blue-200 hover:text-black ">
                   <Link
                     to={`/board/${kanbanBoard.board_id}`}
                     key={`view-${kanbanBoard.board_id}`}
@@ -136,7 +137,7 @@ function AllBoards() {
               <div className="w-auto text-center m-2">
                 <button
                   onClick={() => handleDelete(kanbanBoard.board_id)}
-                  className="bg-rose-300 text-black border border-transparent hover:bg-rose-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
+                  className="bg-orange-500 text-black border border-transparent hover:bg-rose-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
                 >
                 Delete
                 </button>
@@ -162,7 +163,7 @@ function AllBoards() {
         ) : (
           <button
             onClick={() => setShowInput(true)}
-            className="bg-blue-300 text-black border border-transparent hover:bg-blue-500 hover:text-white rounded py-2 px-4 font-bold focus:outline-none transition-colors duration-200 ml-0"
+            className="bg-blue-500 hover:color-bg-4 focus:shadow-outline rounded py-2 px-4 font-bold text-white focus:outline-none hover:bg-blue-200 hover:text-black "
           >
             Create New Board
           </button>
