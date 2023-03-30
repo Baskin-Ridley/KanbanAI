@@ -39,7 +39,7 @@ const UserWindow = () => {
           <UserList userData={userData} handleUserClick={handleUserClick} />
         </div>
       </div>
-      <div className="Card w-full ">
+      <div className="Card w-full">
         <div style={{ flex: 2 }}>
           {selectedUser && (
             <UserInfo

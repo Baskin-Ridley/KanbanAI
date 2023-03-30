@@ -35,6 +35,7 @@ const Headers = ({ board_id }) => {
   }, []);
 
   const updatePositions = (items) => {
+    console.log(items)
     fetch(`http://localhost:5000/kanban-board/${board_id}/positions`, {
       method: "PUT",
       headers: {
@@ -59,6 +60,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
+    console.log(boardData)
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -163,7 +165,7 @@ const Headers = ({ board_id }) => {
   };
 
   useEffect(() => {
-    updatePositions(headers);
+    updatePositions(headers), console.log(headers);
   }, [headers]);
 
   useEffect(() => {

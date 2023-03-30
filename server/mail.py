@@ -22,7 +22,7 @@ mail = Mail(app)
 
 
 def sendMail(receiver, title, state, user_name,body,person,company):
-    msg = Message('', sender='shorizon1234@gmail.com', recipients=[receiver])
+    msg = Message('', sender='app.builtDifferent@gmail.com', recipients=[receiver])
     if(state == "closed"):
         msg.body = f'Hi Supervisor, \nthe ticket "{title}" has been succefully closed by user: {user_name}'
     if(state == "blocked"):
