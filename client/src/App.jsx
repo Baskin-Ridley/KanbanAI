@@ -27,10 +27,7 @@ function App() {
 
         <Route path="/" element={<PageWrapper />}>
           <Route path="/register" element={<Registration />} />
-          <Route
-            path="/register/:supervisors"
-            element={<Registration_member />}
-          />
+          <Route path="/register/:supervisors" element={<Registration_member />} />
           <Route index path="/login" element={<Login />} />
           <Route path="/board/:id" element={<Board />} />
           <Route path="/dashboard" element={<Dashboard />} />

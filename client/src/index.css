@@ -422,11 +422,8 @@ body {
     /* width: full - 300px; */
   }
 
-  .send-button {
-    /* margin-left: 200px; */
-   
+  .wrapper-kanban-board{
+    margin-right: 100px;
   }
 
-  .email-field{
-    
-  }
+  

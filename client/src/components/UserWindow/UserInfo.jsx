@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const UserInfo = ({ selectedUser, handleBackClick }) => {
     const { avatar, email } = selectedUser
+    const [body, setBody] = useState("")
 
 
-    const handlesendClick = () => {
+    const handlesendClick = async () => {
+
+        const response = await fetch("http://localhost:5000/email")
+        const data = await response.json()
+        console.log(data)
 
     }
 
