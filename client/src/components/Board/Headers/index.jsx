@@ -108,7 +108,7 @@ const Headers = ({ board_id }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ name: newHeaderName }),
-      })
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
@@ -213,7 +213,7 @@ const Headers = ({ board_id }) => {
     const headerIndex = headers.findIndex((header) => header.id === headerId);
     const headerToEdit = headers[headerIndex];
     const headerIdToEdit = headerToEdit.id.split("-")[1];
-  
+
     fetch(
       `http://localhost:5000/kanban-board/${board_id}/kanban-headers/${headerIdToEdit}`,
       {
@@ -294,44 +294,55 @@ const Headers = ({ board_id }) => {
                       {...provided.dragHandleProps}
                     >
                       <div className="flex justify-center items-center">
-                      {editingHeaderName === id ? (
-                            <Form_Input
-                              type="text"
-                              value={name}
-                              tabIndex={0}
-                              onChange={(e) =>
-                                setHeaders((prevState) =>
-                                  prevState.map((header) =>
-                                    header.id === id ? { ...header, name: e.target.value } : header
-                                  )
+                        {editingHeaderName === id ? (
+                          <Form_Input
+                            type="text"
+                            value={name}
+                            tabIndex={0}
+                            onChange={(e) =>
+                              setHeaders((prevState) =>
+                                prevState.map((header) =>
+                                  header.id === id
+                                    ? { ...header, name: e.target.value }
+                                    : header
                                 )
+                              )
+                            }
+                            onBlur={(e) => {
+                              setTimeout(
+                                () => handleHeaderNameEdit(id, e.target.value),
+                                100
+                              );
+                            }}
+                            onKeyDown={(e) => {
+                              console.log(e.key);
+                              if (e.key === "Escape") {
+                                setEditingHeaderName(null);
+                                e.target.blur();
+                              } else if (e.key === "Enter") {
+                                handleHeaderNameEdit(id, e.target.value);
+                                e.preventDefault();
+                                e.target.blur();
                               }
-                              onBlur={(e) => {
-                                setTimeout(() => handleHeaderNameEdit(id, e.target.value), 100);
-                              }}
-                              onKeyDown={(e) => {
-                                console.log(e.key)
-                                if (e.key === "Escape") {
-                                  setEditingHeaderName(null);
-                                  e.target.blur();
-                                } else if (e.key === "Enter") {
-                                  handleHeaderNameEdit(id, e.target.value);
-                                  e.preventDefault();
-                                  e.target.blur();
-                                }
-                              }}
-                            />
-                          ) : (
-                            <div onClick={() => setEditingHeaderName(id)} tabIndex="0" className="flex items-center">
-                              <h2 className="text-lg font-bold text-blue-700 mb-2 hover:cursor-pointer">{name}</h2>
-                              <button
-                                className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-rose-300 px-2 py-1 text-white hover:bg-rose-600 hover:text-white"
-                                onClick={(event) => handleDeleteHeader(event,id)}
-                              >
-                                X
-                              </button>
-                            </div>
-                          )}
+                            }}
+                          />
+                        ) : (
+                          <div
+                            onClick={() => setEditingHeaderName(id)}
+                            tabIndex="0"
+                            className="flex items-center"
+                          >
+                            <h2 className="text-lg font-bold text-blue-700 mb-2 hover:cursor-pointer">
+                              {name}
+                            </h2>
+                            <button
+                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-rose-300 px-2 py-1 text-white hover:bg-rose-600 hover:text-white"
+                              onClick={(event) => handleDeleteHeader(event, id)}
+                            >
+                              X
+                            </button>
+                          </div>
+                        )}
                       </div>
                       <Droppable droppableId={`column-${id}`} type="item">
                         {(provided) => (
@@ -348,7 +359,9 @@ const Headers = ({ board_id }) => {
                               >
                                 {(provided) => (
                                   <div
-                                    className={`mb-2 rounded-md bg-blue-50 py-2 px-4 text-md text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white ${!content && 'hidden'}`}
+                                    className={`mb-2 rounded-md bg-blue-50 py-2 px-4 text-md text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white ${
+                                      !content && "hidden"
+                                    }`}
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
