@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board, get_kanban_boards_with_super, email_from_form
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board, get_kanban_boards_with_super, email_from_form,email_from_dashboard
 # create_user
 
 
@@ -265,6 +265,9 @@ def update_positions_by_board_route(kanban_board_id):
 def send_email():
     return email_from_form()
 
+@app.route("/dashboard/email", methods=['POST'])
+def send_email_dashbaord():
+    return email_from_dashboard()
 
 if __name__ == '__main__':
     app.run()
