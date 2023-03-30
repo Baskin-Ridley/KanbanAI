@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, session, render_template
 from database import db
 from models import User
 import openai
-from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board, get_kanban_boards_with_super, email_from_form,email_from_dashboard
+from controllers import register_user, login, find_user_by_username, get_users, get_user, update_user, delete_user, create_kanban_ticket, get_kanban_tickets, get_kanban_ticket, update_kanban_ticket, delete_kanban_ticket, create_kanban_board, get_kanban_board, get_kanban_boards, update_kanban_board, delete_kanban_board, get_kanban_tickets_by_board, create_kanban_header, register_Super_User, get_kanban_headers_by_board, delete_kanban_header_by_board, get_Notifications, add_member, get_positions_by_board, update_positions_by_board, log_changes, get_members, update_kanban_headers_by_board, get_kanban_boards_with_super, email_from_form, email_from_dashboard
 # create_user
 
 
@@ -56,33 +56,17 @@ def ai_test():
     test_framework = request.get_json()['test_framework']
     function_to_test = request.get_json()['function_to_test']
     prompt_text = f"Write code for one test only, for this '{technologies}' function, using '{test_framework}' testing technology: '{function_to_test}'./n"
-    # prompt_text = "Return the message 'Hello' to this request"
     response = openai.Completion.create(
-        # engine="davinci-codex",
-        # engine="davinci",
         model="text-davinci-003",
         prompt=prompt_text,
-        # max_tokens=100,
         max_tokens=256,
         n=1,
         stop=None,
         temperature=1,
-        # temperature=0.5,
     )
 
     tests_for_function = response.choices[0].text.strip()
-    print(tests_for_function)
     return jsonify({'tests_for_function': tests_for_function})
-
-    # response = openai.Completion.create(
-    #     model="text-davinci-003",
-    #     prompt="The task is to 'create a message app' break down this task into smaller developer tasks for a kanban board. \n",
-    #     temperature=1,
-    #     max_tokens=256,
-    #     top_p=1,
-    #     frequency_penalty=0,
-    #     presence_penalty=0
-    # )
 
 
 @app.route('/ai-steps', methods=['POST'])
@@ -265,9 +249,11 @@ def update_positions_by_board_route(kanban_board_id):
 def send_email():
     return email_from_form()
 
+
 @app.route("/dashboard/email", methods=['POST'])
 def send_email_dashbaord():
     return email_from_dashboard()
+
 
 if __name__ == '__main__':
     app.run()
