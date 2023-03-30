@@ -35,7 +35,7 @@ const Headers = ({ board_id }) => {
   }, []);
 
   const updatePositions = (items) => {
-<<<<<<< HEAD
+    console.log(items);
     fetch(
       `https://built-differently-backend.onrender.com/kanban-board/${board_id}/positions`,
       {
@@ -46,16 +46,6 @@ const Headers = ({ board_id }) => {
         body: JSON.stringify({ positions: items }),
       }
     )
-=======
-    console.log(items)
-    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/positions`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ positions: items }),
-    })
->>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to update header positions");
@@ -73,7 +63,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
-    console.log(boardData)
+    console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
 
@@ -115,7 +105,6 @@ const Headers = ({ board_id }) => {
       return;
     }
 
-<<<<<<< HEAD
     fetch(
       `https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`,
       {
@@ -126,15 +115,6 @@ const Headers = ({ board_id }) => {
         body: JSON.stringify({ name: newHeaderName }),
       }
     )
-=======
-    fetch(`https://built-differently-backend.onrender.com/kanban-board/${board_id}/kanban-headers`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newHeaderName }),
-    })
->>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to create a new header");
@@ -362,11 +342,7 @@ const Headers = ({ board_id }) => {
                               {name}
                             </h2>
                             <button
-<<<<<<< HEAD
-                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-rose-300 px-2 py-1 text-white hover:bg-rose-600 hover:text-white"
-=======
                               className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-orange-500 px-2 py-1 text-white hover:bg-orange-200 hover:text-black"
->>>>>>> 9d1b2d500e8942f4d2aeeb1a12538abb2574e4e6
                               onClick={(event) => handleDeleteHeader(event, id)}
                             >
                               X

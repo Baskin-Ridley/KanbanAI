@@ -8,7 +8,7 @@ function LinkGenerator() {
 
   const handleClick = () => {
     // Generate your link here, e.g.:
-    const generatedLink = `http://localhost:5173/register/${user.username}`;
+    const generatedLink = `https://built-differently.onrender.com/register/${user.username}`;
 
     // Set the link in state
     setLink(generatedLink);
