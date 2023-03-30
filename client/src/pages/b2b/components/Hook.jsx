@@ -13,8 +13,10 @@ const Hook = () => {
       </h2>
       <p className="leading-8 text-white">
         Kanban AI is a project management solution with all the features you
-        would expect but with a little more magic... Each feature is powerful on
-        its own but when supercharged by AI they become truly groundbreaking.
+        would expect but with a little more magic...
+        <br />
+        Each feature is powerful on its own but when supercharged by AI they
+        become truly groundbreaking.
       </p>
       <Link
         to="/login"
