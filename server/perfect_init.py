@@ -1,26 +1,69 @@
+from app import app
+from database import db
+from models import User, Kanban_Board, Kanban_Ticket, Kanban_Header, Super_User, Notification
+from datetime import datetime, timedelta
+
+# Drop all tables if they already exist
+db.drop_all()
+# Create the tables
+db.create_all()
+
+gabriel = User(
+    username="gabriel",
+    name="Gabriel",
+    password="password1",
+    role="user",
+    email="gabriel@example.com",
+    avatar="avatar1.png",
+    supervisors=['admin1'],
+    isSuper=False
+)
+db.session.add(gabriel)
+
+Sho = User(
+    username="sho",
+    name="Sho",
+    password="password1",
+    role="superuser",
+    email="sho@example.com",
+    avatar="avatar1.png",
+    supervisors=['admin1'],
+    isSuper=True
+)
+
+db.session.add(Sho)
+
+gabrielle = User(
+    username="gabrielle",
+    name="Gabrielle",
+    password="password1",
+    role="user",
+    email="gabrielle@example.com",
+    avatar="avatar1.png",
+    supervisors=['admin1'],
+    isSuper=False
+)
+db.session.add(gabrielle)
+
+kay = User(
+    username="kay",
+    name="Kay",
+    password="password1",
+    role="user",
+    email="kay@example.com",
+    avatar="avatar2.png",
+    supervisors=['admin1'],
+    isSuper=False
+)
+db.session.add(kay)
+
+db.session.commit()
+
 # Create Boards
 
 kanbanai = Kanban_Board(
     user_id=user1.id, name='KanbanAI', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
 db.session.add(kanbanai)
-
-board1 = Kanban_Board(
-    user_id=user1.id, name='First Project', start_time=datetime.utcnow(), board_users=[1, 2, 3, 4])
-
-db.session.add(board1)
-
-board2 = Kanban_Board(
-    user_id=user1.id,
-    name='Second Project',
-    start_time=datetime.utcnow() - timedelta(days=5),
-    end_time=datetime.utcnow() - timedelta(days=1),
-    board_users=[1, 2, 3, 4]
-)
-db.session.add(board2)
-
-board3 = Kanban_Board(
-    user_id=user2.id, name='Third Project', start_time=datetime.utcnow())
-db.session.add(board3)
 
 # Commmit the boards
 db.session.commit()
