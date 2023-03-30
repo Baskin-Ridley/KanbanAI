@@ -7,15 +7,19 @@ import { useView } from '../../context/UserContext'
 
 
 function FancyMenu() {
-    const { stackView, setStackView, gitView, setGitView, ganttView, setGanttView } = useView()
-    return (
-        <main>
-            <FloatingMenu />
-            {stackView && <StackCard />}
-            {gitView && <GitCard />}
-            {ganttView && <Chart />}
-        </main>
-    )
+    const { stackView, setStackView, gitView, setGitView, ganttView, setGanttView, user } = useView()
+
+
+    if (user.isSuper == false) {
+        return (
+            <main>
+                <FloatingMenu />
+                {stackView && <StackCard />}
+                {gitView && <GitCard />}
+                {ganttView && <Chart />}
+            </main>
+        )
+    }
 }
 
 export default FancyMenu
