@@ -221,9 +221,12 @@ body {
 .stackContainer {
     max-height: 41vh;
     max-width: 30vw;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
     border: solid azure 4px;
     margin-top: 100px;
+    bottom: 10vh;
+    right: 10vh;
+    position: absolute;
 }
 
 .gitcard-container{
@@ -241,7 +244,7 @@ body {
     margin-bottom: 0px;
     padding: 10px;
     color: black;
-    border: solid #038983;
+    /* border: solid #3B82F6; */
 }
 
 .input-line-stack{
@@ -434,3 +437,4 @@ margin-top: 20px;
   .wrapper-textbox{
     width: fill;
   }
+
