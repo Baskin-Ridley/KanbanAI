@@ -59,6 +59,20 @@ db.session.add(kay)
 
 db.session.commit()
 
+admin = Super_User(
+    username="admin1",
+    name="Admin 1",
+    password="password1",
+    members=["kay", "sho", "gabrile", "gabriel"],
+    email="admin1@example.com",
+    role="admin",
+    isSuper=True,
+)
+db.session.add(admin)
+
+db.session.commit()
+
+
 # Create Boards
 
 kanbanai = Kanban_Board(
