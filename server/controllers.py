@@ -171,6 +171,7 @@ def login():
     log_changes(user.username, body)
     return jsonify(user_data), 200
 
+
 def password():
     data = request.get_json()
     username = data.get("username")
@@ -179,12 +180,13 @@ def password():
     user = User.query.filter_by(username=username).first()
     if user:
         user.password = password
-    else :
+    else:
         user = Super_User.query.filter_by(username=username).first()
         user.password = password
-    
+
     db.session.commit()
-    return jsonify({'message': "password changed!"}),200
+    return jsonify({'message': "password changed!"}), 200
+
 
 def change_email_add():
     data = request.get_json()
@@ -194,12 +196,14 @@ def change_email_add():
     user = User.query.filter_by(username=username).first()
     if user:
         user.email = email
-    else :
+    else:
         user = Super_User.query.filter_by(username=username).first()
         user.email = email
-    
+
     db.session.commit()
-    return jsonify({'message': "email changed!"}),200
+
+
+# return jsonify({'message': "email changed!"}), 200
 
 
 def get_users():
