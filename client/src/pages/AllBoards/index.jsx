@@ -59,6 +59,7 @@ function AllBoards() {
           },
           body: JSON.stringify({
             user_id: user.id,
+            board_users: [1, 2, 3, 4],
             name: newBoardName,
           })
         })
