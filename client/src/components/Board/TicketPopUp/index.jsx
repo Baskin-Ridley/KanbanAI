@@ -154,10 +154,12 @@ function TicketPopUp(props) {
               }
             });
             props.updatePositions(newHeaders);
+            // closeModal();
             return newHeaders;
+            
           });})
           .catch((error) => console.error(error));
-        closeModal();
+        // closeModal();
     };
   
 
