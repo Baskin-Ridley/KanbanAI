@@ -60,6 +60,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
+    updatePositions(boardData.headers)
     console.log(boardData)
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);
@@ -336,7 +337,7 @@ const Headers = ({ board_id }) => {
                               {name}
                             </h2>
                             <button
-                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-orange-500 px-2 py-1 text-white hover:bg-orange-200 hover:text-white"
+                              className="w-20-% mb-2 ml-2 h-8 w-8 rounded-md bg-orange-500 px-2 py-1 text-white hover:bg-orange-200 hover:text-black"
                               onClick={(event) => handleDeleteHeader(event, id)}
                             >
                               X

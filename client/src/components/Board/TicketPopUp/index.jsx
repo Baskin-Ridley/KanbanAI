@@ -18,6 +18,7 @@ function TicketPopUp(props) {
 
   // Test functionality
   const sanitizeInput = (input) => {
+    console.log(input)
     // Remove any leading/trailing white space
     let sanitizedInput = input.trim();
     // Replace any tabs with two spaces
@@ -153,10 +154,12 @@ function TicketPopUp(props) {
               }
             });
             props.updatePositions(newHeaders);
+            // closeModal();
             return newHeaders;
+            
           });})
           .catch((error) => console.error(error));
-        closeModal();
+        // closeModal();
     };
   
 

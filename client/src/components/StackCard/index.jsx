@@ -83,7 +83,8 @@ export const StackCard = () => {
                     {data.map((e, i) => (
                         e.is_answered == true ?
                             <div className='stackCard mb-2 rounded-md bg-blue-50 py-2 px-4 text-md text-center shadow-md border-gray-400 transition-colors duration-150 hover:bg-blue-300 hover:text-white false mt-2'>
-                                <li key={i}><a href={e.link}>{decode(e.title, { level: 'html5' })}</a></li>
+                                <li key={i}><a href={e.link} target="_blank"
+                                    rel="noreferrer">{decode(e.title, { level: 'html5' })}</a></li>
                                 <li > tags :{e.tags.toString()}</li>
                             </div>
                             :

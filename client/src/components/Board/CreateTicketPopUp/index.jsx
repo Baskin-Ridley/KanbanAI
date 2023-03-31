@@ -3,7 +3,6 @@ import Form_Button from "../../Form_Button";
 import Form_Input from "../../Form_Input";
 import AISteps from "../../AI";
 const CreateTicketPopUp = (props) => {
-  console.log("hey", props.id);
   const [tickets, setTickets] = useState({
     title: "",
     content: "",
@@ -41,6 +40,9 @@ const CreateTicketPopUp = (props) => {
         header_id: slicedId,
         ticket_status: "open",
         kanban_board_id: props.board_id,
+        test_function: 'input test function here',
+        test_technologies: 'input testing technologies',
+        test_testing_framework: 'input testing framework',
       }),
     })
       .then((response) => response.json())
