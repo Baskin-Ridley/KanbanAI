@@ -63,6 +63,7 @@ const Headers = ({ board_id }) => {
 
   const fetchData = async () => {
     const boardData = await FetchKBD(board_id);
+    updatePositions(boardData.headers);
     console.log(boardData);
     setResponseData(boardData);
     const ticketsData = await FetchTickets(board_id);

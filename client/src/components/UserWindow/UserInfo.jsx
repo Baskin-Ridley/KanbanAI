@@ -22,6 +22,8 @@ const UserInfo = ({ selectedUser, handleBackClick }) => {
     );
     const data = await response.json();
     console.log(data);
+
+    setBody("");
   };
 
   return (
