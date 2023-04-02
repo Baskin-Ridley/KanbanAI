@@ -44,8 +44,6 @@ OpenAI, GitHub, StackOverflow
 
 #### AI Features Demo
 
-![animation](https://github.com/Baskin-Ridley/KanbanAI/blob/staging/Readme%20Assets/AI%20Features%20Demo.webm?raw=true)
-
 
 ![landing page](https://raw.githubusercontent.com/Baskin-Ridley/KanbanAI/staging/Readme%20Assets/landing%20page.png)
 
