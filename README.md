@@ -10,6 +10,11 @@ Step generation features that allows a Product Owner to easily break down a larg
 
 Test Generation allowing developers to seemlessly generate tests in the Kanban board. Can be used for testing newly written features or even more excitingly as an easy way to implement TDD into their workflow.
 
+## Other Features
+
+GitHub, and StackOverflow integrations right in the APP!
+Admin dashboard see whos assigned to what, and know when tasks are completed!
+Email notifications, scrum masters are instantly notified when a team member faces a blocker!
 
 ## Built By
 
