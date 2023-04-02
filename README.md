@@ -13,7 +13,9 @@ Test Generation allowing developers to seemlessly generate tests in the Kanban b
 ## Other Features
 
 GitHub, and StackOverflow integrations right in the APP!
+
 Admin dashboard see whos assigned to what, and know when tasks are completed!
+
 Email notifications, scrum masters are instantly notified when a team member faces a blocker!
 
 ## Built By
