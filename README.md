@@ -19,3 +19,7 @@ Python, Flask, PostgreSQL
 ### Testing
 
 PyTest, Vitest, Jest, Selenium
+
+### API's
+
+OpenAI, GitHub, StackOverflow
