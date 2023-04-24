@@ -2,7 +2,10 @@
 
 [![Presentation](https://raw.githubusercontent.com/Baskin-Ridley/KanbanAI/staging/Readme%20Assets/landing%20page.png)](https://www.youtube.com/watch?v=iW-x9gfcSms "Presentation of KanbanAI")
 
-https://built-differently.onrender.com/
+[Live Presentation of KanbanAI](https://www.youtube.com/watch?v=iW-x9gfcSms)
+
+[Test KanbanAI yourself!](https://built-differently.onrender.com/
+)
 
 A Kanban Board with powerful AI features that are sure to reduce friction in any workload, increasing productivity, and innovation!
 
