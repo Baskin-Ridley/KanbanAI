@@ -1,5 +1,7 @@
 # KanbanAI
 
+![landing page](https://raw.githubusercontent.com/Baskin-Ridley/KanbanAI/staging/Readme%20Assets/landing%20page.png)
+
 https://built-differently.onrender.com/
 
 A Kanban Board with powerful AI features that are sure to reduce friction in any workload, increasing productivity, and innovation!
@@ -42,10 +44,7 @@ OpenAI, GitHub, StackOverflow
 
 ### Screenshots
 
-#### AI Features Demo
 
-
-![landing page](https://raw.githubusercontent.com/Baskin-Ridley/KanbanAI/staging/Readme%20Assets/landing%20page.png)
 
 
 ![board page](https://raw.githubusercontent.com/Baskin-Ridley/KanbanAI/staging/Readme%20Assets/main%20board.png)
